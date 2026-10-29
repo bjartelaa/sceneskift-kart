@@ -29,3 +29,5 @@ Skriptet åpner arbeidsboka bare for lesing og skriver `site/data/graph.js`. Ing
 ## Bilder
 
 Konsertbilder til presentasjonen, komprimert, ligger i `site/img/`. De brukes ikke på tavla. Originalene ligger i `bilder-original/` og er holdt utenfor git.
+
+`sal-a.jpg`, `sal-b.jpg` og `sal-c.jpg` er hentet fra utleiernes case-nettsider (alu042.github.io/met3-lune-sal, met3-soyleverket, met3-skarvkaien). Nettsidene er fiktive og laget for MET3, og bildene ser KI-genererte ut.

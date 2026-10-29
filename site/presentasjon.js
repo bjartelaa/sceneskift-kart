@@ -44,9 +44,9 @@
 
   // Beslutningen: avtalekortene
   const kort = [
-    { navn: navn.A, rot: -1.2, linjer: [[`${verdi("avtale_a", "plasser_A")}`, "salgbare plasser"], [kr(verdi("avtale_a", "leie_A")), "i leie per konsert"]] },
-    { navn: navn.B, rot: .8, linjer: [[`${verdi("avtale_b", "plasser_B")}`, "salgbare plasser"], [kr(verdi("avtale_b", "B_sesongleie") + verdi("avtale_b", "B_tilpasning")), "fast for sesongen, mye før start"]] },
-    { navn: navn.C, rot: -.6, linjer: [[`${verdi("avtale_c", "plasser_C")}`, "salgbare plasser"], [pst(verdi("avtale_c", "C_andel")), `av billettoppgjøret, minst ${kr(verdi("avtale_c", "C_min"))} per konsert`]] },
+    { navn: navn.A, bilde: "img/sal-a.jpg", rot: -1.2, linjer: [[`${verdi("avtale_a", "plasser_A")}`, "salgbare plasser"], [kr(verdi("avtale_a", "leie_A")), "i leie per konsert"]] },
+    { navn: navn.B, bilde: "img/sal-b.jpg", rot: .8, linjer: [[`${verdi("avtale_b", "plasser_B")}`, "salgbare plasser"], [kr(verdi("avtale_b", "B_sesongleie") + verdi("avtale_b", "B_tilpasning")), "fast for sesongen, mye før start"]] },
+    { navn: navn.C, bilde: "img/sal-c.jpg", rot: -.6, linjer: [[`${verdi("avtale_c", "plasser_C")}`, "salgbare plasser"], [pst(verdi("avtale_c", "C_andel")), `av billettoppgjøret, minst ${kr(verdi("avtale_c", "C_min"))} per konsert`]] },
     { navn: navn["avstå"], avsta: true, rot: 1.1, linjer: [["0 kr", "ingen betalinger, ingen risiko"]] },
   ];
   const kortRad = document.getElementById("avtalekort");
@@ -58,6 +58,12 @@
       const li = html("li");
       li.append(html("span", "stor", stor), document.createTextNode(tekst));
       ul.appendChild(li);
+    }
+    if (k.bilde) {
+      const img = html("img", "kort-bilde");
+      img.src = k.bilde;
+      img.alt = "Salen i " + k.navn.slice(3);
+      d.appendChild(img);
     }
     d.append(html("h3", "", k.navn), ul);
     kortRad.appendChild(d);
