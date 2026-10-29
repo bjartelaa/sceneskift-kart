@@ -17,7 +17,7 @@ from openpyxl.utils.cell import range_boundaries, get_column_letter
 
 sys.path.insert(0, str(Path(__file__).parent))
 from kart_config import (LAPPER, GJENNOMSIKTIGE_ARK, MANUELLE_TRADER, EKSTRA_VERDIER,
-                         STILLE_TIL, STILLE_FRA_FORUTSETNING_TIL, ETIKETTER)
+                         STILLE_TIL, STILLE_FRA_FORUTSETNING_TIL, ETIKETTER, FOLSOMHET)
 
 MAXR = 1_048_576
 MAXC = 16_384
@@ -38,6 +38,41 @@ def split_sheet(ref, default_sheet):
         sh, addr = ref.rsplit("!", 1)
         return sh.strip("'"), addr
     return default_sheet, ref
+
+
+def finn_rad(ws, kol, tekst, fra=1):
+    for r in range(fra, ws.max_row + 1):
+        if ws.cell(r, kol).value == tekst:
+            return r
+    raise ValueError(f"Fant ikke «{tekst}» i {ws.title}")
+
+
+def les_usikkerhet(ws):
+    """Følsomhet (5 % ned og opp) og konsekvenstabellen, fra de lagrede verdiene i datatabellene."""
+    avtaler = {"A": 3, "B": 7, "C": 11}   # kolonne for basisverdien; ned og opp ligger i de to neste
+    folsomhet = defaultdict(list)
+    r_nv = finn_rad(ws, 3, "Nåverdi A", 130) + 1
+    r_bh = finn_rad(ws, 3, "Finansieringsbehov A", r_nv) + 1
+    for nr, lapper in FOLSOMHET.items():
+        rad_nv, rad_bh = r_nv + nr, r_bh + nr
+        rad = {"forutsetning": ws.cell(rad_nv, 2).value, "nv": {}, "behov": {}}
+        for a, k in avtaler.items():
+            for key, r0, r in (("nv", r_nv, rad_nv), ("behov", r_bh, rad_bh)):
+                basis = ws.cell(r0, k).value
+                rad[key][a] = [round(ws.cell(r, k + 1).value - basis), round(ws.cell(r, k + 2).value - basis)]
+        for l in lapper:
+            folsomhet[l].append(rad)
+
+    r_hode = finn_rad(ws, 3, "Modell nå") - 1
+    navn = [ws.cell(r_hode, k).value for k in range(4, 8)]
+    scenarioer = {}
+    for tittel in ("Nåverdi", "Finansieringsbehov"):
+        rader = []
+        for handling in ("A", "B", "C", "avstå"):
+            r = finn_rad(ws, 2, f"{tittel} {handling}")
+            rader.append({"handling": handling, "verdier": [round(ws.cell(r, k).value) for k in range(4, 8)]})
+        scenarioer[tittel] = {"scenarioer": navn, "rader": rader}
+    return folsomhet, scenarioer
 
 
 def main(path):
@@ -187,6 +222,8 @@ def main(path):
             return v
         return str(v)
 
+    folsomhet, scenarioer = les_usikkerhet(wv["Usikkerhet"])
+
     nodes = []
     for lapp in LAPPER:
         node = {k: lapp[k] for k in ("id", "label", "kind", "desc")}
@@ -215,6 +252,13 @@ def main(path):
                            "verdi": clean(wv[sh][addr].value)})
         if celler:
             node["celler"] = celler
+        for k in ("slik", "sporsmal"):
+            if k in lapp:
+                node[k] = lapp[k]
+        if lapp["id"] in folsomhet:
+            node["folsomhet"] = folsomhet[lapp["id"]]
+        if "scenariotabell" in lapp:
+            node["scenarioer"] = scenarioer[lapp["scenariotabell"]]
         nodes.append(node)
 
     ids = {n["id"] for n in nodes}

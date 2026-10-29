@@ -4,42 +4,28 @@ window.GRAPH = {
  "scenario": "Basis",
  "nodes": [
   {
-   "id": "csv_ordrer",
-   "label": "Ordre-eksport 2026",
-   "kind": "data",
-   "desc": "CSV-fila fra Flytbillett. Én rad per transaksjon: kjøp, refusjon eller avbrutt betaling. 1 791 rader.",
-   "x": 115,
-   "y": 300,
-   "quiet": false
-  },
-  {
-   "id": "csv_oppgjor",
-   "label": "Oppgjør 2026",
-   "kind": "data",
-   "desc": "CSV-fila med oppgjøret fra Flytbillett. Én rad per konsert i 2026, med betalte billetter, gebyr og utbetalt beløp.",
-   "x": 115,
-   "y": 470,
-   "quiet": false
-  },
-  {
    "id": "raa_ordrer",
    "label": "Rå_ordrer",
    "kind": "data",
-   "desc": "Ordrefila limt inn urørt som tabell. Power Query leser herfra, og Avstemming teller hva rensingen fjerner.",
-   "x": 295,
-   "y": 300,
+   "desc": "Ordreeksporten fra Flytbillett (CSV), limt inn urørt. Én rad per transaksjon: kjøp, refusjon eller avbrutt betaling. 1 791 rader.",
+   "x": 130,
+   "y": 330,
    "quiet": false,
    "ark": "Rå_ordrer",
    "formler": 0,
-   "omfang": "1792 rader × 11 kolonner"
+   "omfang": "1792 rader × 11 kolonner",
+   "sporsmal": [
+    "Hvorfor ligger rådataene urørt i boka?",
+    "Så hvert steg i rensingen kan spores tilbake. Power Query gjør rensingen i en egen tabell, og Avstemming teller hva som er fjernet."
+   ]
   },
   {
    "id": "raa_oppgjor",
    "label": "Rå_oppgjør",
    "kind": "data",
-   "desc": "Oppgjørsfila limt inn urørt som tabell. Power Query leser herfra.",
-   "x": 295,
-   "y": 470,
+   "desc": "Oppgjøret fra Flytbillett (CSV), limt inn urørt. Én rad per konsert i 2026, med betalte billetter, gebyr og utbetalt beløp.",
+   "x": 130,
+   "y": 530,
    "quiet": false,
    "ark": "Rå_oppgjør",
    "formler": 0,
@@ -49,21 +35,30 @@ window.GRAPH = {
    "id": "ordrer_renset",
    "label": "Ordrer_renset",
    "kind": "data",
-   "desc": "Power Query fjerner 16 avbrutte rader og 5 dobbeltførte transaksjoner (alle på K08). Refusjonene blir med, med negativt antall og beløp. 1 770 rader igjen.",
-   "x": 475,
-   "y": 300,
+   "desc": "Ordrene etter Power Query. 1 770 rader igjen.",
+   "x": 355,
+   "y": 330,
    "quiet": false,
    "ark": "Ordrer_renset",
    "formler": 0,
-   "omfang": "1771 rader × 11 kolonner"
+   "omfang": "1771 rader × 11 kolonner",
+   "slik": [
+    "Fjerner 16 rader med status avbrutt. Betalingen ble aldri gjennomført.",
+    "Fjerner 5 dobbeltførte transaksjoner med samme ID. Alle er på K08.",
+    "Beholder refusjonene, med negativt antall og beløp."
+   ],
+   "sporsmal": [
+    "Hvorfor beholder dere refusjonene?",
+    "En refusjon er en billett som ble kjøpt og betalt tilbake. Med negativt antall trekker den kjøpet ut av summen, så netto betalte billetter blir riktig. Fjerner vi refusjonen, teller vi en billett som ikke ble betalt."
+   ]
   },
   {
    "id": "oppgjor",
    "label": "Oppgjør",
    "kind": "data",
    "desc": "Oppgjøret etter Power Query, med riktige datatyper. Gir konsertmåned og gebyr per konsert.",
-   "x": 475,
-   "y": 470,
+   "x": 355,
+   "y": 530,
    "quiet": false,
    "ark": "Oppgjør",
    "formler": 0,
@@ -74,20 +69,29 @@ window.GRAPH = {
    "label": "Avstemming",
    "kind": "ark",
    "desc": "Sammenligner ordrer og oppgjør konsert for konsert. Etter rensingen stemmer alt, unntatt K10: ordrene har 2 billetter (700 kr) færre enn oppgjøret.",
-   "x": 475,
-   "y": 650,
+   "x": 355,
+   "y": 730,
    "quiet": false,
    "ark": "Avstemming",
    "formler": 385,
-   "omfang": "47 rader × 23 kolonner"
+   "omfang": "47 rader × 23 kolonner",
+   "slik": [
+    "Teller betalte billetter og beløp per konsert i Ordrer_renset.",
+    "Henter de samme tallene fra Oppgjør.",
+    "Viser avviket. Uten rensing avviker K08 med 14 billetter."
+   ],
+   "sporsmal": [
+    "Hva viser avstemmingen, og hva viser den ikke?",
+    "At summene per konsert stemmer mellom ordrer og oppgjør etter rensing, unntatt K10. Den viser ikke at hver enkelt ordre er riktig."
+   ]
   },
   {
    "id": "scenario",
    "label": "Scenariovelger",
    "kind": "input",
-   "desc": "Det ene stedet scenario velges (Forutsetninger D5). Fire scenarioer: Basis, Lav etterspørsel (80 % av salget i 2026), Høyere pakkepris (66 000 kr) og begge samlet. Resten av boka følger valget.",
-   "x": 690,
-   "y": 190,
+   "desc": "Det ene stedet scenario velges. Resten av boka følger valget.",
+   "x": 620,
+   "y": 200,
    "quiet": false,
    "celler": [
     {
@@ -117,6 +121,15 @@ window.GRAPH = {
      "navn": "scen_pakke",
      "adresse": "Forutsetninger!E13:E16"
     }
+   ],
+   "slik": [
+    "Velg scenario i Forutsetninger D5.",
+    "aktivt_scenario finner nummeret, 1 til 4.",
+    "Etterspørselsfaktor og pakkepris hentes fra scenariotabellen med INDEX."
+   ],
+   "sporsmal": [
+    "Bytt til Samlet. Hva skjer med rådet?",
+    "Alle tre avtalene får negativ nåverdi, og ingen holder rammen på 250 000 kr. Da blir avstå best."
    ]
   },
   {
@@ -124,8 +137,8 @@ window.GRAPH = {
    "label": "Grunnlag 2026",
    "kind": "input",
    "desc": "Velger om billettanslaget bygger på ordrene eller oppgjøret fra 2026. Det er bare K10 som blir ulik: 420 eller 422 billetter.",
-   "x": 690,
-   "y": 280,
+   "x": 620,
+   "y": 295,
    "quiet": false,
    "celler": [
     {
@@ -135,15 +148,19 @@ window.GRAPH = {
      "verdi": "Ordrer",
      "enhet": "Ordrer: betalte billetter i ordreeksporten. Oppgjør: gebyr delt på 10. Gir bare forskjell for K10 (420 mot 422)."
     }
+   ],
+   "sporsmal": [
+    "Hva betyr valget av grunnlag for rådet?",
+    "To billetter på én konsert. Det flytter nåverdien med under 1 000 kr og endrer ikke rådet. Valget må likevel begrunnes."
    ]
   },
   {
    "id": "salg",
    "label": "Salg og billett",
    "kind": "input",
-   "desc": "Etterspørselsfaktoren (andel av salget i 2026) og beløpene per betalt billett: pris, gebyr og andre publikumsutgifter. Billettoppgjøret kommer måneden etter konserten.",
-   "x": 690,
-   "y": 370,
+   "desc": "Hvor mange billetter som selges, og hva hver billett gir.",
+   "x": 620,
+   "y": 390,
    "quiet": false,
    "celler": [
     {
@@ -194,15 +211,150 @@ window.GRAPH = {
      "enhet": "kr per billett",
      "formel": "=D26"
     }
+   ],
+   "slik": [
+    "Billetter 2027 = betalte billetter 2026 × etterspørselsfaktor.",
+    "Inn per billett: pris minus gebyr, betalt måneden etter konserten.",
+    "Ut per billett: andre publikumsutgifter, betalt i konsertmåneden."
+   ],
+   "sporsmal": [
+    "Hvorfor kappes salget ved salgbare plasser og ikke ved kapasiteten på nettsiden?",
+    "Tilbudet oppgir salgbare plasser, og det er det Sceneskift faktisk kan selge. Nettsidene oppgir høyere tall (270, 500 og 490), som trolig er total kapasitet. Det er poenget i kildeoppgaven."
+   ],
+   "folsomhet": [
+    {
+     "forutsetning": "Etterspørselsfaktor (andel av salget i 2026)",
+     "nv": {
+      "A": [
+       -19208,
+       15150
+      ],
+      "B": [
+       -47107,
+       47107
+      ],
+      "C": [
+       -38370,
+       38370
+      ]
+     },
+     "behov": {
+      "A": [
+       5330,
+       -5330
+      ],
+      "B": [
+       14170,
+       -14170
+      ],
+      "C": [
+       4165,
+       -4165
+      ]
+     }
+    },
+    {
+     "forutsetning": "Billettpris 2027",
+     "nv": {
+      "A": [
+       -46198,
+       46198
+      ],
+      "B": [
+       -57740,
+       57740
+      ],
+      "C": [
+       -47347,
+       47347
+      ]
+     },
+     "behov": {
+      "A": [
+       5775,
+       -5775
+      ],
+      "B": [
+       15225,
+       -15225
+      ],
+      "C": [
+       4736,
+       -4736
+      ]
+     }
+    },
+    {
+     "forutsetning": "Billettgebyr",
+     "nv": {
+      "A": [
+       1320,
+       -1320
+      ],
+      "B": [
+       1650,
+       -1650
+      ],
+      "C": [
+       1353,
+       -1353
+      ]
+     },
+     "behov": {
+      "A": [
+       -165,
+       165
+      ],
+      "B": [
+       -435,
+       435
+      ],
+      "C": [
+       -135,
+       135
+      ]
+     }
+    },
+    {
+     "forutsetning": "Andre publikumsavhengige utgifter",
+     "nv": {
+      "A": [
+       1324,
+       -1324
+      ],
+      "B": [
+       1655,
+       -1655
+      ],
+      "C": [
+       1655,
+       -1655
+      ]
+     },
+     "behov": {
+      "A": [
+       -405,
+       405
+      ],
+      "B": [
+       -845,
+       845
+      ],
+      "C": [
+       -435,
+       435
+      ]
+     }
+    }
    ]
   },
   {
    "id": "pakke",
    "label": "Pakke fra Rigg & Ro",
    "kind": "input",
-   "desc": "Artist og produksjon kjøpes som en pakke per konsert. Halvparten betales måneden før konserten, resten i konsertmåneden.",
-   "x": 690,
-   "y": 460,
+   "desc": "Artist og produksjon kjøpes som en pakke per konsert.",
+   "x": 620,
+   "y": 485,
    "quiet": false,
    "celler": [
     {
@@ -229,15 +381,57 @@ window.GRAPH = {
      "enhet": "måneder",
      "formel": "=D30"
     }
+   ],
+   "slik": [
+    "Pakkeprisen hentes fra scenariet: 60 000 eller 66 000 kr.",
+    "Del 1: halvparten måneden før konserten.",
+    "Del 2: resten i konsertmåneden."
+   ],
+   "sporsmal": [
+    "Hvorfor er pakkeprisen et vilkår og ikke en risiko i regel 1?",
+    "Prisen er kjent før signering, så Maja kan sjekke den før hun bestemmer seg. Lav etterspørsel får hun ikke vite på forhånd."
+   ],
+   "folsomhet": [
+    {
+     "forutsetning": "Pakkepris per konsert",
+     "nv": {
+      "A": [
+       35649,
+       -35649
+      ],
+      "B": [
+       35649,
+       -35649
+      ],
+      "C": [
+       35649,
+       -35649
+      ]
+     },
+     "behov": {
+      "A": [
+       -15000,
+       15000
+      ],
+      "B": [
+       -21000,
+       21000
+      ],
+      "C": [
+       -15000,
+       15000
+      ]
+     }
+    }
    ]
   },
   {
    "id": "avtale_a",
    "label": "A: Lune Sal",
    "kind": "input",
-   "desc": "Fast leie per konsert, betalt i konsertmåneden. 250 salgbare plasser, så salget kappes der.",
-   "x": 690,
-   "y": 550,
+   "desc": "Fast leie per konsert og 250 salgbare plasser.",
+   "x": 620,
+   "y": 580,
    "quiet": false,
    "celler": [
     {
@@ -256,15 +450,87 @@ window.GRAPH = {
      "enhet": "plasser per konsert",
      "formel": "=D32*(1+IF(dt_fs_nr=11,dt_fs_endring,0))"
     }
+   ],
+   "slik": [
+    "Leien betales i konsertmåneden.",
+    "Salget kappes ved 250 plasser."
+   ],
+   "sporsmal": [
+    "Hvorfor selger A færre billetter enn B og C?",
+    "A har bare 250 plasser. Konsertene som solgte mer i 2026 blir kappet, så A selger 2 680 billetter mot 3 350 i B og C."
+   ],
+   "folsomhet": [
+    {
+     "forutsetning": "Leie A per konsert",
+     "nv": {
+      "A": [
+       5339,
+       -5339
+      ],
+      "B": [
+       0,
+       0
+      ],
+      "C": [
+       0,
+       0
+      ]
+     },
+     "behov": {
+      "A": [
+       -1800,
+       1800
+      ],
+      "B": [
+       0,
+       0
+      ],
+      "C": [
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "forutsetning": "Salgbare plasser (alle tre)",
+     "nv": {
+      "A": [
+       -28404,
+       24347
+      ],
+      "B": [
+       -7328,
+       7328
+      ],
+      "C": [
+       -5969,
+       5969
+      ]
+     },
+     "behov": {
+      "A": [
+       -125,
+       125
+      ],
+      "B": [
+       -225,
+       225
+      ],
+      "C": [
+       0,
+       0
+      ]
+     }
+    }
    ]
   },
   {
    "id": "avtale_b",
    "label": "B: Søyleverket",
    "kind": "input",
-   "desc": "Engangstilpasning og halve sesongleien betales ved t0, resten i mars. Det er derfor B trenger mest penger tidlig. 450 salgbare plasser.",
-   "x": 690,
-   "y": 630,
+   "desc": "Fast sesongleie, og mye betales før sesongen starter. 450 salgbare plasser.",
+   "x": 620,
+   "y": 670,
    "quiet": false,
    "celler": [
     {
@@ -307,15 +573,119 @@ window.GRAPH = {
      "enhet": "plasser per konsert",
      "formel": "=D35*(1+IF(dt_fs_nr=11,dt_fs_endring,0))"
     }
+   ],
+   "slik": [
+    "Ved t0: engangstilpasning og halve sesongleien.",
+    "I mars: resten av sesongleien.",
+    "Leien er den samme uansett hvor mye som selges."
+   ],
+   "sporsmal": [
+    "Hvorfor holder ikke B rammen, selv om B har høyest nåverdi?",
+    "Leie og pakke på til sammen 165 000 kr går ut ved t0, før noen billettinntekter kommer inn. Saldoen er lavest i mars. Selv utsolgt hver kveld trenger B 294 000 kr."
+   ],
+   "folsomhet": [
+    {
+     "forutsetning": "Engangstilpasning B",
+     "nv": {
+      "A": [
+       0,
+       0
+      ],
+      "B": [
+       1750,
+       -1750
+      ],
+      "C": [
+       0,
+       0
+      ]
+     },
+     "behov": {
+      "A": [
+       0,
+       0
+      ],
+      "B": [
+       -1750,
+       1750
+      ],
+      "C": [
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "forutsetning": "Sesongleie B",
+     "nv": {
+      "A": [
+       0,
+       0
+      ],
+      "B": [
+       6966,
+       -6966
+      ],
+      "C": [
+       0,
+       0
+      ]
+     },
+     "behov": {
+      "A": [
+       0,
+       0
+      ],
+      "B": [
+       -7000,
+       7000
+      ],
+      "C": [
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "forutsetning": "Salgbare plasser (alle tre)",
+     "nv": {
+      "A": [
+       -28404,
+       24347
+      ],
+      "B": [
+       -7328,
+       7328
+      ],
+      "C": [
+       -5969,
+       5969
+      ]
+     },
+     "behov": {
+      "A": [
+       -125,
+       125
+      ],
+      "B": [
+       -225,
+       225
+      ],
+      "C": [
+       0,
+       0
+      ]
+     }
+    }
    ]
   },
   {
    "id": "avtale_c",
    "label": "C: Skarvkaien",
    "kind": "input",
-   "desc": "Leien er en andel av billettoppgjøret etter gebyr, med en minsteleie per konsert, og betales måneden etter. Leien følger salget. 450 salgbare plasser.",
-   "x": 690,
-   "y": 710,
+   "desc": "Leien er en andel av billettoppgjøret, så den følger salget. 450 salgbare plasser.",
+   "x": 620,
+   "y": 760,
    "quiet": false,
    "celler": [
     {
@@ -350,15 +720,118 @@ window.GRAPH = {
      "enhet": "plasser per konsert",
      "formel": "=D41*(1+IF(dt_fs_nr=11,dt_fs_endring,0))"
     }
+   ],
+   "slik": [
+    "Leie = det største av minsteleien og 18 % av billettoppgjøret etter gebyr.",
+    "Leien betales måneden etter konserten."
+   ],
+   "sporsmal": [
+    "Hvorfor tåler C lavt salg bedre enn B?",
+    "Leien i C følger salget. Selger Sceneskift mindre, betaler de mindre i leie. I B er leien fast. Minsteleien slår bare inn under 123 billetter."
+   ],
+   "folsomhet": [
+    {
+     "forutsetning": "Leieandel C av billettoppgjøret",
+     "nv": {
+      "A": [
+       0,
+       0
+      ],
+      "B": [
+       0,
+       0
+      ],
+      "C": [
+       10096,
+       -10096
+      ]
+     },
+     "behov": {
+      "A": [
+       0,
+       0
+      ],
+      "B": [
+       0,
+       0
+      ],
+      "C": [
+       -1010,
+       1010
+      ]
+     }
+    },
+    {
+     "forutsetning": "Minimumsleie C per konsert",
+     "nv": {
+      "A": [
+       0,
+       0
+      ],
+      "B": [
+       0,
+       0
+      ],
+      "C": [
+       0,
+       0
+      ]
+     },
+     "behov": {
+      "A": [
+       0,
+       0
+      ],
+      "B": [
+       0,
+       0
+      ],
+      "C": [
+       0,
+       0
+      ]
+     }
+    },
+    {
+     "forutsetning": "Salgbare plasser (alle tre)",
+     "nv": {
+      "A": [
+       -28404,
+       24347
+      ],
+      "B": [
+       -7328,
+       7328
+      ],
+      "C": [
+       -5969,
+       5969
+      ]
+     },
+     "behov": {
+      "A": [
+       -125,
+       125
+      ],
+      "B": [
+       -225,
+       225
+      ],
+      "C": [
+       0,
+       0
+      ]
+     }
+    }
    ]
   },
   {
    "id": "finans",
    "label": "Rente og ramme",
    "kind": "input",
-   "desc": "Realrenten diskonteres månedlig med (1 + r)^(t/12). Rammen for startfinansiering er Majas anslag og er ikke avklart.",
-   "x": 690,
-   "y": 800,
+   "desc": "Diskontering og rammen for startfinansiering. Rammen er Majas anslag og er ikke avklart.",
+   "x": 620,
+   "y": 850,
    "quiet": false,
    "celler": [
     {
@@ -383,39 +856,100 @@ window.GRAPH = {
      "verdi": 250000,
      "enhet": "kr. Majas anslag, ikke avklart."
     }
+   ],
+   "slik": [
+    "Diskonteringsfaktor = 1 / (1 + r)^(t/12), der t er måneder.",
+    "t0 er like før januar og diskonteres ikke.",
+    "Rammen sammenlignes med finansieringsbehovet."
+   ],
+   "sporsmal": [
+    "Hvorfor betyr renten lite her?",
+    "Sesongen varer bare sju måneder, så diskonteringen flytter tallene lite. Det er når betalingene kommer som avgjør finansieringsbehovet, ikke renten."
+   ],
+   "folsomhet": [
+    {
+     "forutsetning": "Realrente per år",
+     "nv": {
+      "A": [
+       246,
+       -246
+      ],
+      "B": [
+       443,
+       -441
+      ],
+      "C": [
+       325,
+       -324
+      ]
+     },
+     "behov": {
+      "A": [
+       0,
+       0
+      ],
+      "B": [
+       0,
+       0
+      ],
+      "C": [
+       0,
+       0
+      ]
+     }
+    }
    ]
   },
   {
    "id": "konserter",
    "label": "Konserter",
    "kind": "ark",
-   "desc": "Én rad per konsert, K01 til K12. Tar salget i 2026, ganger med etterspørselsfaktoren, kapper ved salgbare plasser og regner beløp og betalingsmåned for hver avtale.",
-   "x": 925,
-   "y": 450,
+   "desc": "Én rad per konsert, K01 til K12, med billetter, beløp og betalingsmåned for hver avtale.",
+   "x": 880,
+   "y": 485,
    "quiet": false,
    "ark": "Konserter",
    "formler": 334,
-   "omfang": "25 rader × 26 kolonner"
+   "omfang": "25 rader × 26 kolonner",
+   "slik": [
+    "Henter konsertmåned og salg i 2026 fra Oppgjør og Ordrer_renset.",
+    "Ganger med etterspørselsfaktoren og kapper ved plassene i hver sal.",
+    "Regner beløpene per avtale, og i hvilken måned hver betaling kommer."
+   ],
+   "sporsmal": [
+    "Følg K01 gjennom arket.",
+    "140 betalte billetter i 2026. Faktor 1 og under alle tak, så 140 billetter i alle tre salene. Oppgjør 140 × 340 = 47 600 kr, betalt i februar. Leie C = det største av 7 500 og 18 % × 47 600, altså 8 568 kr."
+   ]
   },
   {
    "id": "kontantstrom",
    "label": "Kontantstrøm",
    "kind": "ark",
-   "desc": "Månedlig betalingsplan fra t0 (like før januar) til juli, med A, B og C side om side. Netto, akkumulert saldo og nåverdi for hver måned.",
-   "x": 1105,
-   "y": 450,
+   "desc": "Månedlig betalingsplan fra t0 (like før januar) til juli, med A, B og C side om side.",
+   "x": 1090,
+   "y": 485,
    "quiet": false,
    "ark": "Kontantstrøm",
    "formler": 223,
-   "omfang": "31 rader × 25 kolonner"
+   "omfang": "31 rader × 25 kolonner",
+   "slik": [
+    "Summerer betalingene fra Konserter per måned med SUMIFS.",
+    "Netto = billettoppgjør inn minus pakke, publikumsutgifter og leie.",
+    "Akkumulert saldo = forrige måned pluss netto.",
+    "Nåverdi = netto × diskonteringsfaktor."
+   ],
+   "sporsmal": [
+    "Hva fanger ikke en månedlig beregning opp?",
+    "Forfall inne i måneden. Rigg & Ro vil ha del 1 den 1. i måneden før og del 2 på konsertdagen, mens oppgjøret kommer senere. Saldoen kan være lavere midt i en måned, så det reelle behovet kan være større."
+   ]
   },
   {
    "id": "nv",
    "label": "Nåverdi",
    "kind": "resultat",
-   "desc": "Samlet netto betaling og nåverdi ved t0 for hver handling. Avstå gir null, fordi planleggingskostnadene er sunk cost.",
-   "x": 1285,
-   "y": 360,
+   "desc": "Samlet netto betaling og nåverdi ved t0 for hver handling.",
+   "x": 1300,
+   "y": 380,
    "quiet": false,
    "celler": [
     {
@@ -480,15 +1014,65 @@ window.GRAPH = {
      "verdi": 0,
      "enhet": null
     }
-   ]
+   ],
+   "sporsmal": [
+    "Hvorfor er nåverdien til avstå null?",
+    "Planleggingskostnadene er brukt uansett. De er sunk cost og skiller ikke handlingene."
+   ],
+   "scenarioer": {
+    "scenarioer": [
+     "Basis",
+     "Lav etterspørsel",
+     "Høyere pakkepris",
+     "Samlet"
+    ],
+    "rader": [
+     {
+      "handling": "A",
+      "verdier": [
+       51324,
+       -31964,
+       -19974,
+       -103263
+      ]
+     },
+     {
+      "handling": "B",
+      "verdier": [
+       201394,
+       -8529,
+       130095,
+       -79828
+      ]
+     },
+     {
+      "handling": "C",
+      "verdier": [
+       173787,
+       2157,
+       102488,
+       -69141
+      ]
+     },
+     {
+      "handling": "avstå",
+      "verdier": [
+       0,
+       0,
+       0,
+       0
+      ]
+     }
+    ]
+   }
   },
   {
    "id": "behov",
    "label": "Finansieringsbehov",
    "kind": "resultat",
-   "desc": "Det største beløpet Sceneskift ligger ute med i løpet av sesongen, altså den laveste akkumulerte saldoen. Det er dette som sammenlignes med rammen.",
-   "x": 1285,
-   "y": 540,
+   "desc": "Det største beløpet Sceneskift ligger ute med i løpet av sesongen.",
+   "x": 1300,
+   "y": 590,
    "quiet": false,
    "celler": [
     {
@@ -546,15 +1130,70 @@ window.GRAPH = {
      "enhet": null,
      "formel": "=INDEX($B$7:$B$14,MATCH(V19,W7:W14,0))"
     }
-   ]
+   ],
+   "slik": [
+    "Finn den laveste akkumulerte saldoen i sesongen.",
+    "Behov = det største av 0 og minus laveste saldo.",
+    "Avtalen holder rammen hvis behovet er høyst lik rammen."
+   ],
+   "sporsmal": [
+    "Hvorfor er behovet like viktig som nåverdien for Maja?",
+    "Et tap som truer driften kan veie tyngre enn en like stor gevinst. Har hun ikke pengene i februar eller mars, hjelper det ikke at sesongen går i pluss."
+   ],
+   "scenarioer": {
+    "scenarioer": [
+     "Basis",
+     "Lav etterspørsel",
+     "Høyere pakkepris",
+     "Samlet"
+    ],
+    "rader": [
+     {
+      "handling": "A",
+      "verdier": [
+       231900,
+       253200,
+       261900,
+       318080
+      ]
+     },
+     {
+      "handling": "B",
+      "verdier": [
+       316100,
+       372120,
+       358100,
+       414120
+      ]
+     },
+     {
+      "handling": "C",
+      "verdier": [
+       216696,
+       240361,
+       246696,
+       282361
+      ]
+     },
+     {
+      "handling": "avstå",
+      "verdier": [
+       0,
+       0,
+       0,
+       0
+      ]
+     }
+    ]
+   }
   },
   {
    "id": "resultater",
    "label": "Resultater",
    "kind": "resultat",
-   "desc": "Alt samlet på ett ark: hovedtall i aktivt scenario, alle scenarioer side om side, de fire beslutningsreglene og grensene.",
-   "x": 1465,
-   "y": 450,
+   "desc": "Alt samlet på ett ark.",
+   "x": 1500,
+   "y": 485,
    "quiet": false,
    "ark": "Resultater",
    "formler": 121,
@@ -568,10 +1207,38 @@ window.GRAPH = {
     },
     {
      "navn": null,
+     "adresse": "Resultater!J27",
+     "etikett": "Valg etter regel 2 (strengest)",
+     "verdi": "Avstå"
+    },
+    {
+     "navn": null,
+     "adresse": "Resultater!J28",
+     "etikett": "Valg etter regel 3 (bare basis)",
+     "verdi": "C"
+    },
+    {
+     "navn": null,
+     "adresse": "Resultater!J29",
+     "etikett": "Valg etter regel 4 (uten ramme)",
+     "verdi": "B"
+    },
+    {
+     "navn": null,
      "adresse": "Resultater!C5",
      "etikett": "Kontrollstatus",
      "verdi": "Alle kontroller OK"
     }
+   ],
+   "slik": [
+    "Hovedtall i aktivt scenario.",
+    "Nåverdi og behov for alle scenarioer, hentet fra datatabellen.",
+    "Fire beslutningsregler, med valget hver regel gir.",
+    "Grensene for salg."
+   ],
+   "sporsmal": [
+    "Hvilken regel anbefaler dere, og hvorfor ikke den strengeste?",
+    "Regel 1: høyest nåverdi blant handlingene som holder rammen både i basis og ved lav etterspørsel. Den strengeste krever at rammen holder også med høyere pakkepris, men pakkeprisen er kjent før signering. Den er et vilkår, ikke en risiko."
    ]
   },
   {
@@ -579,29 +1246,43 @@ window.GRAPH = {
    "label": "Rådet til Maja",
    "kind": "rad",
    "desc": "Beslutningsnotatet. Rådet bygger på beslutningsregel 1 i Resultater, med vilkår og spørsmålene om kapasitet.",
-   "x": 1640,
-   "y": 450,
-   "quiet": false
+   "x": 1500,
+   "y": 680,
+   "quiet": false,
+   "sporsmal": [
+    "Hva bør Maja avklare før hun signerer?",
+    "Ifølge arbeidsboka: endelig pakkepris fra Rigg & Ro, om rammen på 250 000 kr faktisk er tilgjengelig, og om de salgbare plassene er garantert i oppsettet som skal brukes."
+   ]
   },
   {
    "id": "usikkerhet",
    "label": "Usikkerhet",
    "kind": "usikkerhet",
-   "desc": "Datatabeller som regner hele modellen på nytt for hvert scenario og salgsnivå: konsekvenstabell, etterspørsel mot pakkepris, grenser og følsomhet 5 % ned og opp.",
-   "x": 1285,
-   "y": 720,
+   "desc": "Datatabeller som regner hele modellen på nytt for hvert scenario og salgsnivå.",
+   "x": 1300,
+   "y": 790,
    "quiet": false,
    "ark": "Usikkerhet",
    "formler": 659,
-   "omfang": "194 rader × 20 kolonner"
+   "omfang": "194 rader × 20 kolonner",
+   "slik": [
+    "Konsekvenstabell: alle fire scenarioer samtidig.",
+    "Etterspørsel mot pakkepris, for hver avtale.",
+    "Grenser: salgsnivået der resultatet snur.",
+    "Følsomhet: hver forutsetning 5 % ned og opp."
+   ],
+   "sporsmal": [
+    "Hvorfor ligger alle datatabellene på ett ark?",
+    "Excel krever at inndatacellen til en datatabell ligger på samme ark som tabellen. Derfor ligger hjelpecellene her, og forutsetningene leser dem."
+   ]
   },
   {
    "id": "dt_hjelp",
    "label": "Hjelpeceller",
    "kind": "usikkerhet",
-   "desc": "Tomme celler som datatabellene skriver inn i mens de regner. Forutsetningene leser dem, og derfor går trådene herfra bakover. Excel krever at de ligger på samme ark som datatabellene.",
-   "x": 1105,
-   "y": 790,
+   "desc": "Tomme celler som datatabellene skriver inn i mens de regner. Forutsetningene leser dem, og derfor går trådene herfra bakover.",
+   "x": 1090,
+   "y": 860,
    "quiet": true,
    "celler": [
     {
@@ -654,15 +1335,19 @@ window.GRAPH = {
      "enhet": null,
      "formel": "=MATCH(C9,{\"A\",\"B\",\"C\"},0)"
     }
+   ],
+   "sporsmal": [
+    "Hva skjer hvis noen skriver et tall i en hjelpecelle?",
+    "Da overstyrer tallet forutsetningen i hele modellen, og scenariovalget slutter å virke. Cellene skal stå tomme."
    ]
   },
   {
    "id": "grenser",
    "label": "Grenser",
    "kind": "usikkerhet",
-   "desc": "Salgsnivået (andel av salget i 2026) der nåverdien blir negativ, eller behovet går over rammen. Funnet med datatabell i steg på 1 % og lineær interpolasjon.",
-   "x": 1465,
-   "y": 640,
+   "desc": "Salgsnivået, som andel av salget i 2026, der nåverdien blir negativ eller behovet går over rammen.",
+   "x": 1500,
+   "y": 860,
    "quiet": false,
    "celler": [
     {
@@ -713,27 +1398,44 @@ window.GRAPH = {
      "enhet": null,
      "formel": "=IF(COUNT(O60:O129)>0,MIN(O60:O129),IF(H130>ramme,\"Over rammen i hele området\",\"Innenfor i hele området\"))"
     }
+   ],
+   "slik": [
+    "Datatabell med etterspørselsfaktor fra 50 % til 120 % i steg på 1 %.",
+    "Krysningspunktet finnes med lineær interpolasjon."
+   ],
+   "sporsmal": [
+    "Hvor mye kan salget falle før C ikke lenger holder rammen?",
+    "Til om lag 76 % av salget i 2026, med pakkeprisen i basis. Under det går behovet over 250 000 kr."
    ]
   },
   {
    "id": "kontroller",
    "label": "Kontroller",
    "kind": "kontroll",
-   "desc": "Kontroller der forventningen er skrevet før regningen: uavhengig regning, grensetilfeller og inputtester. Resultater viser om alle er OK.",
-   "x": 1285,
-   "y": 190,
+   "desc": "Kontroller der forventningen er skrevet før regningen. Resultater viser om alle er OK.",
+   "x": 1300,
+   "y": 200,
    "quiet": false,
    "ark": "Kontroller",
    "formler": 112,
-   "omfang": "44 rader × 9 kolonner"
+   "omfang": "44 rader × 9 kolonner",
+   "slik": [
+    "Uavhengig regning av de samme tallene.",
+    "Grensetilfeller, for eksempel etterspørsel 0.",
+    "Inputtester: endrer én ting og sjekker at resultatet flytter seg som ventet."
+   ],
+   "sporsmal": [
+    "Forklar én kontroll.",
+    "For eksempel grensetilfellet etterspørsel 0. Da skal det ikke komme inn billettinntekter, og avtalene skal bare ha utgifter. Forventningen er skrevet før vi regnet."
+   ]
   },
   {
    "id": "figurer",
    "label": "Figurer",
    "kind": "usikkerhet",
    "desc": "Figurene er koblet til modellen og endrer seg når scenario eller forutsetninger endres.",
-   "x": 1465,
-   "y": 800,
+   "x": 1700,
+   "y": 860,
    "quiet": false,
    "ark": "Figurer",
    "formler": 16,
@@ -743,13 +1445,22 @@ window.GRAPH = {
    "id": "kapasitet",
    "label": "Kapasitet",
    "kind": "ark",
-   "desc": "Kildeoppgaven: kapasitet er ikke det samme som salgbare plasser. Studio USF som virkelig eksempel, og spørsmålene Maja bør stille utleieren før hun signerer.",
-   "x": 1465,
-   "y": 250,
+   "desc": "Kildeoppgaven: kapasitet er ikke det samme som salgbare plasser.",
+   "x": 1500,
+   "y": 270,
    "quiet": false,
    "ark": "Kapasitet",
    "formler": 5,
-   "omfang": "29 rader × 6 kolonner"
+   "omfang": "29 rader × 6 kolonner",
+   "slik": [
+    "Sammenligner salgbare plasser i tilbudene med tallene på nettsidene.",
+    "Studio USF som virkelig eksempel: 250 eller 300 stående, avhengig av kilde.",
+    "Spørsmål Maja bør stille utleieren."
+   ],
+   "sporsmal": [
+    "Hvilket spørsmål bør Maja stille utleieren?",
+    "Om de salgbare plassene er garantert i oppsettet som skal brukes, med scene og miksepult på gulvet, og om fribilletter og crew kommer i tillegg eller innenfor."
+   ]
   }
  ],
  "edges": [
@@ -1488,24 +2199,6 @@ window.GRAPH = {
     "formel": "=Usikkerhet!D14"
    },
    "type": "formel",
-   "quiet": false
-  },
-  {
-   "fra": "csv_ordrer",
-   "til": "raa_ordrer",
-   "antall": null,
-   "eks": null,
-   "type": "manuell",
-   "forklaring": "Limt inn urørt fra CSV",
-   "quiet": false
-  },
-  {
-   "fra": "csv_oppgjor",
-   "til": "raa_oppgjor",
-   "antall": null,
-   "eks": null,
-   "type": "manuell",
-   "forklaring": "Limt inn urørt fra CSV",
    "quiet": false
   },
   {
