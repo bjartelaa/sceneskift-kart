@@ -195,6 +195,19 @@
       tekst.textContent = oppsummer(`${pst(R.salg[si])} salg, pakke ${kr(R.pakker[pi])}`, rad);
     }
     vis();
+
+    // Anbefalingen: hvor mange av de fire scenarioene hver avtale holder rammen i
+    const fire = scenarioer.slice(0, 4);
+    const holder = id => fire.filter((_, i) => handlinger.find(h => h.id === id).behov[i] <= ramme).length;
+    const antall = n => (n === 0 ? "ingen" : `${n} av 4`);
+    const valg = tall.regel1;
+    const ingen = fire.filter((_, i) => ["A", "B", "C"].every(id => handlinger.find(h => h.id === id).behov[i] > ramme));
+    const andre = ["A", "B", "C"].filter(id => id !== valg).map(id => `${id} i ${antall(holder(id))}`).join(", ");
+    let t = `${navn[valg] ? navn[valg].slice(3) : valg} holder rammen i ${antall(holder(valg))} scenarioer, ${andre}.`;
+    if (valg === "C") t += " Leien følger billettinntekten, så C tåler svakt salg best.";
+    if (ingen.length) t += ` Ingen holder rammen i «${ingen.join("», «")}».`;
+    const anb = document.getElementById("usikker-anbefaling");
+    anb.append(Object.assign(document.createElement("b"), { textContent: `Velg ${valg}.` }), document.createTextNode(t));
   }
 
   // Rådet: hver handling må gjennom tre krav (regel 1)
@@ -232,6 +245,14 @@
       c.appendChild(h === vinner ? html("span", "vinner", "Velg " + (h.id === "avstå" ? "avstå" : h.id)) : html("span", "stroket", ""));
       sil.appendChild(c);
     }
+    // Bilde av salen som anbefales
+    const fig = document.getElementById("rad-bilde");
+    const salbilde = { A: "img/sal-a.jpg", B: "img/sal-b.jpg", C: "img/sal-c.jpg" }[vinner.id];
+    if (salbilde) {
+      fig.querySelector("img").src = salbilde;
+      fig.querySelector("img").alt = "Salen i " + navn[vinner.id].slice(3);
+      fig.querySelector("figcaption").textContent = navn[vinner.id];
+    } else fig.hidden = true;
     if (vinner.id !== tall.regel1) console.warn("Silen og Resultater!J26 er uenige:", vinner.id, tall.regel1);
   }
 

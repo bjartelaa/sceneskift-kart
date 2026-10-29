@@ -480,9 +480,53 @@
     });
   }
 
+  // Turmodus: presentasjonen styrer hvilke lapper som er i fokus (tavla.html?tur)
+  const turModus = new URLSearchParams(location.search).has("tur");
+  if (turModus) document.body.classList.add("tur-modus");
+  let klar = false, ventende;
+  function turFokus(st) {
+    if (!klar) { ventende = st; return; }
+    valgt = null;
+    panel.hidden = true;
+    for (const b of Object.values(el)) b.classList.remove("valgt", "nabo", "paa-vei", "tur-fokus");
+    for (const { p, glod, naler } of traadEls) {
+      p.classList.remove("inn", "ut", "vei");
+      glod.classList.remove("vei");
+      naler.forEach(c => c.classList.remove("aktiv"));
+    }
+    if (!st) { tavle.classList.remove("fokus"); fokusIds = null; tilpass(); return; }
+    tavle.classList.add("fokus");
+    let fokus = st.fokus || [];
+    const hoved = new Set(st.hoved || []);
+    let veiPar = new Set();
+    if (st.vei) {
+      const v = veiFor("rad");
+      fokus = v;
+      veiPar = new Set(v.slice(1).map((x, i) => v[i] + ">" + x));
+    }
+    const f = new Set(fokus);
+    for (const { e, p, glod, naler } of traadEls) {
+      const sterk = veiPar.has(e.fra + ">" + e.til) || (hoved.has(e.til) && f.has(e.fra));
+      const svak = !sterk && f.has(e.fra) && f.has(e.til);
+      p.classList.toggle("vei", sterk);
+      glod.classList.toggle("vei", sterk);
+      p.classList.toggle("inn", svak);
+      naler.forEach(c => c.classList.toggle("aktiv", sterk || svak));
+    }
+    for (const [id, b] of Object.entries(el)) {
+      b.classList.toggle("tur-fokus", f.has(id));
+      b.classList.toggle("valgt", hoved.has(id));
+    }
+    fokusIds = st.vei ? null : fokus;
+    tilpass(fokusIds);
+  }
+  addEventListener("message", e => { if (e.data && "tur" in e.data) turFokus(e.data.tur); });
+
   const start = () => {
     tegnTrader();
     tilpass();
+    klar = true;
+    if (turModus) { turFokus(ventende || null); if (!ventende) leggKabler(); return; }
     const id = decodeURIComponent(location.hash.slice(1));
     if (nodeById[id]) velg(id, true); else leggKabler();
   };

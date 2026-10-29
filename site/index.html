@@ -43,16 +43,19 @@
       </aside>
     </section>
 
-    <!-- 2: turen gjennom modellen -->
+    <!-- 2: turen gjennom modellkartet -->
     <section class="lysbilde tur" data-steg="Modellen" aria-label="Modellen steg for steg">
-      <div class="tur-vindu"><div class="tur-verden" id="tur-verden"></div></div>
-      <header class="tur-hode">
+      <div class="tur-venstre">
+        <ol class="akter" id="akter" aria-label="Hvor i modellen vi er">
+          <li>Data</li><li>Forutsetninger</li><li>Modell</li><li>Resultat</li>
+        </ol>
         <h2 class="tittel" id="tur-tittel"></h2>
         <p class="ingress" id="tur-tekst" aria-live="polite"></p>
-      </header>
-      <ol class="akter" id="akter" aria-label="Hvor i modellen vi er">
-        <li>Data</li><li>Forutsetninger</li><li>Modell</li><li>Resultat</li>
-      </ol>
+        <div class="tur-kort" id="tur-kort"></div>
+      </div>
+      <div class="tur-kartramme">
+        <iframe id="tur-kart" title="Modellkartet" data-src="tavla.html?tur" tabindex="-1"></iframe>
+      </div>
       <a class="hele-kartet" href="tavla.html" target="_blank">Åpne hele modellkartet</a>
       <aside class="notat" id="tur-notat"></aside>
     </section>
@@ -92,6 +95,7 @@
         </div>
         <svg class="diagram" id="usikker" viewBox="0 0 960 560" role="img" aria-label="Nåverdi og finansieringsbehov for A, B og C ved valgt salg og pakkepris"></svg>
       </div>
+      <p class="anbefaling" id="usikker-anbefaling"></p>
       <aside class="notat">
         <p>Hvem: ikke bestemt</p>
         <ul>
@@ -108,6 +112,11 @@
       <h2 class="tittel">Rådet: <span data-tall="regel1"></span>, hvis tre ting er på plass</h2>
       <div class="rad-oppsett">
         <div class="sil" id="sil"></div>
+        <div class="rad-hoyre">
+        <figure class="polaroid" id="rad-bilde">
+          <img alt="">
+          <figcaption></figcaption>
+        </figure>
         <div class="sjekkliste">
           <p class="lapp-tittel">Før Maja signerer</p>
           <ul>
@@ -115,6 +124,7 @@
             <li>Rammen på <span data-tall="ramme"></span> er på plass.</li>
             <li>Skarvkaien garanterer 450 salgbare plasser i oppsettet vi skal bruke.</li>
           </ul>
+        </div>
         </div>
       </div>
       <aside class="notat">

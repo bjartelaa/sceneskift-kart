@@ -163,7 +163,7 @@ body {
 .lapp:focus-visible { outline: 3px solid var(--blekk); outline-offset: 5px; }
 .lapp.valgt { transform: translate(-50%, -50%) rotate(0deg) scale(1.1); z-index: 3; }
 .lapp.valgt .lapp-tekst { box-shadow: inset 0 -5px 0 var(--c, var(--blekk)); }
-.tavle.fokus .lapp:not(.valgt):not(.nabo):not(.paa-vei) { opacity: .22; }
+.tavle.fokus .lapp:not(.valgt):not(.nabo):not(.paa-vei):not(.tur-fokus) { opacity: .22; }
 .tavle.fokus .kolonne, .tavle.fokus .forklaring, .tavle.fokus .tittel { opacity: .3; }
 .tittel, .forklaring { transition: opacity .2s ease; }
 
@@ -386,4 +386,13 @@ details[open] .celle-sum span { text-decoration: underline; text-underline-offse
   .tavle, .lapp, .traad, .kolonne, .tittel, .forklaring { transition: none; }
   .trader.tegn .traad { animation: none; stroke-dashoffset: 0; stroke-dasharray: none; }
   .trader.tegn .traad.manuell { stroke-dasharray: 2 8; }
+}
+
+/* Turmodus: styrt fra presentasjonen */
+.tur-modus .tittel, .tur-modus .forklaring { display: none; }
+.tur-modus .lapp { pointer-events: none; }
+.tur-modus .tavle { transition: transform 1.2s cubic-bezier(.65, 0, .35, 1); }
+.tur-modus .lapp, .tur-modus .traad, .tur-modus .nal { transition: opacity .6s ease, transform .6s ease; }
+@media (prefers-reduced-motion: reduce) {
+  .tur-modus .tavle, .tur-modus .lapp, .tur-modus .traad, .tur-modus .nal { transition: none; }
 }

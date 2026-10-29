@@ -311,7 +311,7 @@ body {
 .rad-velger button { font-size: 19px; padding: 7px 14px 5px 16px; }
 .rad-velger.smaa button { font-family: "Archivo", sans-serif; font-weight: 600; font-size: 16px; padding: 7px 11px; font-variant-numeric: tabular-nums; }
 .oppsummering.liten { margin-top: 4px; font-size: 21px; }
-#usikker { width: 960px; justify-self: end; }
+#usikker { width: 860px; justify-self: end; }
 .diagram .soyle { transition: x .5s cubic-bezier(.3,.1,.2,1), width .5s cubic-bezier(.3,.1,.2,1); }
 .diagram .soyle.pluss { fill: var(--gronn); }
 .diagram .soyle.minus, .diagram .soyle.over { fill: var(--minus); }
@@ -351,149 +351,64 @@ body {
 .kort-rad .kort h3 { margin-bottom: 10px; }
 .kort-rad .kort li + li { margin-top: 4px; }
 
-/* Turen gjennom modellen */
-.lysbilde.tur { padding: 0; overflow: hidden; }
-.tur-vindu { position: absolute; inset: 0; overflow: hidden; }
-.tur-verden {
-  position: absolute; left: 0; top: 0;
-  width: 5200px; height: 2000px;
-  transform-origin: 0 0;
-  transition: transform 1.25s cubic-bezier(.65, 0, .35, 1);
-}
-.tur-vindu.umiddelbart .tur-verden, .tur-vindu.umiddelbart .trinn { transition: none !important; }
-.tur-ramme { position: absolute; width: 1600px; height: 900px; }
-.tur-svg { position: absolute; inset: 0; width: 1600px; height: 900px; overflow: visible; }
-.ramme-etikett {
-  position: absolute; left: 60px; top: 40px; margin: 0;
-  padding: 18px 40px 12px;
-  background: var(--gaffa); color: #f1f0ea;
-  font-family: "Marker", cursive; font-size: 96px;
-  transform: rotate(-1.5deg);
-  opacity: 0; transition: opacity .6s;
-}
-.oversikt .ramme-etikett { opacity: 1; }
-.oversikt .tur-ramme { outline: 6px solid rgba(29,36,51,.12); outline-offset: 20px; }
-.tur-traad { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
-.traad-bit { fill: none; stroke: var(--minus); stroke-width: 10; stroke-linecap: round; stroke-dasharray: 400; stroke-dashoffset: 400; transition: stroke-dashoffset .8s .9s ease; }
-.traad-bit.tegnet { stroke-dashoffset: 0; }
-
-.tur-hode { position: absolute; left: 90px; top: 56px; right: 560px; z-index: 3; pointer-events: none; }
-.tur-hode .tittel { font-size: 52px; margin-bottom: 12px; }
-.tur-hode .ingress { font-size: 24px; margin: 0; max-width: 940px; }
-.akter { position: absolute; right: 70px; top: 64px; display: flex; gap: 6px; margin: 0; padding: 0; list-style: none; z-index: 3; }
-.akter li { padding: 8px 14px 5px; background: rgba(244,242,234,.9); font-family: "Marker", cursive; font-size: 19px; color: var(--blekk-svak); opacity: .55; transition: opacity .4s, background .4s, color .4s; }
+/* Turen gjennom modellkartet */
+.lysbilde.tur { padding: 0; }
+.tur-venstre { position: absolute; left: 70px; top: 50px; width: 470px; }
+.akter { display: flex; gap: 5px; margin: 0 0 26px; padding: 0; list-style: none; }
+.akter li { padding: 7px 11px 4px; background: rgba(244,242,234,.9); font-family: "Marker", cursive; font-size: 16px; color: var(--blekk-svak); opacity: .5; transition: opacity .4s, background .4s, color .4s; }
 .akter li.ferdig { opacity: 1; }
 .akter li.aktiv { opacity: 1; background: var(--gaffa); color: #f1f0ea; }
+.tur-venstre .tittel { font-size: 42px; margin-bottom: 12px; }
+.tur-venstre .ingress { font-size: 20px; margin: 0 0 22px; }
+.tur-kort { padding: 20px 24px 18px; background: var(--papir); filter: drop-shadow(0 2px 1px rgba(0,0,0,.15)); transform: rotate(-.5deg); opacity: 0; transition: opacity .5s ease .5s; }
+.tur-kort.synlig { opacity: 1; }
+.tk-tittel { margin: 0 0 8px; font-family: "Marker", cursive; font-size: 21px; }
+.tk-tittel:not(:first-child) { margin-top: 16px; }
+.tk-linjer { display: grid; gap: 2px; }
+.tk-linje { display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: baseline; padding: 5px 0; border-top: 1px solid var(--strek); font-size: 16px; }
+.tk-linje b { font-size: 22px; font-weight: 800; font-stretch: 90%; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tk-linje span { color: var(--blekk-svak); }
+.tk-linje.minus b { color: var(--minus); }
+.tk-linje.pluss b { color: var(--gronn); }
+.tk-linje.sum b { border-top: 2px solid var(--blekk); }
+.tk-tabell { width: 100%; border-collapse: collapse; font-size: 18px; font-variant-numeric: tabular-nums; }
+.tk-tabell th, .tk-tabell td { padding: 6px 4px; border-top: 1px solid var(--strek); text-align: right; }
+.tk-tabell th:first-child { text-align: left; font-weight: 400; color: var(--blekk-svak); }
+.tk-tabell tr.hode th { border-top: 0; font-family: "Marker", cursive; font-weight: 400; font-size: 19px; color: var(--blekk); }
+.tk-tabell tr.sum td, .tk-tabell tr.sum th { border-top: 2px solid var(--blekk); font-weight: 800; font-size: 22px; color: var(--blekk); }
+.tk-tabell .rod { color: var(--minus); font-weight: 700; }
+.tk-tabell .gronn { color: var(--gronn); }
+.tk-liten { margin: 12px 0 0; font-size: 15px; line-height: 1.4; color: var(--blekk-svak); }
+.tk-tekst { margin: 0; font-size: 18px; line-height: 1.4; }
+.tk-svar { margin: 14px 0 0; font-family: "Marker", cursive; font-size: 30px; }
+.tk-svar b { display: inline-block; padding: 4px 16px 0; background: var(--gaffa); color: #f1f0ea; font-weight: 400; transform: rotate(-2deg); }
+.tk-farger { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0; padding: 0; list-style: none; font-size: 17px; }
+.tk-farger li { display: flex; align-items: center; gap: 8px; }
+.tk-farger li::before { content: ""; width: 10px; height: 22px; background: var(--c); transform: rotate(4deg); }
+.tk-vei { margin: 0; padding-left: 26px; font-size: 18px; line-height: 1.55; }
+.tk-saldo { display: block; width: 100%; height: auto; }
+.tk-saldo .aks { font-size: 12px; fill: var(--blekk-svak); }
+.tk-saldo .akse { stroke: var(--blekk); stroke-opacity: .25; }
+.tk-saldo .rutenett { stroke: var(--blekk); stroke-opacity: .07; }
+.tk-saldo .rammestrek { stroke: var(--minus); stroke-width: 2; stroke-dasharray: 6 5; }
+.tk-saldo .ille { fill: var(--ille); }
+.tk-saldo path { fill: none; stroke: var(--blekk); stroke-width: 2.2; stroke-linejoin: round; }
+.tk-saldo .linje-a { stroke-dasharray: 2 5; stroke-linecap: round; }
+.tk-saldo .linje-c { stroke-dasharray: 9 5; }
+.tk-saldo .linje-b { stroke: var(--minus); stroke-width: 3.2; }
+.tk-saldo .merke { font-family: "Marker", cursive; font-size: 15px; fill: var(--blekk); }
+.tk-saldo .bunn { fill: var(--minus); }
+.tur-kartramme { position: absolute; left: 580px; top: 40px; width: 990px; height: 790px; background: var(--tavle); box-shadow: inset 0 0 0 2px var(--strek); }
+.tur-kartramme iframe { width: 100%; height: 100%; border: 0; display: block; }
 .hele-kartet { position: absolute; left: 24px; bottom: 22px; z-index: 6; font-size: 15px; color: var(--blekk); }
+@media (prefers-reduced-motion: reduce) { .tur-kort { transition: none; } }
 
-.trinn { opacity: 0; transition: opacity .55s ease; }
-.trinn.synlig { opacity: 1; }
-div.trinn { transform: translateY(10px); transition: opacity .55s ease, transform .55s ease; }
-div.trinn.synlig { transform: none; }
+/* Usikkerheten: anbefalingen nederst */
+.anbefaling { position: absolute; left: 90px; right: 90px; bottom: 82px; margin: 0; padding: 14px 24px 11px; background: var(--gaffa); color: #f1f0ea; font-size: 22px; line-height: 1.35; transform: rotate(-.3deg); }
+.anbefaling b { font-family: "Marker", cursive; font-weight: 400; font-size: 28px; margin-right: 8px; }
 
-/* Data */
-.prikker circle { fill: var(--blekk); opacity: .55; }
-.teller { font-size: 84px; font-weight: 800; font-stretch: 90%; fill: var(--blekk); font-variant-numeric: tabular-nums; }
-.teller-tekst { font-size: 22px; fill: var(--blekk-svak); }
-.teller-tekst.minus { fill: var(--minus); font-weight: 600; }
-.soyle-k { fill: rgba(29,36,51,.28); }
-.soyle-k6 { fill: var(--gaffa); }
-.soyle-tall { font-size: 19px; fill: var(--blekk-svak); font-variant-numeric: tabular-nums; }
-.soyle-tall.stor { font-size: 30px; font-weight: 800; fill: var(--blekk); }
-.soyle-navn { font-family: "Marker", cursive; font-size: 22px; fill: var(--blekk); }
-.hake { fill: none; stroke: var(--gronn); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
-.avvik { font-size: 18px; font-weight: 700; fill: var(--minus); }
-.akse-tekst { font-size: 17px; fill: var(--blekk-svak); }
-.akse-tekst.rod { fill: var(--minus); }
-
-/* Forutsetninger */
-.tur-kort { position: absolute; background: var(--papir); filter: drop-shadow(0 2px 1px rgba(0,0,0,.15)); }
-.k6-kort { left: 90px; top: 250px; width: 640px; padding: 26px 30px 18px; transform: rotate(-.6deg); }
-.k6-kort .lapp-tittel { margin: 0 0 18px; font-family: "Marker", cursive; font-size: 27px; }
-.likning { display: flex; gap: 22px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--strek); }
-.ledd b { display: block; font-size: 32px; font-weight: 800; font-stretch: 90%; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.ledd small { font-size: 17px; color: var(--blekk-svak); }
-.sal-rad { position: absolute; left: 790px; top: 250px; display: flex; gap: 22px; }
-.sal-kort { position: relative; width: 236px; padding: 0 18px 16px; }
-.sal-kort:nth-child(1) { transform: rotate(-1deg); }
-.sal-kort:nth-child(2) { transform: rotate(.7deg); }
-.sal-kort:nth-child(3) { transform: rotate(-.4deg); }
-.sal-kort img { display: block; width: calc(100% + 36px); height: 130px; margin: 0 -18px 12px; object-fit: cover; }
-.sal-kort h3 { margin: 0 0 8px; font-family: "Marker", cursive; font-weight: 400; font-size: 24px; }
-.sal-kort ul { margin: 0; padding: 0; list-style: none; font-size: 18px; line-height: 1.35; }
-.sal-kort li + li { margin-top: 6px; }
-.sal-kort li.stor { font-size: 26px; font-weight: 800; font-stretch: 90%; }
-
-/* Konsert 6 */
-.k6-tabell { position: absolute; left: 90px; top: 240px; display: grid; grid-template-columns: 380px repeat(3, 330px); }
-.k6-celle { padding: 13px 14px; border-top: 1px solid var(--strek); font-size: 26px; text-align: right; font-variant-numeric: tabular-nums; }
-.k6-etikett { text-align: left; font-size: 21px; color: var(--blekk-svak); padding-top: 17px; }
-.k6-hode { font-family: "Marker", cursive; font-size: 28px; border-top: 0; }
-.k6-celle:first-child { border-top: 0; }
-.k6-celle.pluss { color: var(--gronn); }
-.k6-celle.minus { color: var(--minus); }
-.k6-celle.svak { color: var(--blekk-svak); font-size: 19px; padding-top: 18px; }
-.k6-celle.tak { font-weight: 700; }
-.tak-tekst { display: block; font-size: 16px; font-weight: 600; color: var(--minus); }
-.k6-celle.sum { border-top: 3px solid var(--blekk); font-weight: 800; font-size: 40px; font-stretch: 90%; }
-.k6-etikett.sum { font-size: 22px; font-weight: 700; color: var(--blekk); padding-top: 24px; }
-.fotnote { position: absolute; left: 90px; top: 770px; margin: 0; max-width: 1100px; font-size: 18px; color: var(--blekk-svak); }
-
-/* Når pengene går */
-.maaned-band { fill: rgba(242,190,34,.18); }
-.maaned { font-family: "Marker", cursive; font-size: 24px; fill: var(--blekk); }
-.rad-navn { font-family: "Marker", cursive; font-size: 26px; fill: var(--blekk); }
-.strom-pluss { fill: var(--gronn); }
-.strom-minus { fill: var(--minus); }
-.strom-tall { font-size: 18px; font-weight: 700; fill: var(--blekk); font-variant-numeric: tabular-nums; }
-
-/* Tolv konserter */
-.tab-hode { font-family: "Marker", cursive; font-size: 22px; fill: var(--blekk); }
-.tab-tekst { font-size: 19px; fill: var(--blekk); }
-.tab-tekst.sterk, .tab-tall.sterk { font-weight: 800; font-size: 21px; }
-.tab-tekst.liten { font-size: 17px; fill: var(--blekk-svak); }
-.tab-tall { font-size: 19px; fill: var(--blekk); font-variant-numeric: tabular-nums; }
-.tab-tall.liten { font-size: 15px; fill: var(--blekk-svak); }
-.tab-tall.neg { fill: var(--minus); }
-.mini-soyle { fill: rgba(29,36,51,.3); }
-.tab-rad.k6 .mini-soyle { fill: var(--gaffa); }
-.rad-merke { fill: rgba(242,190,34,.28); }
-.tegnes { stroke-dasharray: 1600; stroke-dashoffset: 1600; transition: stroke-dashoffset 1.6s .4s ease; }
-.trinn.synlig .tegnes { stroke-dashoffset: 0; }
-.bunn-liten { fill: var(--blekk); }
-
-/* Resultat */
-.res-rad { position: absolute; left: 90px; top: 250px; display: flex; gap: 34px; }
-.res-kort { position: relative; width: 450px; padding: 24px 28px 26px; }
-.res-kort:nth-child(1) { transform: rotate(-.8deg); }
-.res-kort:nth-child(2) { transform: rotate(.6deg); }
-.res-kort:nth-child(3) { transform: rotate(-.3deg); }
-.res-kort h3 { margin: 0 0 12px; font-family: "Marker", cursive; font-weight: 400; font-size: 30px; }
-.res-linje { padding: 10px 0; border-top: 1px solid var(--strek); }
-.res-linje small { display: block; font-size: 17px; color: var(--blekk-svak); }
-.res-linje b { font-size: 24px; font-variant-numeric: tabular-nums; }
-.res-linje.stor b { font-size: 40px; font-weight: 800; font-stretch: 90%; }
-.res-linje.svak b { color: var(--blekk-svak); }
-.res-linje.over b { color: var(--minus); }
-.behov-maal { position: relative; height: 16px; margin-top: 8px; background: rgba(29,36,51,.08); }
-.behov-fyll { height: 100%; background: var(--blekk); }
-.behov-fyll.over { background: var(--minus); }
-.behov-ramme { position: absolute; top: -8px; bottom: -8px; width: 0; border-left: 3px dashed var(--minus); }
-.stempel { position: absolute; right: 18px; top: 18px; margin: 0; padding: 6px 12px 3px; border: 3px solid var(--minus); color: var(--minus); font-family: "Marker", cursive; font-size: 22px; transform: rotate(6deg); }
-.res-note { top: 720px; }
-
-@media (prefers-reduced-motion: reduce) {
-  .tur-verden, .trinn, div.trinn, .traad-bit, .tegnes { transition: none !important; }
-}
-.prikker circle.fjernes { transition: fill .4s .4s, opacity .4s .4s, r .4s .4s; }
-.tur-verden[data-steg="1"] .prikker circle.fjernes { fill: var(--minus); opacity: 1; r: 9px; }
-.tur-svg .akse { stroke: var(--blekk); stroke-opacity: .25; }
-.tur-svg .rutenett { stroke: var(--blekk); stroke-opacity: .07; }
-.tur-svg .rammestrek { stroke: var(--minus); stroke-width: 2.5; stroke-dasharray: 8 7; }
-.tur-svg .ille { fill: var(--ille); }
-.tur-svg .linje-a, .tur-svg .linje-b, .tur-svg .linje-c { fill: none; stroke: var(--blekk); stroke-width: 3; stroke-linejoin: round; }
-.tur-svg .linje-a { stroke-dasharray: 3 7; stroke-linecap: round; }
-.tur-svg .linje-c { stroke-dasharray: 14 8; }
-.tur-svg .linje-b { stroke: var(--minus); stroke-width: 4.5; }
-.tur-svg .merke-liten { font-family: "Marker", cursive; font-size: 24px; fill: var(--blekk); }
-.tur-svg .bunn { fill: var(--minus); }
+/* Rådet: bilde av salen */
+.rad-hoyre { display: flex; flex-direction: column; gap: 22px; }
+.polaroid { margin: -40px 0 0; padding: 12px 12px 10px; background: #fff; filter: drop-shadow(0 3px 2px rgba(0,0,0,.2)); transform: rotate(2deg); }
+.polaroid img { display: block; width: 100%; height: 190px; object-fit: cover; }
+.polaroid figcaption { padding: 8px 4px 0; font-family: "Marker", cursive; font-size: 24px; }
