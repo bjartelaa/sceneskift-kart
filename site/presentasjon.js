@@ -95,15 +95,49 @@
     svg.appendChild(lag("text", { class: "tittel-akse", x: (P.x1 + P.x2) / 2, y: P.y2 + 68, "text-anchor": "middle" }, "Finansieringsbehov, kr"));
     svg.appendChild(lag("text", { class: "tittel-akse", x: P.x1, y: P.y1 - 30, "text-anchor": "middle" }, "Nåverdi, kr"));
     const punkter = handlinger.map(h => {
-      const g = lag("g", { class: "punkt" });
-      g.append(lag("circle", { r: 11, cx: 0, cy: 0 }), lag("text", { class: "merke", x: 18, y: -12 }, h.id === "avstå" ? "Avstå" : h.id));
+      const g = lag("g", { class: "punkt", tabindex: 0, role: "button", "aria-label": navn[h.id] });
+      g.append(lag("circle", { class: "treff", r: 28 }), lag("circle", { r: 11, cx: 0, cy: 0 }), lag("text", { class: "merke", x: 18, y: -12 }, h.id === "avstå" ? "Avstå" : h.id));
       svg.appendChild(g);
       return { h, g };
     });
+    // Tallene for en prikk: vises når man holder over, og blir stående når man trykker
+    const tips = lag("g", { class: "tips" });
+    const tipsBoks = lag("rect", { width: 290, height: 128 });
+    const tipsLinjer = [lag("text", { class: "tips-navn", x: 18, y: 34 }), lag("text", { x: 18, y: 66 }), lag("text", { x: 18, y: 92 }), lag("text", { class: "tips-status", x: 18, y: 116 })];
+    tips.append(tipsBoks, ...tipsLinjer);
+    svg.appendChild(tips);
+    let scenarioNr = 0, tipsFor = null, festet = null;
+    function visTips(p) {
+      tipsFor = p;
+      if (!p) { tips.classList.remove("synlig"); return; }
+      const i = scenarioNr, { h } = p;
+      const x = sx(h.behov[i]), y = sy(h.nv[i]);
+      const over = h.behov[i] - ramme;
+      tipsLinjer[0].textContent = navn[h.id];
+      tipsLinjer[1].textContent = `Nåverdi ${kr(h.nv[i])}`;
+      tipsLinjer[2].textContent = `Behov ${kr(h.behov[i])}`;
+      tipsLinjer[3].textContent = h.id === "avstå" ? "Ingen betalinger" : over > 0 ? `${kr(over)} over rammen` : "Holder rammen";
+      tipsLinjer[3].classList.toggle("over", over > 0);
+      const tx = x + 24 + 290 > P.x2 + 30 ? x - 24 - 290 : x + 24;
+      // Over prikken så merket synes, under hvis det ikke er plass
+      const ty = y - 150 >= P.y1 - 40 ? y - 150 : Math.min(P.y2 - 128, y + 30);
+      tips.style.transform = `translate(${tx}px, ${ty}px)`;
+      tips.classList.add("synlig");
+    }
+    for (const p of punkter) {
+      p.g.addEventListener("mouseenter", () => visTips(p));
+      p.g.addEventListener("mouseleave", () => visTips(festet));
+      p.g.addEventListener("focus", () => visTips(p));
+      p.g.addEventListener("blur", () => visTips(festet));
+      p.g.addEventListener("click", e => { e.stopPropagation(); festet = festet === p ? null : p; visTips(festet || p); });
+    }
+    svg.addEventListener("click", () => { festet = null; visTips(null); });
     const oppsummering = document.getElementById("oppsummering");
     const knapper = knapperad(document.getElementById("scenariovelger"), scenarioer, vis);
     function vis(i) {
       trykk(knapper, i);
+      scenarioNr = i;
+      if (tipsFor) visTips(tipsFor);
       for (const { h, g } of punkter) {
         g.style.transform = `translate(${sx(h.behov[i])}px, ${sy(h.nv[i])}px)`;
         g.classList.toggle("over", h.behov[i] > ramme);
@@ -193,21 +227,13 @@
         rad.push({ id: a, nv, behov: bh });
       }
       tekst.textContent = oppsummer(`${pst(R.salg[si])} salg, pakke ${kr(R.pakker[pi])}`, rad);
+      // Anbefalingen: høyest nåverdi blant avtalene som holder rammen og gir pluss, ellers avstå
+      const innenfor = rad.filter(h => h.behov <= ramme && h.nv > 0);
+      const valg = innenfor.length ? innenfor.reduce((a, b) => (b.nv > a.nv ? b : a)).id : null;
+      anbefaling.textContent = valg ? `Velg ${navn[valg]}` : "Avstå";
     }
+    const anbefaling = document.getElementById("usikker-anbefaling");
     vis();
-
-    // Anbefalingen: hvor mange av de fire scenarioene hver avtale holder rammen i
-    const fire = scenarioer.slice(0, 4);
-    const holder = id => fire.filter((_, i) => handlinger.find(h => h.id === id).behov[i] <= ramme).length;
-    const antall = n => (n === 0 ? "ingen" : `${n} av 4`);
-    const valg = tall.regel1;
-    const ingen = fire.filter((_, i) => ["A", "B", "C"].every(id => handlinger.find(h => h.id === id).behov[i] > ramme));
-    const andre = ["A", "B", "C"].filter(id => id !== valg).map(id => `${id} i ${antall(holder(id))}`).join(", ");
-    let t = `${navn[valg] ? navn[valg].slice(3) : valg} holder rammen i ${antall(holder(valg))} scenarioer, ${andre}.`;
-    if (valg === "C") t += " Leien følger billettinntekten, så C tåler svakt salg best.";
-    if (ingen.length) t += ` Ingen holder rammen i «${ingen.join("», «")}».`;
-    const anb = document.getElementById("usikker-anbefaling");
-    anb.append(Object.assign(document.createElement("b"), { textContent: `Velg ${valg}.` }), document.createTextNode(t));
   }
 
   // Rådet: hver handling må gjennom tre krav (regel 1)
@@ -256,6 +282,91 @@
     if (vinner.id !== tall.regel1) console.warn("Silen og Resultater!J26 er uenige:", vinner.id, tall.regel1);
   }
 
+  // Blandingen: tolv billetter, alle i C som i caset. Neste trykk snur dem til salen Konsertplan velger.
+  const BL = window.BLANDING_DATA;
+  const blanding = (() => {
+    const holder = document.getElementById("billetter");
+    if (!holder || !BL) return null;
+    const tittel = document.getElementById("blanding-tittel");
+    const nvEl = document.getElementById("bl-nv"), bhEl = document.getElementById("bl-behov");
+    const nvEndring = document.getElementById("bl-nv-endring"), bhEndring = document.getElementById("bl-behov-endring");
+    const rolig = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const billetter = BL.konserter.map((k, i) => {
+      const b = html("div", "billett");
+      b.style.setProperty("--rot", [-.8, .6, -.4, .9, -.6, .3][i % 6] + "deg");
+      const info = html("div", "billett-info");
+      info.append(html("p", "billett-dato", `${k.nr}. ${k.dato}`), html("p", "billett-artist", k.artist), html("p", "billett-salg", `${k.salg} solgt i 2026`));
+      const stempel = html("div", "stempel", BL.caset.sal);
+      b.append(info, stempel);
+      holder.appendChild(b);
+      return { k, stempel };
+    });
+    let steg = 0, tidtakere = [], anim = 0;
+    function sett(el, v) { el.textContent = kr(v); }
+    function tell(fra, til) {
+      cancelAnimationFrame(anim);
+      if (rolig()) { sett(nvEl, til.nv); sett(bhEl, til.behov); return; }
+      const start = performance.now(), varighet = 1400;
+      const tikk = t => {
+        const x = Math.min(1, (t - start) / varighet), e = 1 - Math.pow(1 - x, 3);
+        sett(nvEl, fra.nv + (til.nv - fra.nv) * e);
+        sett(bhEl, fra.behov + (til.behov - fra.behov) * e);
+        if (x < 1) anim = requestAnimationFrame(tikk);
+      };
+      anim = requestAnimationFrame(tikk);
+    }
+    function stemple(b, sal) {
+      b.stempel.textContent = sal;
+      b.stempel.classList.toggle("sal-a", sal === "A");
+    }
+    function vis(i, umiddelbart) {
+      tidtakere.forEach(clearTimeout);
+      tidtakere = [];
+      const forrige = steg;
+      steg = Math.max(0, Math.min(1, i));
+      const blandet = steg === 1;
+      const pluss = BL.blandet.nv - BL.caset.nv, mer = BL.blandet.behov - BL.caset.behov;
+      tittel.textContent = blandet ? `Sal per konsert gir ${kr(pluss)} mer` : "Men må alle tolv gå i samme sal?";
+      nvEndring.textContent = blandet ? `+${kr(pluss)} mot alt i C` : "Alt i C, som i caset";
+      bhEndring.textContent = blandet ? `+${kr(mer)}, holder rammen på ${kr(BL.ramme)}` : `Rammen er ${kr(BL.ramme)}`;
+      holder.classList.toggle("blandet", blandet);
+      if (!blandet || umiddelbart || rolig() || forrige === steg) {
+        billetter.forEach(b => { b.stempel.classList.remove("snur"); stemple(b, blandet ? b.k.sal : BL.caset.sal); });
+        cancelAnimationFrame(anim);
+        sett(nvEl, blandet ? BL.blandet.nv : BL.caset.nv);
+        sett(bhEl, blandet ? BL.blandet.behov : BL.caset.behov);
+        return;
+      }
+      // Snu billettene som bytter sal, én etter én
+      billetter.filter(b => b.k.sal !== BL.caset.sal).forEach((b, n) => {
+        tidtakere.push(setTimeout(() => b.stempel.classList.add("snur"), n * 140));
+        tidtakere.push(setTimeout(() => { stemple(b, b.k.sal); b.stempel.classList.remove("snur"); }, n * 140 + 200));
+      });
+      tell(BL.caset, BL.blandet);
+    }
+    vis(0, true);
+    return {
+      antall: 2,
+      get steg() { return steg; },
+      vis,
+      neste() { if (steg < 1) { vis(1); return true; } return false; },
+      forrige() { if (steg > 0) { vis(0); return true; } return false; },
+    };
+  })();
+
+  // Forklaringstekst: skjult som standard, knappen på forsiden eller F slår den på
+  const forklarKnapp = document.getElementById("forklar-knapp");
+  function visForklaring(paa) {
+    document.body.classList.toggle("vis-forklaring", paa);
+    forklarKnapp.setAttribute("aria-pressed", String(paa));
+    forklarKnapp.textContent = paa ? "Forklaringstekst: på" : "Forklaringstekst: av";
+    try { localStorage.setItem("sceneskift.forklaring", paa ? "1" : "0"); } catch (e) {}
+  }
+  let forklaringPaa = false;
+  try { forklaringPaa = localStorage.getItem("sceneskift.forklaring") === "1"; } catch (e) {}
+  visForklaring(forklaringPaa);
+  forklarKnapp.addEventListener("click", () => visForklaring(!document.body.classList.contains("vis-forklaring")));
+
   // Navigasjon
   let aktiv = 0;
   const stegNav = document.getElementById("steg");
@@ -267,21 +378,23 @@
     stegNav.appendChild(k);
     return k;
   });
+  const stegvis = el => (el.classList.contains("tur") ? window.TUR : el.classList.contains("blanding") ? blanding : null);
   function gaaTil(i, bakover, turSteg) {
     aktiv = Math.max(0, Math.min(bilder.length - 1, i));
-    // Kommer vi baklengs inn i turen, starter vi på siste steg
-    if (bilder[aktiv].classList.contains("tur") && window.TUR) {
-      window.TUR.vis(turSteg !== undefined ? turSteg : bakover ? window.TUR.antall - 1 : 0, true);
-    }
+    // Kommer vi baklengs inn i et stegvis lysbilde, starter vi på siste steg
+    const sv = stegvis(bilder[aktiv]);
+    if (sv) sv.vis(turSteg !== undefined ? turSteg : bakover ? sv.antall - 1 : 0, true);
     bilder.forEach((b, j) => b.classList.toggle("aktiv", j === aktiv));
     stegKnapper.forEach((k, j) => k && (j === aktiv ? k.setAttribute("aria-current", "step") : k.removeAttribute("aria-current")));
     document.body.classList.toggle("paa-helbilde", bilder[aktiv].classList.contains("helbilde"));
+    document.body.classList.toggle("paa-forside", aktiv === 0);
     const r = bilder[aktiv].querySelector("iframe[data-src]");
     if (r && !r.src) r.src = r.dataset.src;
     lagreAdresse();
   }
   function lagreAdresse() {
-    const t = bilder[aktiv].classList.contains("tur") && window.TUR ? "." + window.TUR.steg : "";
+    const sv = stegvis(bilder[aktiv]);
+    const t = sv ? "." + sv.steg : "";
     history.replaceState(null, "", "#" + aktiv + t);
   }
   if (window.TUR) window.TUR.vedEndring = () => lagreAdresse();
@@ -291,13 +404,14 @@
     gaaTil(aktiv + 1);
     setTimeout(() => neste.classList.remove("fra-tur"), 1000);
   };
-  const tur = () => (bilder[aktiv].classList.contains("tur") ? window.TUR : null);
+  const tur = () => stegvis(bilder[aktiv]);
   function tast(key) {
     if (["ArrowRight", "PageDown", " ", "Enter"].includes(key)) { if (!(tur() && tur().neste())) gaaTil(aktiv + 1); }
     else if (["ArrowLeft", "PageUp", "Backspace"].includes(key)) { if (!(tur() && tur().forrige())) gaaTil(aktiv - 1, true); }
     else if (key === "Home") gaaTil(0);
     else if (key === "End") gaaTil(bilder.length - 1);
     else if (key === "n" || key === "N") document.body.classList.toggle("vis-notater");
+    else if (key === "f" || key === "F") visForklaring(!document.body.classList.contains("vis-forklaring"));
     else return false;
     return true;
   }
@@ -311,9 +425,13 @@
   function tilpass() {
     const s = Math.min(innerWidth / W, innerHeight / H);
     lerret.style.transform = `translate(${(innerWidth - W * s) / 2}px, ${(innerHeight - H * s) / 2}px) scale(${s})`;
+    // Lerretet er 16:9. Bakgrunnene går ut over kanten så andre skjermformater ikke får striper
+    lerret.style.setProperty("--ut-x", Math.ceil((innerWidth / s - W) / 2 + 2) + "px");
+    lerret.style.setProperty("--ut-y", Math.ceil((innerHeight / s - H) / 2 + 2) + "px");
   }
   addEventListener("resize", tilpass);
   tilpass();
   const [hSide, hSteg] = location.hash.slice(1).split(".");
-  gaaTil(Number(hSide) || 0, false, hSteg !== undefined ? Number(hSteg) : undefined);
+  // #slutt går til avslutningen, brukes av «Tilbake til presentasjonen» i Konsertplan
+  gaaTil(hSide === "slutt" ? bilder.length - 1 : Number(hSide) || 0, false, hSteg !== undefined ? Number(hSteg) : undefined);
 })();

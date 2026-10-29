@@ -388,3 +388,147 @@ body {
 .lysbilde.aktiv.fra-tur { animation: fra-tur .6s cubic-bezier(.2,.7,.2,1); }
 @keyframes fra-tur { from { opacity: 0; transform: scale(1.03); } }
 @media (prefers-reduced-motion: reduce) { .tur-venstre, .tur-kartramme { transition: none; } .lysbilde.aktiv.fra-tur { animation: none; } }
+
+/* Andre skjermformater: lerretet er 16:9, bakgrunnen strekkes ut over kanten (--ut-x og --ut-y settes i presentasjon.js) */
+.lysbilde { isolation: isolate; background: none; }
+.lysbilde::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: calc(-1 * var(--ut-y, 0px)); bottom: calc(-1 * var(--ut-y, 0px));
+  left: calc(-1 * var(--ut-x, 0px)); right: calc(-1 * var(--ut-x, 0px));
+  background:
+    radial-gradient(ellipse at 20% 25%, rgba(255,255,255,.55), transparent 55%),
+    radial-gradient(ellipse at 85% 80%, rgba(120,128,120,.10), transparent 60%),
+    var(--tavle);
+  pointer-events: none;
+}
+.helbilde::before { background: #000; }
+.bakgrunn {
+  top: calc(-1 * var(--ut-y, 0px)); left: calc(-1 * var(--ut-x, 0px));
+  width: calc(100% + 2 * var(--ut-x, 0px)); height: calc(100% + 2 * var(--ut-y, 0px));
+}
+
+/* Forklaringstekst: skjult til den slås på (knappen på forsiden eller F) */
+body:not(.vis-forklaring) .forklaring,
+body:not(.vis-forklaring) .tur .tk-liten { display: none !important; }
+.forklar-knapp {
+  position: absolute;
+  right: 18px; top: 16px;
+  z-index: 7;
+  display: none;
+  padding: 6px 12px 5px;
+  border: 0;
+  background: rgba(244, 242, 234, .18);
+  color: rgba(241, 240, 234, .8);
+  font-family: "Archivo", sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+}
+.paa-forside .forklar-knapp { display: block; }
+.forklar-knapp:hover, .forklar-knapp:focus-visible { background: rgba(244, 242, 234, .35); color: #fff; }
+.forklar-knapp:focus-visible { outline: 2px solid #f1f0ea; outline-offset: 2px; }
+
+/* Usikkerheten: anbefalingen er bare valget */
+.anbefaling { right: auto; padding: 12px 28px 8px; font-family: "Marker", cursive; font-size: 32px; transform: rotate(-1deg); }
+
+/* Resultatene: tallene for en prikk */
+.diagram .punkt { cursor: pointer; outline: none; }
+.diagram .punkt circle.treff { fill: transparent; }
+.diagram .punkt:hover circle:not(.treff), .diagram .punkt:focus-visible circle:not(.treff) { stroke: var(--gul); stroke-width: 5; }
+.diagram .tips { opacity: 0; pointer-events: none; transition: opacity .15s ease, transform .6s cubic-bezier(.3,.1,.2,1); }
+.diagram .tips.synlig { opacity: 1; }
+.diagram .tips rect { fill: var(--papir); filter: drop-shadow(0 3px 2px rgba(0,0,0,.18)); }
+.diagram .tips text { font-size: 20px; fill: var(--blekk); font-variant-numeric: tabular-nums; }
+.diagram .tips .tips-navn { font-family: "Marker", cursive; font-size: 24px; }
+.diagram .tips .tips-status { font-weight: 700; fill: var(--gronn); }
+.diagram .tips .tips-status.over { fill: var(--minus); }
+
+/* Modellen: flyten fra konsert til to tall */
+.mf { display: flex; flex-direction: column; }
+.mf-eksempel { margin: 0 0 10px; font-size: 15px; font-weight: 700; color: var(--blekk-svak); }
+.mf-steg { position: relative; padding: 10px 0 12px; border-top: 1px solid var(--strek); }
+.mf > .mf-steg + .mf-steg, .mf > .mf-steg + .mf-to { margin-top: 22px; }
+.mf > .mf-steg + .mf-steg::before, .mf > .mf-steg + .mf-to::before {
+  content: "↓";
+  position: absolute;
+  left: 50%; top: -24px;
+  transform: translateX(-50%);
+  font-size: 20px;
+  line-height: 1;
+  color: var(--blekk-svak);
+}
+.mf-to { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.mf-lapp { margin: 0; font-family: "Marker", cursive; font-size: 22px; }
+.mf-hva { margin: 2px 0 0; font-size: 15px; color: var(--blekk-svak); }
+.mf-tall { margin: 6px 0 0; font-size: 26px; font-weight: 800; font-stretch: 90%; font-variant-numeric: tabular-nums; }
+.mf-steg.slutt .mf-tall { padding: 4px 10px 2px; background: var(--gaffa); color: #f1f0ea; display: inline-block; }
+.mf-saldo { display: block; width: 100%; height: auto; margin-top: 6px; }
+.mf-saldo rect.neg { fill: var(--blekk); opacity: .55; }
+.mf-saldo rect.pos { fill: var(--gronn); }
+.mf-saldo rect.lav { fill: var(--minus); }
+.mf-saldo .null { stroke: var(--blekk); stroke-opacity: .35; }
+.mf-saldo text { font-size: 13px; fill: var(--blekk-svak); }
+
+/* Blandingen: billettene */
+.blanding .tittel { min-height: 63px; }
+.utenfor {
+  position: absolute;
+  top: 34px; right: 90px;
+  margin: 0;
+  padding: 6px 16px 4px;
+  background: var(--gul);
+  font-family: "Marker", cursive;
+  font-size: 22px;
+  transform: rotate(3deg);
+}
+.billetter { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 26px 20px; margin-top: 34px; }
+.billett {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  height: 170px;
+  background: var(--papir);
+  filter: drop-shadow(0 2px 1px rgba(0,0,0,.15));
+  transform: rotate(var(--rot));
+  /* Hakk i kanten der billetten rives */
+  -webkit-mask: radial-gradient(circle 11px at calc(100% - 60px) 0, transparent 98%, #000) top / 100% 51% no-repeat,
+                radial-gradient(circle 11px at calc(100% - 60px) 100%, transparent 98%, #000) bottom / 100% 51% no-repeat;
+          mask: radial-gradient(circle 11px at calc(100% - 60px) 0, transparent 98%, #000) top / 100% 51% no-repeat,
+                radial-gradient(circle 11px at calc(100% - 60px) 100%, transparent 98%, #000) bottom / 100% 51% no-repeat;
+}
+.billett-info { flex: 1; min-width: 0; padding: 16px 8px 12px 14px; border-right: 2px dashed var(--strek); }
+.billett-dato { margin: 0; font-size: 15px; font-weight: 700; color: var(--blekk-svak); font-variant-numeric: tabular-nums; }
+.billett-artist { margin: 6px 0 0; font-family: "Marker", cursive; font-size: 19px; line-height: 1.15; hyphens: auto; }
+.billett-salg { position: absolute; left: 16px; bottom: 12px; margin: 0; font-size: 14px; color: var(--blekk-svak); }
+.stempel {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  font-family: "Marker", cursive;
+  font-size: 50px;
+  color: var(--blekk);
+  transition: transform .2s ease-in, color .2s;
+}
+.stempel.sal-a { color: #2e6bd9; }
+.stempel.snur { transform: rotateY(90deg) scale(1.2); }
+.billetter.blandet .stempel.sal-a { animation: stempel-inn .35s ease-out; }
+@keyframes stempel-inn { from { transform: rotateY(90deg) scale(1.2); } }
+.blanding-bunn { display: flex; align-items: flex-end; gap: 70px; margin-top: 56px; }
+.bl-etikett { margin: 0; font-size: 18px; font-weight: 700; color: var(--blekk-svak); }
+.bl-verdi { margin: 4px 0 0; font-size: 56px; font-weight: 800; font-stretch: 88%; line-height: 1; font-variant-numeric: tabular-nums; min-width: 300px; }
+.bl-endring { margin: 8px 0 0; font-size: 19px; color: var(--blekk-svak); }
+.billetter.blandet ~ .blanding-bunn .bl-endring { color: var(--blekk); font-weight: 600; }
+.til-konsertplan {
+  margin-left: auto;
+  padding: 14px 28px 11px;
+  background: var(--gaffa);
+  color: #f1f0ea;
+  font-family: "Marker", cursive;
+  font-size: 28px;
+  text-decoration: none;
+  transform: rotate(-1.5deg);
+}
+.til-konsertplan:hover, .til-konsertplan:focus-visible { background: #000; }
+.til-konsertplan::after { content: " →"; }
+@media (prefers-reduced-motion: reduce) { .stempel, .diagram .tips { transition: none; } .billetter.blandet .stempel.sal-a { animation: none; } }

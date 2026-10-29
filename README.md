@@ -6,14 +6,28 @@ Privat til etter innleveringsfristen 13.11.2026.
 
 ## Åpne
 
-- `site/index.html`: presentasjonen. Piltaster eller klikker for å bla, N viser notater for den som snakker. `#4` går rett til side 4, `#2.3` til steg 3 i turen.
+- `site/index.html`: presentasjonen. Piltaster eller klikker for å bla, N viser notater for den som snakker. `#4` går rett til side 4, `#2.3` til steg 3 i turen, `#slutt` til avslutningen.
+- Forklaringstekst (små setninger som «Hver prikk er en handling», ingressene og bildekilden) er skjult som standard. Knappen øverst til høyre på forsiden eller F slår den av og på. Valget huskes i nettleseren.
+- Lerretet er 1600 × 900 og skaleres til skjermen. På andre skjermformater strekkes bakgrunnene ut over kanten, så det blir ingen striper.
 - `site/tavla.html`: tavla alene. Direkte lenke til en lapp: `tavla.html#konserter`, `#nv`, `#salg` osv. Panelet viser «Hva vi har gjort» med tabellene fra arbeidsboka for hver lapp.
 
-Presentasjonen åpner tavla og Konsertplan i samme fane med `?fra=presentasjon`. «Til presentasjonen» (tavla) og «Tilbake til presentasjonen» (Konsertplan) går da tilbake til samme side og steg. Konsertplan må ligge ved siden av dette repoet (`~/Documents/konsertplan`).
+Presentasjonen åpner tavla og Konsertplan i samme fane med `?fra=presentasjon`. «Til presentasjonen» på tavla går tilbake til samme side og steg. Konsertplan åpnes fra Blanding med `&tilbake=slutt`, så «Tilbake til presentasjonen» går rett til avslutningen. Konsertplan må ligge ved siden av dette repoet (`~/Documents/konsertplan`).
 
 Siden trenger ikke nett: fonter, bilder og data ligger i mappa.
 
-Tallene i presentasjonen (avtalekort, figurene, grensene og beslutningsreglene) hentes fra `site/data/graph.js`, altså fra arbeidsboka. Teksten står i `site/index.html`. Rådet (`#5`) er merket «Utkast» til gruppa har formulert rådet selv.
+Tallene i presentasjonen (avtalekort, figurene, grensene og beslutningsreglene) hentes fra `site/data/graph.js`, altså fra arbeidsboka. Teksten står i `site/index.html`. Rådet etter caset (`#5`) er merket «Utkast» til gruppa har formulert rådet selv.
+
+Anbefalingen nederst på Usikkerheten følger valget: høyest nåverdi blant avtalene som holder rammen og gir pluss, ellers avstå. På Resultatene viser prikkene tallene når man holder over eller trykker.
+
+## Blanding (`#6`)
+
+Tvisten etter caserådet: tolv billetter, alle i C. Neste trykk snur dem til salen som gir høyest nåverdi innenfor rammen, og tallene teller fra alt i C til blandingen. Merket «Utenfor caset». Tallene kommer fra Konsertplan-motoren:
+
+```
+node scripts/blanding.mjs
+```
+
+Skriptet bruker `besteBlanding` i `../konsertplan/src/forslag.js` og skriver `site/data/blanding.js`. Kjør det på nytt hvis Konsertplan eller casen endres.
 
 ## Turen og panelet
 

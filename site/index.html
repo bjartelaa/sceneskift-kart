@@ -31,9 +31,9 @@
     <!-- 1 -->
     <section class="lysbilde" data-steg="Beslutningen" aria-label="Beslutningen">
       <h2 class="tittel">Maja må velge sal for tolv konserter</h2>
-      <p class="ingress">Konsertene går fra januar til juni 2027. Maja kan leie én av tre saler, eller la være. Hun regner med å kunne ligge ute med <span data-tall="ramme"></span>, men det er ikke avklart.</p>
+      <p class="ingress forklaring">Konsertene går fra januar til juni 2027. Maja kan leie én av tre saler, eller la være. Hun regner med å kunne ligge ute med <span data-tall="ramme"></span>, men det er ikke avklart.</p>
       <div class="kort-rad" id="avtalekort"></div>
-      <p class="bildekilde">Bilder av salene fra utleiernes nettsider</p>
+      <p class="bildekilde forklaring">Bilder av salene fra utleiernes nettsider</p>
       <aside class="notat">
         <p>Hvem: ikke bestemt</p>
         <ul>
@@ -51,7 +51,7 @@
           <li>Data</li><li>Forutsetninger</li><li>Modell</li><li>Resultat</li>
         </ol>
         <h2 class="tittel" id="tur-tittel"></h2>
-        <p class="ingress" id="tur-tekst" aria-live="polite"></p>
+        <p class="ingress forklaring" id="tur-tekst" aria-live="polite"></p>
         <div class="tur-kort" id="tur-kort"></div>
       </div>
       <div class="tur-kartramme">
@@ -67,8 +67,8 @@
       <div class="to-spalter">
         <div>
           <div class="velger" id="scenariovelger" role="group" aria-label="Velg scenario"></div>
-          <p class="oppsummering" id="oppsummering" aria-live="polite"></p>
-          <p class="forklar">Hver prikk er en handling. Langt opp er høy nåverdi. Til høyre for streken trenger avtalen mer enn rammen.</p>
+          <p class="oppsummering forklaring" id="oppsummering" aria-live="polite"></p>
+          <p class="forklar forklaring">Hver prikk er en handling. Langt opp er høy nåverdi. Til høyre for streken trenger avtalen mer enn rammen. Hold over eller trykk på en prikk for tallene.</p>
         </div>
         <svg class="diagram" id="spredning" viewBox="0 0 900 600" role="img" aria-label="Nåverdi mot finansieringsbehov for A, B, C og avstå"></svg>
       </div>
@@ -77,6 +77,7 @@
         <ul>
           <li>To mål: nåverdi og finansieringsbehov. Behovet er det største beløpet vi ligger ute med.</li>
           <li>Bytt scenario og vis hva som flytter seg.</li>
+          <li>Hold over eller trykk på en prikk for tallene.</li>
         </ul>
       </aside>
     </section>
@@ -92,7 +93,7 @@
           <div class="velger rad-velger smaa" id="usikker-salg" role="group" aria-label="Velg salgsnivå"></div>
           <p class="kontroll-tittel">Pakkepris per konsert</p>
           <div class="velger rad-velger smaa" id="usikker-pakke" role="group" aria-label="Velg pakkepris"></div>
-          <p class="oppsummering liten" id="usikker-tekst" aria-live="polite"></p>
+          <p class="oppsummering liten forklaring" id="usikker-tekst" aria-live="polite"></p>
         </div>
         <svg class="diagram" id="usikker" viewBox="0 0 960 560" role="img" aria-label="Nåverdi og finansieringsbehov for A, B og C ved valgt salg og pakkepris"></svg>
       </div>
@@ -103,6 +104,7 @@
           <li>Tallene kommer fra datatabellene i Usikkerhet, ikke fra en egen modell.</li>
           <li>C tåler fall best fordi leien følger salget.</li>
           <li>Vis Lav etterspørsel: A går over rammen, C holder akkurat.</li>
+          <li>Anbefalingen nederst følger valget: høyest nåverdi blant avtalene som holder rammen og gir pluss.</li>
         </ul>
       </aside>
     </section>
@@ -110,7 +112,7 @@
     <!-- 7 -->
     <section class="lysbilde rad" data-steg="Rådet" aria-label="Rådet">
       <p class="utkast">Utkast</p>
-      <h2 class="tittel">Rådet: <span data-tall="regel1"></span>, hvis tre ting er på plass</h2>
+      <h2 class="tittel">Rådet etter caset: <span data-tall="regel1"></span>, hvis tre ting er på plass</h2>
       <div class="rad-oppsett">
         <div class="sil" id="sil"></div>
         <div class="rad-hoyre">
@@ -134,6 +136,29 @@
           <li>Regel 1: høyest nåverdi blant handlingene som holder rammen i basis og ved lav etterspørsel.</li>
           <li>Pakkeprisen er kjent før signering, så den er et vilkår og ikke en risiko.</li>
           <li>Fjern «Utkast» når gruppa har formulert rådet selv.</li>
+          <li>Overgang: «Dette er rådet innenfor caset. Men caset krever at alle tolv går i samme sal.»</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- Blandingen: vår modell, utenfor caset -->
+    <section class="lysbilde blanding" data-steg="Blanding" aria-label="Sal per konsert">
+      <p class="utenfor">Utenfor caset</p>
+      <h2 class="tittel" id="blanding-tittel"></h2>
+      <p class="ingress forklaring">Caset krever én sal for hele programmet. Konsertplan, vår egen modell, lar Maja velge sal konsert for konsert. B har fast sesongleie og er holdt utenfor.</p>
+      <div class="billetter" id="billetter"></div>
+      <div class="blanding-bunn">
+        <div class="bl-tall"><p class="bl-etikett">Nåverdi</p><p class="bl-verdi" id="bl-nv"></p><p class="bl-endring" id="bl-nv-endring"></p></div>
+        <div class="bl-tall"><p class="bl-etikett">Finansieringsbehov</p><p class="bl-verdi" id="bl-behov"></p><p class="bl-endring" id="bl-behov-endring"></p></div>
+        <a class="til-konsertplan" href="../../konsertplan/index.html?fra=presentasjon&amp;tilbake=slutt#program">Åpne Konsertplan</a>
+      </div>
+      <aside class="notat" id="blanding-notat">
+        <p>Hvem: ikke bestemt</p>
+        <ul>
+          <li>Trykk videre: billettene snus til salen som gir mest, og tallene teller opp.</li>
+          <li>A tar de mellomstore konsertene, C de minste og de største. Fortsatt innenfor rammen.</li>
+          <li>Krever at utleierne godtar enkeltkonserter. Det er ikke en del av tilbudene.</li>
+          <li>I Konsertplan: trykk «Beste blanding» i programmet. «Tilbake til presentasjonen» går rett til avslutningen.</li>
         </ul>
       </aside>
     </section>
@@ -144,8 +169,7 @@
       <div class="helbilde-tekst">
         <h2 class="gaffa"><span>Takk for oss</span></h2>
         <p class="tape tape-stor">Spørsmål?</p>
-        <p class="helbilde-under">Rådet: <span data-tall="regel1"></span>, hvis pakkeprisen, rammen og plassene er bekreftet før signering.</p>
-        <p class="helbilde-under lenke"><a href="../../konsertplan/index.html?fra=presentasjon#program">Og hvis Maja vil tenke konsert for konsert: Konsertplan</a></p>
+        <p class="helbilde-under">Rådet etter caset: <span data-tall="regel1"></span>, hvis pakkeprisen, rammen og plassene er bekreftet før signering.</p>
       </div>
       <aside class="notat">
         <p>Hvem: alle</p>
@@ -157,10 +181,12 @@
   </div>
 
   <nav class="steg" id="steg" aria-label="Steg i presentasjonen"></nav>
-  <p class="hjelp">Piltaster for å bla. N viser notater.</p>
+  <p class="hjelp forklaring">Piltaster for å bla. N viser notater. F slår forklaringstekst av og på.</p>
+  <button class="forklar-knapp" id="forklar-knapp" type="button" aria-pressed="false">Forklaringstekst</button>
 </main>
 
 <script src="data/graph.js"></script>
+<script src="data/blanding.js"></script>
 <script src="detaljer.js"></script>
 <script src="tur.js"></script>
 <script src="presentasjon.js"></script>

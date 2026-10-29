@@ -34,6 +34,42 @@ window.TUR = (() => {
   const DATA = ["raa_ordrer", "raa_oppgjor", "ordrer_renset", "oppgjor", "avstemming"];
   const FORUTSETNINGER = ["scenario", "grunnlag", "salg", "pakke", "avtale_a", "avtale_b", "avtale_c", "finans"];
 
+  // Modellen i fire lapper, vist som en kjede med C som eksempel
+  function modellflyt() {
+    const { lag } = window.DETALJER;
+    const saldo = G.saldo.C, mnd = G.saldo.maaneder;
+    const nvC = node("nv").scenarioer.rader.find(r => r.handling === "C").verdier[0];
+    const laveste = Math.min(...saldo), iLav = saldo.indexOf(laveste);
+    const steg = (lapp, hva, tall, cls = "") => {
+      const d = html("div", "mf-steg " + cls);
+      d.append(html("p", "mf-lapp", lapp), html("p", "mf-hva", hva));
+      if (tall) d.append(tall instanceof Node ? tall : html("p", "mf-tall", tall));
+      return d;
+    };
+    // Saldo per måned som små søyler, laveste uthevet
+    const W = 400, H = 96, topp = 6, hoy = Math.max(0, ...saldo), lav = Math.min(0, ...saldo);
+    const svg = lag("svg", { class: "mf-saldo", viewBox: `0 0 ${W} ${H + 22}` });
+    const bredde = W / saldo.length;
+    const sy = v => topp + (hoy - v) / (hoy - lav) * (H - topp);
+    const y0 = sy(0);
+    saldo.forEach((v, i) => {
+      svg.appendChild(lag("rect", { class: i === iLav ? "lav" : v < 0 ? "neg" : "pos", x: i * bredde + 6, width: bredde - 12, y: Math.min(sy(v), y0), height: Math.abs(sy(v) - y0) }));
+      svg.appendChild(lag("text", { x: i * bredde + bredde / 2, y: H + 18, "text-anchor": "middle" }, mnd[i].startsWith("Før") ? "t0" : mnd[i].slice(0, 3)));
+    });
+    svg.appendChild(lag("line", { class: "null", x1: 0, x2: W, y1: y0, y2: y0 }));
+    const to = html("div", "mf-to");
+    to.append(
+      steg("Nåverdi", "hver måned diskontert", kr(nvC), "slutt"),
+      steg("Finansieringsbehov", `laveste saldo, ${mnd[iLav].toLowerCase()}`, kr(-laveste), "slutt"));
+    const d = html("div", "mf");
+    d.append(
+      html("p", "mf-eksempel", "Eksempel: C, Skarvkaien"),
+      steg("Konserter", "billetter inn, pakke og leie ut, per konsert", `${nb(saldo[saldo.length - 1])} kr netto for sesongen`),
+      steg("Kontantstrøm", "betalingene i riktig måned, saldo måned for måned", svg),
+      to);
+    return d;
+  }
+
   const STEG = [
     // Oversikt
     { akt: -1, tittel: "Slik henger modellen sammen", tekst: "Hver lapp er et ark eller en gruppe navngitte celler. Trådene er formler. Vi tar én del om gangen.",
@@ -93,15 +129,10 @@ window.TUR = (() => {
         [`${pst(verdi("finans", "realrente"))} og ${nb(rammeKr / 1000)} k`, "Rente og ramme"],
       ])),
       notat: ["Ett sted å endre en forutsetning. Alt annet følger."] },
-    { akt: 2, tittel: "Modellen: fire lapper", tekst: "Konserter regner hver konsert. Kontantstrøm legger betalingene i riktig måned. Til slutt nåverdi og behov.",
+    { akt: 2, tittel: "Modellen: fra tolv konserter til to tall", tekst: "Konserter regner hver konsert. Kontantstrøm legger betalingene i riktig måned. Til slutt blir det to tall per sal: nåverdi og behov.",
       kart: { fokus: ["konserter", "kontantstrom", "nv", "behov"], hoved: [] },
-      kort: () => kort(kortTittel("Lappene"), linjer([
-        ["12 rader", "Konserter: billetter, inn og ut per konsert og sal"],
-        ["8 måneder", "Kontantstrøm: fra t0 til juli, per sal"],
-        ["4 %", "Nåverdi: hver måned diskontert"],
-        ["laveste saldo", "Finansieringsbehov"],
-      ])),
-      notat: ["Samme formler nedover hver tabell, ingen tall skrevet inn."] },
+      kort: modellflyt,
+      notat: ["Vis kjeden med C som eksempel: konsertene, så måned for måned, så de to tallene.", "Nåverdi sier hvor mye Maja tjener. Behov sier hvor mye hun ligger ute med på det verste.", "Samme formler for A og B."] },
     { akt: 2, dyp: true, tittel: "Kontantstrøm: måned for måned", tekst: "Betalingene fra alle tolv konsertene legges i riktig måned. Saldoen er summen så langt.",
       kart: { fokus: ["konserter", "avtale_b", "finans", "kontantstrom"], hoved: ["kontantstrom"] },
       kort: LAPP.kontantstrom.kort,
