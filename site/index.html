@@ -43,49 +43,18 @@
       </aside>
     </section>
 
-    <!-- 2 -->
-    <section class="lysbilde" data-steg="Dataene" aria-label="Dataene">
-      <h2 class="tittel">Først måtte tallene fra 2026 stemme</h2>
-      <p class="ingress smal">Billettsalget i 2026 er grunnlaget for anslaget i 2027. Ordrene ble renset og avstemt mot oppgjøret, konsert for konsert.</p>
-      <ol class="rensing">
-        <li><b>1 791</b><span>transaksjoner i ordreeksporten</span></li>
-        <li class="fjern"><b>16</b><span>avbrutte betalinger fjernet</span></li>
-        <li class="fjern"><b>5</b><span>dobbeltførte transaksjoner fjernet, alle på konsert 8</span></li>
-        <li><b>1 770</b><span>rader igjen, refusjoner med</span></li>
-        <li class="ferdig"><b>12</b><span>konserter avstemt mot oppgjøret</span></li>
+    <!-- 2: turen gjennom modellen -->
+    <section class="lysbilde tur" data-steg="Modellen" aria-label="Modellen steg for steg">
+      <div class="tur-vindu"><div class="tur-verden" id="tur-verden"></div></div>
+      <header class="tur-hode">
+        <h2 class="tittel" id="tur-tittel"></h2>
+        <p class="ingress" id="tur-tekst" aria-live="polite"></p>
+      </header>
+      <ol class="akter" id="akter" aria-label="Hvor i modellen vi er">
+        <li>Data</li><li>Forutsetninger</li><li>Modell</li><li>Resultat</li>
       </ol>
-      <div class="lapp-notat">
-        <p class="lapp-tittel">Konsert 10 i 2026 stemmer ikke helt</p>
-        <p>Ordrene har 2 billetter (700 kr) færre enn oppgjøret. Modellen bruker nå: <strong data-tall="grunnlag"></strong>. Valget flytter nåverdien med under 1 000 kr.</p>
-      </div>
-      <figure class="print" style="right:80px; top:56px; width:290px; --rot:-1.8deg">
-        <img src="img/foh.jpg" alt="Miksepult foran en scene under en konsert">
-      </figure>
-      <aside class="notat">
-        <p>Hvem: ikke bestemt</p>
-        <ul>
-          <li>Power Query gjør rensingen, rådataene ligger urørt.</li>
-          <li>Refusjonene beholdes med negativt antall, ellers telles billetter som ikke ble betalt.</li>
-          <li>Avstemmingen viser at summene stemmer, ikke at hver ordre er riktig.</li>
-        </ul>
-      </aside>
-    </section>
-
-    <!-- 3 -->
-    <section class="lysbilde modell" data-steg="Modellen" aria-label="Modellen">
-      <h2 class="tittel">Slik henger modellen sammen</h2>
-      <div class="ramme-tavle">
-        <iframe id="tavle-ramme" title="Tavla over arbeidsboka" data-src="tavla.html"></iframe>
-      </div>
-      <p class="under-tavla">Trykk på en lapp for å følge et tall fram til rådet. <a href="tavla.html" target="_blank">Åpne tavla i eget vindu</a></p>
-      <aside class="notat">
-        <p>Hvem: ikke bestemt</p>
-        <ul>
-          <li>Ett sted å velge scenario. Alt annet følger.</li>
-          <li>Vis veien: Salg og billett, Konserter, Kontantstrøm, Nåverdi, Resultater, Rådet.</li>
-          <li>Kontrollene er skrevet før regningen.</li>
-        </ul>
-      </aside>
+      <a class="hele-kartet" href="tavla.html" target="_blank">Åpne hele modellkartet</a>
+      <aside class="notat" id="tur-notat"></aside>
     </section>
 
     <!-- 4 -->
@@ -104,26 +73,6 @@
         <ul>
           <li>To mål: nåverdi og finansieringsbehov. Behovet er det største beløpet vi ligger ute med.</li>
           <li>Bytt scenario og vis hva som flytter seg.</li>
-        </ul>
-      </aside>
-    </section>
-
-    <!-- 5 -->
-    <section class="lysbilde" data-steg="Saldoen" aria-label="Saldoen">
-      <h2 class="tittel">Pengene går ut før de kommer inn</h2>
-      <div class="to-spalter bred-hoyre">
-        <div>
-          <p class="oppsummering" id="saldo-tekst"></p>
-          <p class="forklar">Akkumulert saldo ved slutten av hver måned i basisscenariet. Figur 1 i arbeidsboka.</p>
-        </div>
-        <svg class="diagram" id="saldo" viewBox="0 0 980 600" role="img" aria-label="Akkumulert saldo per måned for A, B og C"></svg>
-      </div>
-      <aside class="notat">
-        <p>Hvem: ikke bestemt</p>
-        <ul>
-          <li>Pakken og leien betales før eller i konsertmåneden. Billettoppgjøret kommer måneden etter.</li>
-          <li>B betaler engangstilpasning og halve sesongleien ved t0, og resten i mars.</li>
-          <li>Månedsslutt skjuler forfall inne i måneden, så det reelle behovet kan være større.</li>
         </ul>
       </aside>
     </section>
@@ -201,6 +150,7 @@
 </main>
 
 <script src="data/graph.js"></script>
+<script src="tur.js"></script>
 <script src="presentasjon.js"></script>
 </body>
 </html>

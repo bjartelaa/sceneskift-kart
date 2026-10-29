@@ -6,7 +6,7 @@
   const celle = (id, navn) => (node(id).celler || []).find(c => c.navn === navn || c.adresse.endsWith("!" + navn));
   const verdi = (id, navn) => celle(id, navn).verdi;
 
-  const nb = v => Math.round(v).toLocaleString("nb-NO");
+  const nb = v => Math.round(v).toLocaleString("nb-NO").replace("\u2212", "-");
   const kr = v => nb(v) + " kr";
   const pst = v => (v * 100).toLocaleString("nb-NO", { maximumFractionDigits: 0 }) + " %";
   const navn = { A: "A: Lune Sal", B: "B: Søyleverket", C: "C: Skarvkaien", "avstå": "Avstå" };
@@ -124,43 +124,6 @@
       : "Ingen avtale holder rammen og gir pluss. Da er avstå best.";
     if (tittel === "Høy etterspørsel") t += " Oppsiden er bare til informasjon og inngår ikke i rådet.";
     return t;
-  }
-
-  // Saldoen: Figur 1 fra arbeidsboka
-  {
-    const S = G.saldo;
-    const svg = document.getElementById("saldo");
-    const P = { x1: 120, x2: 860, y1: 40, y2: 520 };
-    const alle = [...S.A, ...S.B, ...S.C, -ramme];
-    const ymin = Math.floor(Math.min(...alle) / 100000) * 100000 - 50000;
-    const ymax = Math.ceil(Math.max(...alle) / 100000) * 100000;
-    const sx = i => P.x1 + (i / (S.maaneder.length - 1)) * (P.x2 - P.x1);
-    const sy = v => P.y2 - ((v - ymin) / (ymax - ymin)) * (P.y2 - P.y1);
-    svg.appendChild(lag("rect", { class: "ille", x: P.x1, y: sy(-ramme), width: P.x2 - P.x1, height: P.y2 - sy(-ramme) }));
-    for (let v = Math.ceil(ymin / 100000) * 100000; v <= ymax; v += 100000) {
-      svg.appendChild(lag("line", { class: v === 0 ? "akse" : "rutenett", x1: P.x1, x2: P.x2, y1: sy(v), y2: sy(v) }));
-      svg.appendChild(lag("text", { class: "etikett", x: P.x1 - 14, y: sy(v) + 6, "text-anchor": "end" }, nb(v)));
-    }
-    S.maaneder.forEach((m, i) => {
-      svg.appendChild(lag("text", { class: "etikett", x: sx(i), y: P.y2 + 30, "text-anchor": "middle" }, m.replace("Før jan (t0)", "t0").slice(0, 3)));
-    });
-    svg.appendChild(lag("line", { class: "rammestrek", x1: P.x1, x2: P.x2, y1: sy(-ramme), y2: sy(-ramme) }));
-    svg.appendChild(lag("text", { class: "etikett", x: P.x2 - 6, y: sy(-ramme) + 28, "text-anchor": "end", style: "fill: var(--minus)" }, `Rammen, minus ${kr(ramme)}`));
-    // Sluttmerkene skyves fra hverandre når linjene ender tett
-    const sist = S.A.length - 1;
-    const ender = ["A", "B", "C"].map(a => ({ a, y: sy(S[a][sist]) + 8 })).sort((p, q) => p.y - q.y);
-    for (let k = 1; k < ender.length; k++) ender[k].y = Math.max(ender[k].y, ender[k - 1].y + 30);
-    for (const a of ["A", "C", "B"]) {
-      const d = S[a].map((v, i) => `${i ? "L" : "M"}${sx(i)},${sy(v)}`).join(" ");
-      svg.appendChild(lag("path", { class: "linje-" + a.toLowerCase(), d }));
-    }
-    for (const e of ender) svg.appendChild(lag("text", { class: "merke-liten", x: sx(sist) + 14, y: e.y }, e.a));
-    const minB = Math.min(...S.B), iB = S.B.indexOf(minB);
-    svg.appendChild(lag("circle", { class: "bunn", cx: sx(iB), cy: sy(minB), r: 8 }));
-    svg.appendChild(lag("text", { class: "etikett", x: sx(iB) + 14, y: sy(minB) + 28, style: "fill: var(--minus); font-weight: 600" }, `B: minus ${kr(-minB)} i ${S.maaneder[iB].toLowerCase()}`));
-    const t0B = -S.B[0];
-    document.getElementById("saldo-tekst").textContent =
-      `B betaler ${kr(t0B)} før første konsert. Saldoen er lavest i ${S.maaneder[iB].toLowerCase()}, ${kr(-minB - ramme)} under rammen. A og C holder seg over streken hele sesongen.`;
   }
 
   // Usikkerheten: rutenettet etterspørsel × pakkepris fra datatabellene
@@ -283,18 +246,28 @@
     stegNav.appendChild(k);
     return k;
   });
-  function gaaTil(i) {
+  function gaaTil(i, bakover, turSteg) {
     aktiv = Math.max(0, Math.min(bilder.length - 1, i));
+    // Kommer vi baklengs inn i turen, starter vi på siste steg
+    if (bilder[aktiv].classList.contains("tur") && window.TUR) {
+      window.TUR.vis(turSteg !== undefined ? turSteg : bakover ? window.TUR.antall - 1 : 0, true);
+    }
     bilder.forEach((b, j) => b.classList.toggle("aktiv", j === aktiv));
     stegKnapper.forEach((k, j) => k && (j === aktiv ? k.setAttribute("aria-current", "step") : k.removeAttribute("aria-current")));
     document.body.classList.toggle("paa-helbilde", bilder[aktiv].classList.contains("helbilde"));
     const r = bilder[aktiv].querySelector("iframe[data-src]");
     if (r && !r.src) r.src = r.dataset.src;
-    history.replaceState(null, "", "#" + aktiv);
+    lagreAdresse();
   }
+  function lagreAdresse() {
+    const t = bilder[aktiv].classList.contains("tur") && window.TUR ? "." + window.TUR.steg : "";
+    history.replaceState(null, "", "#" + aktiv + t);
+  }
+  if (window.TUR) window.TUR.vedEndring = () => lagreAdresse();
+  const tur = () => (bilder[aktiv].classList.contains("tur") ? window.TUR : null);
   function tast(key) {
-    if (["ArrowRight", "PageDown", " ", "Enter"].includes(key)) gaaTil(aktiv + 1);
-    else if (["ArrowLeft", "PageUp", "Backspace"].includes(key)) gaaTil(aktiv - 1);
+    if (["ArrowRight", "PageDown", " ", "Enter"].includes(key)) { if (!(tur() && tur().neste())) gaaTil(aktiv + 1); }
+    else if (["ArrowLeft", "PageUp", "Backspace"].includes(key)) { if (!(tur() && tur().forrige())) gaaTil(aktiv - 1, true); }
     else if (key === "Home") gaaTil(0);
     else if (key === "End") gaaTil(bilder.length - 1);
     else if (key === "n" || key === "N") document.body.classList.toggle("vis-notater");
@@ -314,5 +287,6 @@
   }
   addEventListener("resize", tilpass);
   tilpass();
-  gaaTil(Number(location.hash.slice(1)) || 0);
+  const [hSide, hSteg] = location.hash.slice(1).split(".");
+  gaaTil(Number(hSide) || 0, false, hSteg !== undefined ? Number(hSteg) : undefined);
 })();

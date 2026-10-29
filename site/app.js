@@ -262,7 +262,7 @@
   }
 
   // Tallformat
-  const nb = (v, d = 0) => v.toLocaleString("nb-NO", { maximumFractionDigits: d });
+  const nb = (v, d = 0) => v.toLocaleString("nb-NO", { maximumFractionDigits: d }).replace("\u2212", "-");
   const kr = v => nb(v) + " kr";
   const endring = v => (v > 0 ? "+" : v < 0 ? "−" : "") + nb(Math.abs(v));
   function format(c) {

@@ -106,6 +106,33 @@ def les_saldo(wv):
             "C": [round(ws.cell(r, 23).value) for r in rader]}
 
 
+def les_konserter(wv):
+    """Én rad per konsert i aktivt scenario, slik arket Konserter regner den (brukes i turen gjennom modellen)."""
+    ws = wv["Konserter"]
+    r_hode = finn_rad(ws, 2, "Konsert-måned (t)")
+    kol = {}
+    for k in range(1, ws.max_column + 1):
+        tekst = ws.cell(r_hode, k).value
+        if tekst and tekst not in kol:      # Pakke del 1 og Leie C står to ganger: først måned, så beløp
+            kol[tekst] = k
+        elif tekst:
+            kol[tekst + " kr"] = k
+    felt = {"mnd": "Konsert-måned (t)", "ordrer": "Betalte 2026, ordrer", "oppgjor": "Betalte 2026, oppgjør",
+            "grunnlag": "Grunnlag 2026 (valgt)", "billetter_A": "Billetter A", "billetter_B": "Billetter B",
+            "billetter_C": "Billetter C", "mnd_oppgjor": "Billettoppgjør", "mnd_pakke1": "Pakke del 1",
+            "mnd_leie_C": "Leie C", "oppgjor_A": "Oppgjør A", "oppgjor_B": "Oppgjør B", "oppgjor_C": "Oppgjør C",
+            "publikum_A": "Publikum A", "publikum_B": "Publikum B", "publikum_C": "Publikum C",
+            "pakke1": "Pakke del 1 kr", "pakke2": "Pakke del 2", "leie_A": "Leie A", "leie_C": "Leie C kr"}
+    ut = []
+    for r in range(r_hode + 1, r_hode + 13):
+        rad = {"konsert": ws.cell(r, 1).value}
+        for navn, tekst in felt.items():
+            v = ws.cell(r, kol[tekst]).value
+            rad[navn] = round(v) if isinstance(v, (int, float)) else v
+        ut.append(rad)
+    return ut
+
+
 def main(path):
     wb = openpyxl.load_workbook(path, read_only=False)
     wv = openpyxl.load_workbook(path, read_only=False, data_only=True)
@@ -313,6 +340,7 @@ def main(path):
         "scenario": clean(wv["Forutsetninger"]["D5"].value),
         "rutenett": les_rutenett(wv["Usikkerhet"]),
         "saldo": les_saldo(wv),
+        "konserter": les_konserter(wv),
         "nodes": nodes,
         "edges": out_edges,
     }
