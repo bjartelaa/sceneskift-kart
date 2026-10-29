@@ -6,9 +6,12 @@ Privat til etter innleveringsfristen 13.11.2026.
 
 ## Åpne
 
-Dobbeltklikk `site/index.html`. Siden trenger ikke nett: fonter og data ligger i mappa.
+- `site/index.html`: presentasjonen. Piltaster eller klikker for å bla, N viser notater for den som snakker. `#4` går rett til steg 4.
+- `site/tavla.html`: tavla alene. Direkte lenke til en lapp: `tavla.html#konserter`, `#nv`, `#salg` osv.
 
-Direkte lenke til en lapp: `site/index.html#konserter`, `#nv`, `#salg` osv.
+Siden trenger ikke nett: fonter, bilder og data ligger i mappa.
+
+Tallene i presentasjonen (avtalekort, figurene, grensene og beslutningsreglene) hentes fra `site/data/graph.js`, altså fra arbeidsboka. Teksten står i `site/index.html`. Steg 6 er merket «Utkast» til gruppa har formulert rådet selv.
 
 ## Oppdatere etter endringer i arbeidsboka
 
@@ -25,4 +28,4 @@ Skriptet åpner arbeidsboka bare for lesing og skriver `site/data/graph.js`. Ing
 
 ## Bilder
 
-Konsertbilder til presentasjonen, komprimert, ligger i `presentasjon-bilder/`. De brukes ikke i kartet. Originalene ligger i `bilder-original/` og er holdt utenfor git.
+Konsertbilder til presentasjonen, komprimert, ligger i `site/img/`. De brukes ikke på tavla. Originalene ligger i `bilder-original/` og er holdt utenfor git.

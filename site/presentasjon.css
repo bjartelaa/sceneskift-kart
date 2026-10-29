@@ -1,0 +1,289 @@
+@font-face {
+  font-family: "Marker";
+  src: url("fonts/permanent-marker.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Archivo";
+  src: url("fonts/archivo-latin.woff2") format("woff2");
+  font-weight: 400 800;
+  font-stretch: 62% 125%;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --tavle: #e3e5e1;
+  --blekk: #1d2433;
+  --blekk-svak: #555c6d;
+  --strek: rgba(29, 36, 51, .14);
+  --gaffa: #2c2c2b;
+  --tape: #f4f2ea;
+  --papir: #fbfaf6;
+  --gul: #f2be22;
+  --rosa: #e2477e;
+  --gronn: #2c9d57;
+  --minus: #b3263e;
+  --ille: rgba(179, 38, 62, .09);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--tavle);
+  color: var(--blekk);
+  font-family: "Archivo", system-ui, sans-serif;
+  overflow: hidden;
+}
+
+/* Lerretet er 1600 × 900 og skaleres til skjermen */
+.sal { position: relative; width: 100vw; height: 100vh; }
+.lerret {
+  position: absolute;
+  left: 0; top: 0;
+  width: 1600px;
+  height: 900px;
+  transform-origin: 0 0;
+}
+.lysbilde {
+  position: absolute;
+  inset: 0;
+  padding: 70px 90px 120px;
+  background:
+    radial-gradient(ellipse at 20% 25%, rgba(255,255,255,.55), transparent 55%),
+    radial-gradient(ellipse at 85% 80%, rgba(120,128,120,.10), transparent 60%),
+    var(--tavle);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .18s ease, visibility 0s .18s;
+}
+.lysbilde.aktiv { visibility: visible; opacity: 1; transition: opacity .18s ease; }
+
+/* Typografi */
+.tittel {
+  margin: 0 0 22px;
+  max-width: 1050px;
+  font-family: "Marker", cursive;
+  font-weight: 400;
+  font-size: 58px;
+  line-height: 1.08;
+}
+.ingress { margin: 0 0 40px; max-width: 900px; font-size: 27px; line-height: 1.4; }
+.forklar { margin: 18px 0 0; font-size: 20px; line-height: 1.45; color: var(--blekk-svak); max-width: 30ch; }
+
+/* Gaffa og tape */
+.gaffa {
+  display: inline-block;
+  margin: 0;
+  filter: drop-shadow(0 3px 0 rgba(0,0,0,.25));
+  transform: rotate(-1.5deg);
+}
+.gaffa span {
+  display: block;
+  padding: 18px 46px 15px 40px;
+  background: var(--gaffa);
+  background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 3px);
+  color: #f1f0ea;
+  font-family: "Marker", cursive;
+  font-weight: 400;
+  font-size: 84px;
+  line-height: 1.05;
+  clip-path: polygon(0 3%, 8px 22%, 1px 41%, 9px 60%, 2px 79%, 6px 100%, calc(100% - 4px) 97%, 100% 76%, calc(100% - 8px) 55%, 100% 33%, calc(100% - 5px) 14%, 100% 0);
+}
+.tape {
+  display: inline-block;
+  margin: 0;
+  padding: 10px 28px 8px;
+  background: var(--tape);
+  font-family: "Marker", cursive;
+  color: var(--blekk);
+  filter: drop-shadow(0 2px 0 rgba(0,0,0,.2));
+  clip-path: polygon(0 4%, 4px 24%, 0 46%, 5px 66%, 1px 84%, 3px 100%, calc(100% - 2px) 96%, 100% 78%, calc(100% - 5px) 58%, 100% 38%, calc(100% - 3px) 18%, 100% 0);
+}
+.tape-stor { font-size: 44px; transform: rotate(.8deg); }
+
+/* Forside: bildet tar hele flaten */
+.forside { padding: 0; background: #000; }
+.forside-bilde { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.9) brightness(.62); }
+.forside-tekst { position: absolute; left: 90px; bottom: 150px; display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
+.forside-under { margin: 10px 0 0 6px; font-size: 22px; color: #f1f0ea; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
+
+/* Bilder teipet opp */
+.print {
+  position: absolute;
+  margin: 0;
+  padding: 10px 10px 34px;
+  background: var(--papir);
+  transform: rotate(var(--rot));
+  filter: drop-shadow(0 3px 2px rgba(0,0,0,.2));
+}
+.print img { display: block; width: 100%; height: auto; }
+.print::before {
+  content: "";
+  position: absolute;
+  top: -12px; left: 50%;
+  width: 90px; height: 26px;
+  margin-left: -45px;
+  background: var(--gaffa);
+  transform: rotate(-3deg);
+}
+
+/* 1: avtalekortene */
+.kort-rad { display: flex; gap: 26px; align-items: flex-start; }
+.kort {
+  position: relative;
+  width: 300px;
+  padding: 26px 26px 24px;
+  background: var(--papir);
+  filter: drop-shadow(0 2px 1px rgba(0,0,0,.15));
+  transform: rotate(var(--rot, 0deg));
+}
+.kort::before {
+  content: "";
+  position: absolute;
+  left: 18px; top: -10px;
+  width: 12px; height: 46px;
+  background: var(--c, var(--gul));
+  transform: rotate(4deg);
+}
+.kort h3 { margin: 0 0 14px; font-family: "Marker", cursive; font-weight: 400; font-size: 32px; line-height: 1.1; }
+.kort ul { margin: 0; padding: 0; list-style: none; font-size: 21px; line-height: 1.35; }
+.kort li + li { margin-top: 8px; }
+.kort .stor { display: block; font-size: 34px; font-weight: 700; font-stretch: 90%; }
+.kort.avsta { background: transparent; filter: none; box-shadow: inset 0 0 0 2px var(--strek); }
+.kort.avsta::before { display: none; }
+
+/* 2: rensing */
+.rensing { list-style: none; margin: 0 0 46px; padding: 0; display: flex; align-items: stretch; gap: 0; }
+.rensing li {
+  position: relative;
+  flex: 1;
+  padding: 20px 26px 20px 30px;
+  background: var(--papir);
+  border-right: 2px dashed var(--strek);
+}
+.rensing li:last-child { border-right: 0; }
+.rensing b { display: block; font-size: 54px; line-height: 1; font-weight: 700; font-stretch: 85%; font-variant-numeric: tabular-nums; }
+.rensing span { display: block; margin-top: 10px; font-size: 20px; line-height: 1.3; }
+.rensing .fjern b { color: var(--minus); }
+.rensing .fjern b::before { content: "−"; }
+.rensing .ferdig { background: var(--gaffa); color: #f1f0ea; }
+.lapp-notat {
+  max-width: 760px;
+  padding: 22px 28px;
+  background: var(--tape);
+  font-size: 23px;
+  line-height: 1.4;
+  transform: rotate(-.6deg);
+  filter: drop-shadow(0 2px 0 rgba(0,0,0,.15));
+}
+.lapp-notat p { margin: 0; }
+.lapp-notat .lapp-tittel { margin-bottom: 8px; font-family: "Marker", cursive; font-size: 28px; }
+
+/* 3: tavla */
+.modell { padding-bottom: 100px; }
+.modell .tittel { margin-bottom: 14px; }
+.ramme-tavle { position: relative; height: 620px; background: var(--tavle); box-shadow: 0 0 0 2px var(--strek); }
+.ramme-tavle iframe { width: 100%; height: 100%; border: 0; display: block; }
+.under-tavla { margin: 12px 0 0; font-size: 19px; color: var(--blekk-svak); }
+.under-tavla a { color: var(--blekk); text-underline-offset: 3px; }
+
+/* 4: resultater */
+.to-spalter { display: grid; grid-template-columns: 420px 1fr; gap: 50px; align-items: start; }
+.velger { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.velger button {
+  padding: 9px 20px 7px 24px;
+  border: 0;
+  background: transparent;
+  font-family: "Marker", cursive;
+  font-size: 25px;
+  color: var(--blekk-svak);
+  cursor: pointer;
+  box-shadow: inset 0 0 0 2px var(--strek);
+}
+.velger button[aria-pressed="true"] { background: var(--gaffa); color: #f1f0ea; box-shadow: none; }
+.velger button:focus-visible { outline: 3px solid var(--blekk); outline-offset: 3px; }
+.oppsummering { margin: 28px 0 0; font-size: 24px; line-height: 1.4; }
+.diagram { width: 100%; height: auto; overflow: visible; }
+.diagram text { font-family: "Archivo", sans-serif; fill: var(--blekk-svak); }
+.diagram .akse { stroke: var(--blekk); stroke-opacity: .25; }
+.diagram .rutenett { stroke: var(--blekk); stroke-opacity: .07; }
+.diagram .rammestrek { stroke: var(--minus); stroke-width: 2.5; stroke-dasharray: 8 7; }
+.diagram .ille { fill: var(--ille); }
+.diagram .punkt { transition: transform .6s cubic-bezier(.3,.1,.2,1); }
+.diagram .punkt circle { fill: var(--blekk); }
+.diagram .punkt.over circle { fill: var(--minus); }
+.diagram .punkt .merke { font-family: "Marker", cursive; font-size: 30px; fill: var(--blekk); }
+.diagram .etikett { font-size: 18px; }
+.diagram .tittel-akse { font-size: 19px; fill: var(--blekk); }
+
+/* 5: grenser */
+.grenser .rad-navn { font-family: "Marker", cursive; font-size: 30px; fill: var(--blekk); }
+.grenser .linje { stroke: var(--blekk); stroke-opacity: .2; stroke-width: 2; }
+.grenser .nv { fill: var(--blekk); }
+.grenser .bh { fill: var(--minus); }
+.grenser .ref { stroke: var(--blekk); stroke-opacity: .45; stroke-dasharray: 3 6; stroke-width: 2; }
+
+/* 6: rådet */
+.rad .to-spalter { grid-template-columns: 1fr 520px; }
+.vilkar { margin: 0; padding-left: 40px; font-size: 26px; line-height: 1.4; max-width: 680px; }
+.vilkar li { margin-bottom: 20px; padding-left: 8px; }
+.vilkar li::marker { font-family: "Marker", cursive; font-size: 30px; }
+.regler { width: 100%; border-collapse: collapse; font-size: 20px; }
+.regler td { padding: 11px 0; border-bottom: 1px solid var(--strek); vertical-align: top; }
+.regler td:last-child { padding-left: 16px; text-align: right; font-family: "Marker", cursive; font-size: 26px; white-space: nowrap; }
+.regler tr.var td { font-weight: 700; }
+.utkast {
+  position: absolute;
+  top: 34px; right: 380px;
+  margin: 0;
+  padding: 6px 16px 4px;
+  background: var(--gul);
+  font-family: "Marker", cursive;
+  font-size: 22px;
+  transform: rotate(3deg);
+}
+
+/* Notater for den som snakker (N) */
+.notat { display: none; }
+.vis-notater .lysbilde.aktiv .notat {
+  display: block;
+  position: absolute;
+  left: 90px; right: 90px; bottom: 96px;
+  padding: 16px 22px;
+  background: var(--blekk);
+  color: #f1f0ea;
+  font-size: 19px;
+  line-height: 1.4;
+  z-index: 5;
+}
+.notat p { margin: 0 0 6px; font-weight: 700; }
+.notat ul { margin: 0; padding-left: 22px; }
+
+/* Stegene nederst */
+.steg {
+  position: absolute;
+  left: 50%; bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 6;
+}
+.steg button {
+  padding: 7px 14px 5px;
+  border: 0;
+  background: rgba(244, 242, 234, .85);
+  font-family: "Marker", cursive;
+  font-size: 16px;
+  color: var(--blekk-svak);
+  cursor: pointer;
+}
+.steg button[aria-current="step"] { background: var(--gaffa); color: #f1f0ea; }
+.steg button:focus-visible { outline: 3px solid var(--blekk); outline-offset: 2px; }
+.hjelp { position: absolute; right: 18px; bottom: 22px; margin: 0; font-size: 13px; color: var(--blekk-svak); z-index: 6; }
+.paa-forside .hjelp { color: rgba(241,240,234,.7); }
+
+@media (prefers-reduced-motion: reduce) {
+  .lysbilde, .diagram .punkt { transition: none; }
+}
+#spredning { width: 880px; justify-self: end; }

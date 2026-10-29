@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sceneskift: tavla</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="rom">
+  <div class="scene" id="scene">
+    <div class="tavle" id="tavle" aria-label="Tavle med arkene og forutsetningene i arbeidsboka">
+      <svg class="trader" id="trader" aria-hidden="true"></svg>
+
+      <header class="tittel">
+        <h1 class="gaffa-stor"><span>Sceneskift våren 2027</span></h1>
+        <p class="tittel-under">Slik henger arbeidsboka sammen. Trykk på en lapp for å se hva den bygger på, hva den påvirker og veien til rådet.</p>
+      </header>
+
+      <p class="kolonne" style="left:242px; top:250px">Data</p>
+      <p class="kolonne" style="left:620px; top:132px">Forutsetninger</p>
+      <p class="kolonne" style="left:985px; top:400px">Modell</p>
+      <p class="kolonne" style="left:1400px; top:132px">Resultat</p>
+
+      <aside class="forklaring" aria-label="Slik leser du tavla">
+        <p class="forklaring-rad"><span class="prove gaffa">Ark</span> et ark i arbeidsboka</p>
+        <p class="forklaring-rad"><span class="prove hvit">Celler</span> navngitte celler, samlet</p>
+        <ul class="farger">
+          <li><i style="--c:var(--blaa)"></i>Data</li>
+          <li><i style="--c:var(--gul)"></i>Forutsetning</li>
+          <li><i style="--c:var(--rosa)"></i>Resultat</li>
+          <li><i style="--c:var(--oransje)"></i>Usikkerhet</li>
+          <li><i style="--c:var(--gronn)"></i>Kontroll</li>
+        </ul>
+        <p class="forklaring-tekst">Tykk tråd betyr mange formler. Stiplet tråd er Power Query eller notatet.</p>
+      </aside>
+    </div>
+  </div>
+
+  <section class="ark-panel" id="panel" aria-live="polite" hidden>
+    <button class="lukk" id="lukk" type="button" aria-label="Lukk">×</button>
+    <div id="panel-innhold"></div>
+  </section>
+</main>
+
+<script src="data/graph.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -3,47 +3,160 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sceneskift: tavla</title>
-<link rel="stylesheet" href="style.css">
+<title>Sceneskift: presentasjon</title>
+<link rel="stylesheet" href="presentasjon.css">
 </head>
 <body>
-<main class="rom">
-  <div class="scene" id="scene">
-    <div class="tavle" id="tavle" aria-label="Tavle med arkene og forutsetningene i arbeidsboka">
-      <svg class="trader" id="trader" aria-hidden="true"></svg>
+<main class="sal" id="sal">
+  <div class="lerret" id="lerret">
 
-      <header class="tittel">
-        <h1 class="gaffa-stor"><span>Sceneskift våren 2027</span></h1>
-        <p class="tittel-under">Slik henger arbeidsboka sammen. Trykk på en lapp for å se hva den bygger på, hva den påvirker og veien til rådet.</p>
-      </header>
-
-      <p class="kolonne" style="left:242px; top:250px">Data</p>
-      <p class="kolonne" style="left:620px; top:132px">Forutsetninger</p>
-      <p class="kolonne" style="left:985px; top:400px">Modell</p>
-      <p class="kolonne" style="left:1400px; top:132px">Resultat</p>
-
-      <aside class="forklaring" aria-label="Slik leser du tavla">
-        <p class="forklaring-rad"><span class="prove gaffa">Ark</span> et ark i arbeidsboka</p>
-        <p class="forklaring-rad"><span class="prove hvit">Celler</span> navngitte celler, samlet</p>
-        <ul class="farger">
-          <li><i style="--c:var(--blaa)"></i>Data</li>
-          <li><i style="--c:var(--gul)"></i>Forutsetning</li>
-          <li><i style="--c:var(--rosa)"></i>Resultat</li>
-          <li><i style="--c:var(--oransje)"></i>Usikkerhet</li>
-          <li><i style="--c:var(--gronn)"></i>Kontroll</li>
+    <!-- Forside -->
+    <section class="lysbilde forside" data-navn="Forside" aria-label="Forside">
+      <img class="forside-bilde" src="img/publikum.jpg" alt="Publikum foran en opplyst scene innendørs">
+      <div class="forside-tekst">
+        <h1 class="gaffa"><span>Sceneskift våren 2027</span></h1>
+        <p class="tape tape-stor">Hvilken sal bør Maja velge?</p>
+        <p class="forside-under">MET3 Arbeidskrav 2. Bjarte Laa, Petter Garli og Maxime Boudailliez</p>
+      </div>
+      <aside class="notat">
+        <p>Hvem: ikke bestemt</p>
+        <ul>
+          <li>Presenter gruppa og spørsmålet: én beslutning, fire handlinger.</li>
+          <li>Si hva dere kommer til å vise: data, modell, resultater, usikkerhet, råd.</li>
         </ul>
-        <p class="forklaring-tekst">Tykk tråd betyr mange formler. Stiplet tråd er Power Query eller notatet.</p>
       </aside>
-    </div>
+    </section>
+
+    <!-- 1 -->
+    <section class="lysbilde" data-navn="Beslutningen" aria-label="Beslutningen">
+      <h2 class="tittel">Maja må velge sal for tolv konserter</h2>
+      <p class="ingress">Konsertene går fra januar til juni 2027. Maja kan leie én av tre saler, eller la være. Hun regner med å kunne ligge ute med <span data-tall="ramme"></span>, men det er ikke avklart.</p>
+      <div class="kort-rad" id="avtalekort"></div>
+      <figure class="print" style="right:70px; top:70px; width:290px; --rot:2deg">
+        <img src="img/sal.jpg" alt="Konsertsal med band på scenen, sett fra salen">
+      </figure>
+      <aside class="notat">
+        <p>Hvem: ikke bestemt</p>
+        <ul>
+          <li>Fire handlinger: A, B, C eller avstå. Avstå er et reelt alternativ.</li>
+          <li>Forskjellen mellom salene er når og hvordan leien betales, ikke bare hvor mye.</li>
+          <li>Planleggingskostnadene er sunk cost og er ikke med.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- 2 -->
+    <section class="lysbilde" data-navn="Dataene" aria-label="Dataene">
+      <h2 class="tittel">Først måtte tallene fra 2026 stemme</h2>
+      <p class="ingress">Billettsalget i 2026 er grunnlaget for anslaget i 2027. Ordrene ble renset og avstemt mot oppgjøret, konsert for konsert.</p>
+      <ol class="rensing">
+        <li><b>1 791</b><span>transaksjoner i ordreeksporten</span></li>
+        <li class="fjern"><b>16</b><span>avbrutte betalinger fjernet</span></li>
+        <li class="fjern"><b>5</b><span>dobbeltførte transaksjoner fjernet, alle på K08</span></li>
+        <li><b>1 770</b><span>rader igjen, refusjoner med</span></li>
+        <li class="ferdig"><b>12</b><span>konserter avstemt mot oppgjøret</span></li>
+      </ol>
+      <div class="lapp-notat">
+        <p class="lapp-tittel">K10 stemmer ikke helt</p>
+        <p>Ordrene har 2 billetter (700 kr) færre enn oppgjøret. Modellen bruker nå: <strong data-tall="grunnlag"></strong>. Valget flytter nåverdien med under 1 000 kr.</p>
+      </div>
+      <aside class="notat">
+        <p>Hvem: ikke bestemt</p>
+        <ul>
+          <li>Power Query gjør rensingen, rådataene ligger urørt.</li>
+          <li>Refusjonene beholdes med negativt antall, ellers telles billetter som ikke ble betalt.</li>
+          <li>Avstemmingen viser at summene stemmer, ikke at hver ordre er riktig.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- 3 -->
+    <section class="lysbilde modell" data-navn="Modellen" aria-label="Modellen">
+      <h2 class="tittel">Slik henger modellen sammen</h2>
+      <div class="ramme-tavle">
+        <iframe id="tavle-ramme" title="Tavla over arbeidsboka" data-src="tavla.html"></iframe>
+      </div>
+      <p class="under-tavla">Trykk på en lapp for å følge et tall fram til rådet. <a href="tavla.html" target="_blank">Åpne tavla i eget vindu</a></p>
+      <aside class="notat">
+        <p>Hvem: ikke bestemt</p>
+        <ul>
+          <li>Ett sted å velge scenario. Alt annet følger.</li>
+          <li>Vis veien: Salg og billett, Konserter, Kontantstrøm, Nåverdi, Resultater, Rådet.</li>
+          <li>Kontrollene er skrevet før regningen.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- 4 -->
+    <section class="lysbilde" data-navn="Resultatene" aria-label="Resultatene">
+      <h2 class="tittel">B tjener mest, men krever mest penger tidlig</h2>
+      <div class="to-spalter">
+        <div>
+          <div class="velger" id="scenariovelger" role="group" aria-label="Velg scenario"></div>
+          <p class="oppsummering" id="oppsummering" aria-live="polite"></p>
+          <p class="forklar">Hver prikk er en handling. Langt opp er høy nåverdi. Til høyre for streken trenger avtalen mer enn rammen.</p>
+        </div>
+        <svg class="diagram" id="spredning" viewBox="0 0 900 600" role="img" aria-label="Nåverdi mot finansieringsbehov for A, B, C og avstå"></svg>
+      </div>
+      <aside class="notat">
+        <p>Hvem: ikke bestemt</p>
+        <ul>
+          <li>To mål: nåverdi og finansieringsbehov. Behovet er det største beløpet vi ligger ute med.</li>
+          <li>B betaler 165 000 kr ved t0, før noen inntekter kommer.</li>
+          <li>Bytt scenario og vis hva som flytter seg.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- 5 -->
+    <section class="lysbilde" data-navn="Usikkerheten" aria-label="Usikkerheten">
+      <h2 class="tittel">Hvor mye kan salget falle?</h2>
+      <p class="ingress" id="grense-tekst"></p>
+      <svg class="diagram grenser" id="grensediagram" viewBox="0 0 1400 430" role="img" aria-label="Salgsnivået der hver avtale snur"></svg>
+      <aside class="notat">
+        <p>Hvem: ikke bestemt</p>
+        <ul>
+          <li>Salget er målt som andel av salget i 2026. 100 % er Majas premiss.</li>
+          <li>Grensene er funnet med datatabell og lineær interpolasjon.</li>
+          <li>C tåler fall best fordi leien følger salget.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- 6 -->
+    <section class="lysbilde rad" data-navn="Rådet" aria-label="Rådet">
+      <p class="utkast">Utkast</p>
+      <h2 class="tittel">Vårt råd: <span data-tall="regel1"></span>, på tre vilkår</h2>
+      <div class="to-spalter">
+        <ol class="vilkar">
+          <li>Rigg &amp; Ro bekrefter pakkeprisen. Ved 80 % salg holder C rammen så lenge pakken koster under 61 377 kr.</li>
+          <li>Rammen på <span data-tall="ramme"></span> er på plass før Maja signerer.</li>
+          <li>Skarvkaien garanterer 450 salgbare plasser i oppsettet vi skal bruke.</li>
+        </ol>
+        <div>
+          <table class="regler" id="regler"></table>
+          <p class="forklar">Regel 1 er vår. Pakkeprisen er kjent før signering, så den er et vilkår og ikke en risiko.</p>
+        </div>
+      </div>
+      <figure class="print" style="right:80px; bottom:110px; width:250px; --rot:-1.6deg">
+        <img src="img/scene.jpg" alt="Artist på scenen i oransje lys med publikum foran">
+      </figure>
+      <aside class="notat">
+        <p>Hvem: ikke bestemt</p>
+        <ul>
+          <li>Rådet er regel 1: høyest nåverdi blant handlingene som holder rammen i basis og ved lav etterspørsel.</li>
+          <li>Hva Maja kan bestemme nå, og hva hun må avklare før signering.</li>
+          <li>Fjern «Utkast» når gruppa har formulert rådet selv.</li>
+        </ul>
+      </aside>
+    </section>
   </div>
 
-  <section class="ark-panel" id="panel" aria-live="polite" hidden>
-    <button class="lukk" id="lukk" type="button" aria-label="Lukk">×</button>
-    <div id="panel-innhold"></div>
-  </section>
+  <nav class="steg" id="steg" aria-label="Steg i presentasjonen"></nav>
+  <p class="hjelp" id="hjelp">Piltaster for å bla. N viser notater.</p>
 </main>
 
 <script src="data/graph.js"></script>
-<script src="app.js"></script>
+<script src="presentasjon.js"></script>
 </body>
 </html>

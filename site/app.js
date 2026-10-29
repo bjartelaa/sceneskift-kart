@@ -473,6 +473,12 @@
   scene.addEventListener("click", e => { if (valgt && !e.target.closest(".lapp")) nullstill(); });
   addEventListener("keydown", e => { if (e.key === "Escape" && valgt) nullstill(); });
   addEventListener("resize", () => tilpass(fokusIds));
+  // Inne i presentasjonen: send blatastene videre så piltastene virker selv om tavla har fokus
+  if (window.parent !== window) {
+    addEventListener("keydown", e => {
+      if (["ArrowRight", "ArrowLeft", "PageDown", "PageUp"].includes(e.key)) window.parent.postMessage({ tast: e.key }, "*");
+    });
+  }
 
   const start = () => {
     tegnTrader();
