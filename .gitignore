@@ -2,3 +2,4 @@
 *.xlsx
 *.csv
 bilder-original/
+__pycache__/
