@@ -64,15 +64,46 @@ def les_usikkerhet(ws):
             folsomhet[l].append(rad)
 
     r_hode = finn_rad(ws, 3, "Modell nå") - 1
-    navn = [ws.cell(r_hode, k).value for k in range(4, 8)]
+    kolonner = range(4, 4 + next(i for i in range(20) if ws.cell(r_hode, 4 + i).value is None))
+    navn = [ws.cell(r_hode, k).value for k in kolonner]
     scenarioer = {}
     for tittel in ("Nåverdi", "Finansieringsbehov"):
         rader = []
         for handling in ("A", "B", "C", "avstå"):
             r = finn_rad(ws, 2, f"{tittel} {handling}")
-            rader.append({"handling": handling, "verdier": [round(ws.cell(r, k).value) for k in range(4, 8)]})
+            rader.append({"handling": handling, "verdier": [round(ws.cell(r, k).value) for k in kolonner]})
         scenarioer[tittel] = {"scenarioer": navn, "rader": rader}
     return folsomhet, scenarioer
+
+
+def les_rutenett(ws):
+    """Datatabellene etterspørsel × pakkepris for nåverdi og finansieringsbehov, per avtale."""
+    ut = {}
+    for a in ("A", "B", "C"):
+        r_nv = finn_rad(ws, 3, f"Nåverdi {a}") + 1          # rad med pakkeprisene
+        r_bh = finn_rad(ws, 12, f"Finansieringsbehov {a}") + 1
+        pakker = [ws.cell(r_nv, k).value for k in range(4, 11)]
+        salg, nv, bh = [], [], []
+        for i in range(1, 30):
+            v = ws.cell(r_nv + i, 3).value
+            if not isinstance(v, (int, float)):
+                break
+            salg.append(v)
+            nv.append([round(ws.cell(r_nv + i, k).value) for k in range(4, 11)])
+            bh.append([round(ws.cell(r_bh + i, k).value) for k in range(13, 20)])
+        ut[a] = {"nv": nv, "behov": bh}
+    return {"salg": salg, "pakker": pakker, "avtaler": ut}
+
+
+def les_saldo(wv):
+    """Akkumulert saldo per måned i aktivt scenario (Figur 1)."""
+    ws = wv["Kontantstrøm"]
+    r0 = finn_rad(ws, 1, 0)
+    rader = range(r0, r0 + 8)
+    return {"maaneder": [ws.cell(r, 2).value for r in rader],
+            "A": [round(ws.cell(r, 9).value) for r in rader],
+            "B": [round(ws.cell(r, 16).value) for r in rader],
+            "C": [round(ws.cell(r, 23).value) for r in rader]}
 
 
 def main(path):
@@ -280,6 +311,8 @@ def main(path):
         "kilde": Path(path).name,
         "lest": date.today().isoformat(),
         "scenario": clean(wv["Forutsetninger"]["D5"].value),
+        "rutenett": les_rutenett(wv["Usikkerhet"]),
+        "saldo": les_saldo(wv),
         "nodes": nodes,
         "edges": out_edges,
     }

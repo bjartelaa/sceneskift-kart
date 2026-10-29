@@ -11,12 +11,12 @@
   <div class="lerret" id="lerret">
 
     <!-- Forside -->
-    <section class="lysbilde forside" data-navn="Forside" aria-label="Forside">
-      <img class="forside-bilde" src="img/publikum.jpg" alt="Publikum foran en opplyst scene innendørs">
-      <div class="forside-tekst">
+    <section class="lysbilde helbilde" aria-label="Forside">
+      <img class="bakgrunn" src="img/publikum.jpg" alt="Publikum foran en opplyst scene innendørs">
+      <div class="helbilde-tekst">
         <h1 class="gaffa"><span>Sceneskift våren 2027</span></h1>
         <p class="tape tape-stor">Hvilken sal bør Maja velge?</p>
-        <p class="forside-under">MET3 Arbeidskrav 2. Bjarte Laa, Petter Garli og Maxime Boudailliez</p>
+        <p class="helbilde-under">MET3 Arbeidskrav 2. Bjarte Laa, Petter Garli og Maxime Boudailliez</p>
       </div>
       <aside class="notat">
         <p>Hvem: ikke bestemt</p>
@@ -28,11 +28,11 @@
     </section>
 
     <!-- 1 -->
-    <section class="lysbilde" data-navn="Beslutningen" aria-label="Beslutningen">
+    <section class="lysbilde" data-steg="Beslutningen" aria-label="Beslutningen">
       <h2 class="tittel">Maja må velge sal for tolv konserter</h2>
       <p class="ingress">Konsertene går fra januar til juni 2027. Maja kan leie én av tre saler, eller la være. Hun regner med å kunne ligge ute med <span data-tall="ramme"></span>, men det er ikke avklart.</p>
       <div class="kort-rad" id="avtalekort"></div>
-      <figure class="print" style="right:70px; top:70px; width:290px; --rot:2deg">
+      <figure class="print" style="right:70px; top:60px; width:300px; --rot:2deg">
         <img src="img/sal.jpg" alt="Konsertsal med band på scenen, sett fra salen">
       </figure>
       <aside class="notat">
@@ -46,20 +46,23 @@
     </section>
 
     <!-- 2 -->
-    <section class="lysbilde" data-navn="Dataene" aria-label="Dataene">
+    <section class="lysbilde" data-steg="Dataene" aria-label="Dataene">
       <h2 class="tittel">Først måtte tallene fra 2026 stemme</h2>
-      <p class="ingress">Billettsalget i 2026 er grunnlaget for anslaget i 2027. Ordrene ble renset og avstemt mot oppgjøret, konsert for konsert.</p>
+      <p class="ingress smal">Billettsalget i 2026 er grunnlaget for anslaget i 2027. Ordrene ble renset og avstemt mot oppgjøret, konsert for konsert.</p>
       <ol class="rensing">
         <li><b>1 791</b><span>transaksjoner i ordreeksporten</span></li>
         <li class="fjern"><b>16</b><span>avbrutte betalinger fjernet</span></li>
-        <li class="fjern"><b>5</b><span>dobbeltførte transaksjoner fjernet, alle på K08</span></li>
+        <li class="fjern"><b>5</b><span>dobbeltførte transaksjoner fjernet, alle på konsert 8</span></li>
         <li><b>1 770</b><span>rader igjen, refusjoner med</span></li>
         <li class="ferdig"><b>12</b><span>konserter avstemt mot oppgjøret</span></li>
       </ol>
       <div class="lapp-notat">
-        <p class="lapp-tittel">K10 stemmer ikke helt</p>
+        <p class="lapp-tittel">Konsert 10 i 2026 stemmer ikke helt</p>
         <p>Ordrene har 2 billetter (700 kr) færre enn oppgjøret. Modellen bruker nå: <strong data-tall="grunnlag"></strong>. Valget flytter nåverdien med under 1 000 kr.</p>
       </div>
+      <figure class="print" style="right:80px; top:56px; width:290px; --rot:-1.8deg">
+        <img src="img/foh.jpg" alt="Miksepult foran en scene under en konsert">
+      </figure>
       <aside class="notat">
         <p>Hvem: ikke bestemt</p>
         <ul>
@@ -71,7 +74,7 @@
     </section>
 
     <!-- 3 -->
-    <section class="lysbilde modell" data-navn="Modellen" aria-label="Modellen">
+    <section class="lysbilde modell" data-steg="Modellen" aria-label="Modellen">
       <h2 class="tittel">Slik henger modellen sammen</h2>
       <div class="ramme-tavle">
         <iframe id="tavle-ramme" title="Tavla over arbeidsboka" data-src="tavla.html"></iframe>
@@ -88,7 +91,7 @@
     </section>
 
     <!-- 4 -->
-    <section class="lysbilde" data-navn="Resultatene" aria-label="Resultatene">
+    <section class="lysbilde" data-steg="Resultatene" aria-label="Resultatene">
       <h2 class="tittel">B tjener mest, men krever mest penger tidlig</h2>
       <div class="to-spalter">
         <div>
@@ -102,58 +105,100 @@
         <p>Hvem: ikke bestemt</p>
         <ul>
           <li>To mål: nåverdi og finansieringsbehov. Behovet er det største beløpet vi ligger ute med.</li>
-          <li>B betaler 165 000 kr ved t0, før noen inntekter kommer.</li>
           <li>Bytt scenario og vis hva som flytter seg.</li>
         </ul>
       </aside>
     </section>
 
     <!-- 5 -->
-    <section class="lysbilde" data-navn="Usikkerheten" aria-label="Usikkerheten">
-      <h2 class="tittel">Hvor mye kan salget falle?</h2>
-      <p class="ingress" id="grense-tekst"></p>
-      <svg class="diagram grenser" id="grensediagram" viewBox="0 0 1400 430" role="img" aria-label="Salgsnivået der hver avtale snur"></svg>
+    <section class="lysbilde" data-steg="Saldoen" aria-label="Saldoen">
+      <h2 class="tittel">Pengene går ut før de kommer inn</h2>
+      <div class="to-spalter bred-hoyre">
+        <div>
+          <p class="oppsummering" id="saldo-tekst"></p>
+          <p class="forklar">Akkumulert saldo ved slutten av hver måned i basisscenariet. Figur 1 i arbeidsboka.</p>
+        </div>
+        <svg class="diagram" id="saldo" viewBox="0 0 980 600" role="img" aria-label="Akkumulert saldo per måned for A, B og C"></svg>
+      </div>
       <aside class="notat">
         <p>Hvem: ikke bestemt</p>
         <ul>
-          <li>Salget er målt som andel av salget i 2026. 100 % er Majas premiss.</li>
-          <li>Grensene er funnet med datatabell og lineær interpolasjon.</li>
-          <li>C tåler fall best fordi leien følger salget.</li>
+          <li>Pakken og leien betales før eller i konsertmåneden. Billettoppgjøret kommer måneden etter.</li>
+          <li>B betaler engangstilpasning og halve sesongleien ved t0, og resten i mars.</li>
+          <li>Månedsslutt skjuler forfall inne i måneden, så det reelle behovet kan være større.</li>
         </ul>
       </aside>
     </section>
 
     <!-- 6 -->
-    <section class="lysbilde rad" data-navn="Rådet" aria-label="Rådet">
-      <p class="utkast">Utkast</p>
-      <h2 class="tittel">Vårt råd: <span data-tall="regel1"></span>, på tre vilkår</h2>
+    <section class="lysbilde" data-steg="Usikkerheten" aria-label="Usikkerheten">
+      <h2 class="tittel">Hva om salget svikter eller pakken blir dyrere?</h2>
       <div class="to-spalter">
-        <ol class="vilkar">
-          <li>Rigg &amp; Ro bekrefter pakkeprisen. Ved 80 % salg holder C rammen så lenge pakken koster under 61 377 kr.</li>
-          <li>Rammen på <span data-tall="ramme"></span> er på plass før Maja signerer.</li>
-          <li>Skarvkaien garanterer 450 salgbare plasser i oppsettet vi skal bruke.</li>
-        </ol>
-        <div>
-          <table class="regler" id="regler"></table>
-          <p class="forklar">Regel 1 er vår. Pakkeprisen er kjent før signering, så den er et vilkår og ikke en risiko.</p>
+        <div class="kontroller">
+          <p class="kontroll-tittel">Scenario</p>
+          <div class="velger rad-velger" id="usikker-scenario" role="group" aria-label="Velg scenario"></div>
+          <p class="kontroll-tittel">Salg, andel av 2026</p>
+          <div class="velger rad-velger smaa" id="usikker-salg" role="group" aria-label="Velg salgsnivå"></div>
+          <p class="kontroll-tittel">Pakkepris per konsert</p>
+          <div class="velger rad-velger smaa" id="usikker-pakke" role="group" aria-label="Velg pakkepris"></div>
+          <p class="oppsummering liten" id="usikker-tekst" aria-live="polite"></p>
         </div>
+        <svg class="diagram" id="usikker" viewBox="0 0 960 560" role="img" aria-label="Nåverdi og finansieringsbehov for A, B og C ved valgt salg og pakkepris"></svg>
       </div>
-      <figure class="print" style="right:80px; bottom:110px; width:250px; --rot:-1.6deg">
-        <img src="img/scene.jpg" alt="Artist på scenen i oransje lys med publikum foran">
-      </figure>
       <aside class="notat">
         <p>Hvem: ikke bestemt</p>
         <ul>
-          <li>Rådet er regel 1: høyest nåverdi blant handlingene som holder rammen i basis og ved lav etterspørsel.</li>
-          <li>Hva Maja kan bestemme nå, og hva hun må avklare før signering.</li>
+          <li>Tallene kommer fra datatabellene i Usikkerhet, ikke fra en egen modell.</li>
+          <li>C tåler fall best fordi leien følger salget.</li>
+          <li>Vis Lav etterspørsel: A går over rammen, C holder akkurat.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- 7 -->
+    <section class="lysbilde rad" data-steg="Rådet" aria-label="Rådet">
+      <p class="utkast">Utkast</p>
+      <h2 class="tittel">Rådet: <span data-tall="regel1"></span>, hvis tre ting er på plass</h2>
+      <div class="rad-oppsett">
+        <div class="sil" id="sil"></div>
+        <div class="sjekkliste">
+          <p class="lapp-tittel">Før Maja signerer</p>
+          <ul>
+            <li>Rigg &amp; Ro bekrefter pakkeprisen. Ved 80 % salg holder C rammen så lenge pakken koster under 61 377 kr.</li>
+            <li>Rammen på <span data-tall="ramme"></span> er på plass.</li>
+            <li>Skarvkaien garanterer 450 salgbare plasser i oppsettet vi skal bruke.</li>
+          </ul>
+        </div>
+      </div>
+      <aside class="notat">
+        <p>Hvem: ikke bestemt</p>
+        <ul>
+          <li>Regel 1: høyest nåverdi blant handlingene som holder rammen i basis og ved lav etterspørsel.</li>
+          <li>Pakkeprisen er kjent før signering, så den er et vilkår og ikke en risiko.</li>
           <li>Fjern «Utkast» når gruppa har formulert rådet selv.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <!-- Avslutning -->
+    <section class="lysbilde helbilde slutt" aria-label="Avslutning">
+      <img class="bakgrunn" src="img/avslutning.jpg" alt="Publikum med armene i været foran en scene i rødt lys">
+      <div class="helbilde-tekst">
+        <h2 class="gaffa"><span>Takk for oss</span></h2>
+        <p class="tape tape-stor">Spørsmål?</p>
+        <p class="helbilde-under">Rådet: <span data-tall="regel1"></span>, hvis pakkeprisen, rammen og plassene er bekreftet før signering.</p>
+      </div>
+      <aside class="notat">
+        <p>Hvem: alle</p>
+        <ul>
+          <li>Ha arbeidsboka klar. Sensor kan be dere endre en forutsetning.</li>
         </ul>
       </aside>
     </section>
   </div>
 
   <nav class="steg" id="steg" aria-label="Steg i presentasjonen"></nav>
-  <p class="hjelp" id="hjelp">Piltaster for å bla. N viser notater.</p>
+  <p class="hjelp">Piltaster for å bla. N viser notater.</p>
 </main>
 
 <script src="data/graph.js"></script>

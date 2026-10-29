@@ -2,6 +2,411 @@ window.GRAPH = {
  "kilde": "Sceneskift_AK2_modell.xlsx",
  "lest": "2026-10-29",
  "scenario": "Basis",
+ "rutenett": {
+  "salg": [
+   0.6,
+   0.7,
+   0.8,
+   0.9,
+   1,
+   1.1
+  ],
+  "pakker": [
+   54000,
+   57000,
+   60000,
+   63000,
+   66000,
+   69000,
+   72000
+  ],
+  "avtaler": {
+   "A": {
+    "nv": [
+     [
+      -102404,
+      -138053,
+      -173702,
+      -209352,
+      -245001,
+      -280650,
+      -316300
+     ],
+     [
+      -24710,
+      -60360,
+      -96009,
+      -131658,
+      -167308,
+      -202957,
+      -238606
+     ],
+     [
+      39334,
+      3685,
+      -31964,
+      -67614,
+      -103263,
+      -138912,
+      -174562
+     ],
+     [
+      84208,
+      48559,
+      12909,
+      -22740,
+      -58389,
+      -94039,
+      -129688
+     ],
+     [
+      122623,
+      86974,
+      51324,
+      15675,
+      -19974,
+      -55624,
+      -91273
+     ],
+     [
+      151943,
+      116293,
+      80644,
+      44995,
+      9345,
+      -26304,
+      -61954
+     ]
+    ],
+    "behov": [
+     [
+      279280,
+      312280,
+      345280,
+      378280,
+      411280,
+      444280,
+      477280
+     ],
+     [
+      236030,
+      261130,
+      294130,
+      327130,
+      360130,
+      393130,
+      426130
+     ],
+     [
+      223200,
+      238200,
+      253200,
+      285080,
+      318080,
+      351080,
+      384080
+     ],
+     [
+      212560,
+      227560,
+      242560,
+      257560,
+      285410,
+      318410,
+      351410
+     ],
+     [
+      201900,
+      216900,
+      231900,
+      246900,
+      261900,
+      286400,
+      319400
+     ],
+     [
+      191210,
+      206210,
+      221210,
+      236210,
+      251210,
+      266210,
+      296630
+     ]
+    ]
+   },
+   "B": {
+    "nv": [
+     [
+      -156924,
+      -192574,
+      -228223,
+      -263872,
+      -299522,
+      -335171,
+      -370820
+     ],
+     [
+      -47078,
+      -82727,
+      -118376,
+      -154026,
+      -189675,
+      -225324,
+      -260974
+     ],
+     [
+      62769,
+      27120,
+      -8529,
+      -44179,
+      -79828,
+      -115477,
+      -151127
+     ],
+     [
+      172616,
+      136967,
+      101317,
+      65668,
+      30019,
+      -5631,
+      -41280
+     ],
+     [
+      272692,
+      237043,
+      201394,
+      165744,
+      130095,
+      94446,
+      58796
+     ],
+     [
+      363024,
+      327374,
+      291725,
+      256076,
+      220426,
+      184777,
+      149128
+     ]
+    ],
+    "behov": [
+     [
+      385840,
+      406840,
+      427840,
+      450760,
+      483760,
+      516760,
+      549760
+     ],
+     [
+      357980,
+      378980,
+      399980,
+      420980,
+      441980,
+      462980,
+      483980
+     ],
+     [
+      330120,
+      351120,
+      372120,
+      393120,
+      414120,
+      435120,
+      456120
+     ],
+     [
+      302260,
+      323260,
+      344260,
+      365260,
+      386260,
+      407260,
+      428260
+     ],
+     [
+      274100,
+      295100,
+      316100,
+      337100,
+      358100,
+      379100,
+      400100
+     ],
+     [
+      270630,
+      279630,
+      291150,
+      308760,
+      329760,
+      350760,
+      371760
+     ]
+    ]
+   },
+   "C": {
+    "nv": [
+     [
+      -109311,
+      -144960,
+      -180610,
+      -216259,
+      -251908,
+      -287558,
+      -323207
+     ],
+     [
+      -17504,
+      -53153,
+      -88802,
+      -124452,
+      -160101,
+      -195750,
+      -231400
+     ],
+     [
+      73456,
+      37807,
+      2157,
+      -33492,
+      -69141,
+      -104791,
+      -140440
+     ],
+     [
+      163571,
+      127921,
+      92272,
+      56623,
+      20973,
+      -14676,
+      -50326
+     ],
+     [
+      245085,
+      209436,
+      173787,
+      138137,
+      102488,
+      66839,
+      31189
+     ],
+     [
+      318663,
+      283013,
+      247364,
+      211715,
+      176065,
+      140416,
+      104767
+     ]
+    ],
+    "behov": [
+     [
+      259481,
+      292481,
+      325481,
+      358481,
+      391481,
+      424481,
+      457481
+     ],
+     [
+      221753,
+      242753,
+      266617,
+      299617,
+      332617,
+      365617,
+      398617
+     ],
+     [
+      204002,
+      219361,
+      240361,
+      261361,
+      282361,
+      307610,
+      340610
+     ],
+     [
+      195026,
+      210026,
+      225026,
+      240026,
+      259180,
+      280180,
+      301180
+     ],
+     [
+      186696,
+      201696,
+      216696,
+      231696,
+      246696,
+      261696,
+      278344
+     ],
+     [
+      178366,
+      193366,
+      208366,
+      223366,
+      238366,
+      253366,
+      268366
+     ]
+    ]
+   }
+  }
+ },
+ "saldo": {
+  "maaneder": [
+   "Før jan (t0)",
+   "Januar",
+   "Februar",
+   "Mars",
+   "April",
+   "Mai",
+   "Juni",
+   "Juli"
+  ],
+  "A": [
+   -60000,
+   -201300,
+   -231900,
+   -211700,
+   -183800,
+   -187400,
+   -100000,
+   56400
+  ],
+  "B": [
+   -165000,
+   -288300,
+   -301500,
+   -316100,
+   -161400,
+   -149500,
+   40500,
+   210500
+  ],
+  "C": [
+   -60000,
+   -183300,
+   -216696,
+   -194344,
+   -89828,
+   -103020,
+   41080,
+   180480
+  ]
+ },
  "nodes": [
   {
    "id": "raa_ordrer",
@@ -111,15 +516,15 @@ window.GRAPH = {
     },
     {
      "navn": "scen_navn",
-     "adresse": "Forutsetninger!C13:C16"
+     "adresse": "Forutsetninger!C13:C17"
     },
     {
      "navn": "scen_faktor",
-     "adresse": "Forutsetninger!D13:D16"
+     "adresse": "Forutsetninger!D13:D17"
     },
     {
      "navn": "scen_pakke",
-     "adresse": "Forutsetninger!E13:E16"
+     "adresse": "Forutsetninger!E13:E17"
     }
    ],
    "slik": [
@@ -210,10 +615,35 @@ window.GRAPH = {
      "verdi": 10,
      "enhet": "kr per billett",
      "formel": "=D26"
+    },
+    {
+     "navn": "lokal_A",
+     "adresse": "Forutsetninger!F52",
+     "etikett": "Lokaleeffekt A",
+     "verdi": 1,
+     "enhet": "andel",
+     "formel": "=IF(ISBLANK(dt_lokal_A),D52,dt_lokal_A)"
+    },
+    {
+     "navn": "lokal_B",
+     "adresse": "Forutsetninger!F53",
+     "etikett": "Lokaleeffekt B",
+     "verdi": 1,
+     "enhet": "andel",
+     "formel": "=IF(ISBLANK(dt_lokal_BC),D53,dt_lokal_BC)"
+    },
+    {
+     "navn": "lokal_C",
+     "adresse": "Forutsetninger!F54",
+     "etikett": "Lokaleeffekt C",
+     "verdi": 1,
+     "enhet": "andel",
+     "formel": "=IF(ISBLANK(dt_lokal_BC),D54,dt_lokal_BC)"
     }
    ],
    "slik": [
-    "Billetter 2027 = betalte billetter 2026 × etterspørselsfaktor.",
+    "Billetter 2027 = betalte billetter 2026 × etterspørselsfaktor × lokaleeffekt.",
+    "Lokaleeffekten er 100 % i alle saler. Den finnes for å teste om salget avhenger av salen.",
     "Inn per billett: pris minus gebyr, betalt måneden etter konserten.",
     "Ut per billett: andre publikumsutgifter, betalt i konsertmåneden."
    ],
@@ -1024,7 +1454,8 @@ window.GRAPH = {
      "Basis",
      "Lav etterspørsel",
      "Høyere pakkepris",
-     "Samlet"
+     "Samlet",
+     "Høy etterspørsel"
     ],
     "rader": [
      {
@@ -1033,7 +1464,8 @@ window.GRAPH = {
        51324,
        -31964,
        -19974,
-       -103263
+       -103263,
+       102783
       ]
      },
      {
@@ -1042,7 +1474,8 @@ window.GRAPH = {
        201394,
        -8529,
        130095,
-       -79828
+       -79828,
+       372350
       ]
      },
      {
@@ -1051,12 +1484,14 @@ window.GRAPH = {
        173787,
        2157,
        102488,
-       -69141
+       -69141,
+       313035
       ]
      },
      {
       "handling": "avstå",
       "verdier": [
+       0,
        0,
        0,
        0,
@@ -1145,7 +1580,8 @@ window.GRAPH = {
      "Basis",
      "Lav etterspørsel",
      "Høyere pakkepris",
-     "Samlet"
+     "Samlet",
+     "Høy etterspørsel"
     ],
     "rader": [
      {
@@ -1154,7 +1590,8 @@ window.GRAPH = {
        231900,
        253200,
        261900,
-       318080
+       318080,
+       210320
       ]
      },
      {
@@ -1163,7 +1600,8 @@ window.GRAPH = {
        316100,
        372120,
        358100,
-       414120
+       414120,
+       288960
       ]
      },
      {
@@ -1172,12 +1610,14 @@ window.GRAPH = {
        216696,
        240361,
        246696,
-       282361
+       282361,
+       200035
       ]
      },
      {
       "handling": "avstå",
       "verdier": [
+       0,
        0,
        0,
        0,
@@ -1196,8 +1636,8 @@ window.GRAPH = {
    "y": 485,
    "quiet": false,
    "ark": "Resultater",
-   "formler": 121,
-   "omfang": "43 rader × 22 kolonner",
+   "formler": 138,
+   "omfang": "49 rader × 24 kolonner",
    "celler": [
     {
      "navn": null,
@@ -1263,8 +1703,8 @@ window.GRAPH = {
    "y": 790,
    "quiet": false,
    "ark": "Usikkerhet",
-   "formler": 659,
-   "omfang": "194 rader × 20 kolonner",
+   "formler": 1052,
+   "omfang": "388 rader × 20 kolonner",
    "slik": [
     "Konsekvenstabell: alle fire scenarioer samtidig.",
     "Etterspørsel mot pakkepris, for hver avtale.",
@@ -1334,6 +1774,20 @@ window.GRAPH = {
      "verdi": 2,
      "enhet": null,
      "formel": "=MATCH(C9,{\"A\",\"B\",\"C\"},0)"
+    },
+    {
+     "navn": "dt_lokal_A",
+     "adresse": "Usikkerhet!C206",
+     "etikett": "Lokaleeffekt A",
+     "verdi": null,
+     "enhet": null
+    },
+    {
+     "navn": "dt_lokal_BC",
+     "adresse": "Usikkerhet!C207",
+     "etikett": "Lokaleeffekt B og C",
+     "verdi": null,
+     "enhet": null
     }
    ],
    "sporsmal": [
@@ -1345,7 +1799,7 @@ window.GRAPH = {
    "id": "grenser",
    "label": "Grenser",
    "kind": "usikkerhet",
-   "desc": "Salgsnivået, som andel av salget i 2026, der nåverdien blir negativ eller behovet går over rammen.",
+   "desc": "Salgsnivået, som andel av salget i 2026, der nåverdien blir negativ eller behovet går over rammen. I tillegg: hvor mye dårligere B og C må selge enn A før A blir best.",
    "x": 1500,
    "y": 860,
    "quiet": false,
@@ -1397,6 +1851,54 @@ window.GRAPH = {
      "verdi": 0.7588,
      "enhet": null,
      "formel": "=IF(COUNT(O60:O129)>0,MIN(O60:O129),IF(H130>ramme,\"Over rammen i hele området\",\"Innenfor i hele området\"))"
+    },
+    {
+     "navn": "grense_lokal_B",
+     "adresse": "Usikkerhet!N210",
+     "etikett": "B: lokaleeffekt der nåverdien blir lik A",
+     "verdi": 0.8545,
+     "enhet": null,
+     "formel": "=IF(COUNT(H212:H281)>0,MIN(H212:H281),IF(C212>=nv_A,\"Under 50 %\",\"Over 120 %\"))"
+    },
+    {
+     "navn": "grense_lokal_C",
+     "adresse": "Usikkerhet!N211",
+     "etikett": "C: lokaleeffekt der nåverdien blir lik A",
+     "verdi": 0.8544,
+     "enhet": null,
+     "formel": "=IF(COUNT(I212:I281)>0,MIN(I212:I281),IF(D212>=nv_A,\"Under 50 %\",\"Over 120 %\"))"
+    },
+    {
+     "navn": "grense_lokal_behov_B",
+     "adresse": "Usikkerhet!N212",
+     "etikett": "B: behov ved den grensen",
+     "verdi": 356939.4916,
+     "enhet": null,
+     "formel": "=IFERROR(INDEX(J212:J281,MATCH(grense_lokal_B,H212:H281,0)),\"\")"
+    },
+    {
+     "navn": "grense_lokal_behov_C",
+     "adresse": "Usikkerhet!N213",
+     "etikett": "C: behov ved den grensen",
+     "verdi": 229001.4391,
+     "enhet": null,
+     "formel": "=IFERROR(INDEX(K212:K281,MATCH(grense_lokal_C,I212:I281,0)),\"\")"
+    },
+    {
+     "navn": "grense_lokal_A",
+     "adresse": "Usikkerhet!N214",
+     "etikett": "A: lokaleeffekt der nåverdien blir lik C",
+     "verdi": "Aldri, heller ikke med fullt hus",
+     "enhet": null,
+     "formel": "=IF(COUNT(F288:F387)>0,MIN(F288:F387),IF(C288>=nv_C,\"A er allerede over C\",\"Aldri, heller ikke med fullt hus\"))"
+    },
+    {
+     "navn": "nv_A_fullt",
+     "adresse": "Usikkerhet!N215",
+     "etikett": "A: nåverdi med fullt hus hver kveld",
+     "verdi": 155704.2033,
+     "enhet": null,
+     "formel": "=MAX(C288:C388)"
     }
    ],
    "slik": [
@@ -1417,7 +1919,7 @@ window.GRAPH = {
    "y": 200,
    "quiet": false,
    "ark": "Kontroller",
-   "formler": 112,
+   "formler": 115,
    "omfang": "44 rader × 9 kolonner",
    "slik": [
     "Uavhengig regning av de samme tallene.",
@@ -1438,8 +1940,8 @@ window.GRAPH = {
    "y": 860,
    "quiet": false,
    "ark": "Figurer",
-   "formler": 16,
-   "omfang": "8 rader × 31 kolonner"
+   "formler": 80,
+   "omfang": "24 rader × 32 kolonner"
   },
   {
    "id": "kapasitet",
@@ -1451,7 +1953,7 @@ window.GRAPH = {
    "quiet": false,
    "ark": "Kapasitet",
    "formler": 5,
-   "omfang": "29 rader × 6 kolonner",
+   "omfang": "31 rader × 6 kolonner",
    "slik": [
     "Sammenligner salgbare plasser i tilbudene med tallene på nettsidene.",
     "Studio USF som virkelig eksempel: 250 eller 300 stående, avhengig av kilde.",
@@ -1525,7 +2027,7 @@ window.GRAPH = {
    "antall": 12,
    "eks": {
     "celle": "Konserter!I6",
-    "formel": "=MIN(G6,plasser_B)"
+    "formel": "=MIN(G6*lokal_B,plasser_B)"
    },
    "type": "formel",
    "quiet": false
@@ -1610,7 +2112,7 @@ window.GRAPH = {
   {
    "fra": "behov",
    "til": "usikkerhet",
-   "antall": 37,
+   "antall": 40,
    "eks": {
     "celle": "Usikkerhet!C18",
     "formel": "=behov_A"
@@ -1668,7 +2170,7 @@ window.GRAPH = {
    "antall": 1,
    "eks": {
     "celle": "Kontroller!F30",
-    "formel": "=COUNTA(Usikkerhet!C4:C8)"
+    "formel": "=COUNTA(Usikkerhet!C4:C8)+COUNTA(Usikkerhet!C206:C207)"
    },
    "type": "formel",
    "quiet": true
@@ -1687,7 +2189,7 @@ window.GRAPH = {
   {
    "fra": "dt_hjelp",
    "til": "salg",
-   "antall": 4,
+   "antall": 7,
    "eks": {
     "celle": "Forutsetninger!F21",
     "formel": "=IF(ISBLANK(dt_ettersp),D21,dt_ettersp)*(1+IF(dt_fs_nr=1,dt_fs_endring,0))"
@@ -1742,7 +2244,7 @@ window.GRAPH = {
   {
    "fra": "finans",
    "til": "kontroller",
-   "antall": 7,
+   "antall": 8,
    "eks": {
     "celle": "Kontroller!C4",
     "formel": "=IF(konvensjon=1,(1+realrente)^(1/12)-1,realrente/12)"
@@ -1774,8 +2276,19 @@ window.GRAPH = {
   },
   {
    "fra": "grenser",
+   "til": "kontroller",
+   "antall": 1,
+   "eks": {
+    "celle": "Kontroller!F38",
+    "formel": "=grense_lokal_C"
+   },
+   "type": "formel",
+   "quiet": true
+  },
+  {
+   "fra": "grenser",
    "til": "resultater",
-   "antall": 6,
+   "antall": 12,
    "eks": {
     "celle": "Resultater!C34",
     "formel": "=grense_nv_A"
@@ -1797,10 +2310,10 @@ window.GRAPH = {
   {
    "fra": "grunnlag",
    "til": "kontroller",
-   "antall": 6,
+   "antall": 7,
    "eks": {
     "celle": "Kontroller!H32",
-    "formel": "=IF(OR(grunnlag_2026<>\"Ordrer\",konvensjon<>1),\"Ikke aktuell\",IF(ABS(G32)<1,\"Ja\",\"Nei\"))"
+    "formel": "=IF(OR(grunnlag_2026<>\"Ordrer\",konvensjon<>1,lokal_A<>1,lokal_B<>1,lokal_C<>1),\"Ikke aktuell\",IF(ABS(G32)<1,\"Ja\",\"Nei\"))"
    },
    "type": "formel",
    "quiet": true
@@ -1884,6 +2397,17 @@ window.GRAPH = {
   },
   {
    "fra": "nv",
+   "til": "grenser",
+   "antall": 3,
+   "eks": {
+    "celle": "Usikkerhet!N210",
+    "formel": "=IF(COUNT(H212:H281)>0,MIN(H212:H281),IF(C212>=nv_A,\"Under 50 %\",\"Over 120 %\"))"
+   },
+   "type": "formel",
+   "quiet": false
+  },
+  {
+   "fra": "nv",
    "til": "kontroller",
    "antall": 8,
    "eks": {
@@ -1896,7 +2420,7 @@ window.GRAPH = {
   {
    "fra": "nv",
    "til": "resultater",
-   "antall": 8,
+   "antall": 9,
    "eks": {
     "celle": "Resultater!F9",
     "formel": "=nv_A"
@@ -1907,7 +2431,7 @@ window.GRAPH = {
   {
    "fra": "nv",
    "til": "usikkerhet",
-   "antall": 43,
+   "antall": 286,
    "eks": {
     "celle": "Usikkerhet!C14",
     "formel": "=nv_A"
@@ -2061,7 +2585,7 @@ window.GRAPH = {
   {
    "fra": "salg",
    "til": "konserter",
-   "antall": 108,
+   "antall": 180,
    "eks": {
     "celle": "Konserter!G6",
     "formel": "=F6*ettersp_faktor"
@@ -2072,7 +2596,7 @@ window.GRAPH = {
   {
    "fra": "salg",
    "til": "kontroller",
-   "antall": 3,
+   "antall": 10,
    "eks": {
     "celle": "Kontroller!E22",
     "formel": "=n_konserter*plasser_A*(billettpris-billettgebyr-publikumsutgift)-n_konserter*pakkepris-n_konserter*leie_A"
@@ -2094,7 +2618,7 @@ window.GRAPH = {
   {
    "fra": "scenario",
    "til": "figurer",
-   "antall": 4,
+   "antall": 5,
    "eks": {
     "celle": "Figurer!AB5",
     "formel": "=INDEX(scen_navn,1)"
@@ -2105,10 +2629,10 @@ window.GRAPH = {
   {
    "fra": "scenario",
    "til": "kontroller",
-   "antall": 2,
+   "antall": 3,
    "eks": {
     "celle": "Kontroller!F28",
-    "formel": "=ABS(INDEX(Usikkerhet!D14:G14,aktivt_scenario)-nv_A)+ABS(INDEX(Usikkerhet!D15:G15,aktivt_scenario)-nv_B)+ABS(INDEX(Usikkerhet!D16:G16,aktivt_scenario)-nv_C)"
+    "formel": "=ABS(INDEX(Usikkerhet!D14:H14,aktivt_scenario)-nv_A)+ABS(INDEX(Usikkerhet!D15:H15,aktivt_scenario)-nv_B)+ABS(INDEX(Usikkerhet!D16:H16,aktivt_scenario)-nv_C)"
    },
    "type": "formel",
    "quiet": true
@@ -2127,7 +2651,7 @@ window.GRAPH = {
   {
    "fra": "scenario",
    "til": "resultater",
-   "antall": 9,
+   "antall": 11,
    "eks": {
     "celle": "Resultater!C4",
     "formel": "=INDEX(scen_navn,aktivt_scenario)"
@@ -2149,7 +2673,7 @@ window.GRAPH = {
   {
    "fra": "scenario",
    "til": "usikkerhet",
-   "antall": 4,
+   "antall": 5,
    "eks": {
     "celle": "Usikkerhet!D12",
     "formel": "=INDEX(scen_navn,D13)"
@@ -2160,7 +2684,7 @@ window.GRAPH = {
   {
    "fra": "usikkerhet",
    "til": "figurer",
-   "antall": 12,
+   "antall": 15,
    "eks": {
     "celle": "Figurer!AC5",
     "formel": "=Usikkerhet!D14"
@@ -2171,10 +2695,10 @@ window.GRAPH = {
   {
    "fra": "usikkerhet",
    "til": "grenser",
-   "antall": 6,
+   "antall": 12,
    "eks": {
-    "celle": "Usikkerhet!S59",
-    "formel": "=IF(COUNT(J60:J129)>0,MIN(J60:J129),IF(C60>=0,\"Positiv i hele området\",\"Negativ i hele området\"))"
+    "celle": "Usikkerhet!N215",
+    "formel": "=MAX(C288:C388)"
    },
    "type": "formel",
    "quiet": false
@@ -2193,7 +2717,7 @@ window.GRAPH = {
   {
    "fra": "usikkerhet",
    "til": "resultater",
-   "antall": 32,
+   "antall": 40,
    "eks": {
     "celle": "Resultater!C19",
     "formel": "=Usikkerhet!D14"
