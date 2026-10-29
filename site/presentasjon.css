@@ -353,7 +353,7 @@ body {
 
 /* Turen gjennom modellkartet */
 .lysbilde.tur { padding: 0; }
-.tur-venstre { position: absolute; left: 70px; top: 50px; width: 470px; transition: width .7s cubic-bezier(.65,0,.35,1); }
+.tur-venstre { position: absolute; left: 70px; top: 50px; width: 470px; transition: width .7s cubic-bezier(.65,0,.35,1), opacity .4s ease, transform .4s ease; }
 .tur.dyp .tur-venstre { width: 820px; }
 .akter { display: flex; gap: 5px; margin: 0 0 26px; padding: 0; list-style: none; }
 .akter li { padding: 7px 11px 4px; background: rgba(244,242,234,.9); font-family: "Marker", cursive; font-size: 16px; color: var(--blekk-svak); opacity: .5; transition: opacity .4s, background .4s, color .4s; }
@@ -399,7 +399,7 @@ body {
 .tk-saldo .linje-b { stroke: var(--minus); stroke-width: 3.2; }
 .tk-saldo .merke { font-family: "Marker", cursive; font-size: 15px; fill: var(--blekk); }
 .tk-saldo .bunn { fill: var(--minus); }
-.tur-kartramme { position: absolute; left: 580px; top: 40px; width: 990px; height: 790px; transition: left .7s cubic-bezier(.65,0,.35,1), width .7s cubic-bezier(.65,0,.35,1); background: var(--tavle); box-shadow: inset 0 0 0 2px var(--strek); }
+.tur-kartramme { position: absolute; left: 580px; top: 40px; width: 990px; height: 790px; transition: left .7s cubic-bezier(.65,0,.35,1), width .7s cubic-bezier(.65,0,.35,1), opacity .4s ease; background: var(--tavle); box-shadow: inset 0 0 0 2px var(--strek); }
 .tur-kartramme iframe { width: 100%; height: 100%; border: 0; display: block; }
 .hele-kartet { position: absolute; left: 24px; bottom: 22px; z-index: 6; font-size: 15px; color: var(--blekk); }
 @media (prefers-reduced-motion: reduce) { .tur-kort { transition: none; } }
@@ -439,4 +439,10 @@ body {
 .bt-forklaring li { display: flex; align-items: center; gap: 6px; }
 .bt-forklaring li::before { content: ""; width: 12px; height: 12px; background: var(--c); }
 .tk-side-om-side { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
-@media (prefers-reduced-motion: reduce) { .tur-venstre, .tur-kartramme { transition: none; } }
+/* Overgangen fra turen til resultatsiden */
+.tur.ut .tur-venstre { opacity: 0; transform: translateX(-24px); }
+.tur.ut .tur-kartramme { opacity: 0; transition-delay: 0s, 0s, .5s; }
+.tur.ut .hele-kartet { opacity: 0; }
+.lysbilde.aktiv.fra-tur { animation: fra-tur .6s cubic-bezier(.2,.7,.2,1); }
+@keyframes fra-tur { from { opacity: 0; transform: scale(1.03); } }
+@media (prefers-reduced-motion: reduce) { .tur-venstre, .tur-kartramme { transition: none; } .lysbilde.aktiv.fra-tur { animation: none; } }

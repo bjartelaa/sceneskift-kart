@@ -285,6 +285,12 @@
     history.replaceState(null, "", "#" + aktiv + t);
   }
   if (window.TUR) window.TUR.vedEndring = () => lagreAdresse();
+  if (window.TUR) window.TUR.vedUtgang = () => {
+    const neste = bilder[aktiv + 1];
+    neste.classList.add("fra-tur");
+    gaaTil(aktiv + 1);
+    setTimeout(() => neste.classList.remove("fra-tur"), 1000);
+  };
   const tur = () => (bilder[aktiv].classList.contains("tur") ? window.TUR : null);
   function tast(key) {
     if (["ArrowRight", "PageDown", " ", "Enter"].includes(key)) { if (!(tur() && tur().neste())) gaaTil(aktiv + 1); }

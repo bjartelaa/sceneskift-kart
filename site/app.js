@@ -520,7 +520,18 @@
     fokusIds = st.vei ? null : fokus;
     tilpass(fokusIds);
   }
-  addEventListener("message", e => { if (e.data && "tur" in e.data) turFokus(e.data.tur); });
+  // Overgang ut av turen: zoom helt inn på én lapp
+  function turUt(id) {
+    const w = scene.clientWidth, h = scene.clientHeight;
+    const [x1, y1, x2, y2] = boks([id]);
+    const s = Math.min(w / (x2 - x1), h / (y2 - y1)) * 0.8;
+    tavle.style.transform = `translate(${w / 2 - ((x1 + x2) / 2) * s}px, ${h / 2 - ((y1 + y2) / 2) * s}px) scale(${s})`;
+  }
+  addEventListener("message", e => {
+    if (!e.data) return;
+    if ("tur" in e.data) turFokus(e.data.tur);
+    else if (e.data.turUt) turUt(e.data.turUt);
+  });
 
   const start = () => {
     tegnTrader();

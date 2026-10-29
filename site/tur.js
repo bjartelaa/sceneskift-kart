@@ -163,6 +163,14 @@ window.TUR = (() => {
       notat: ["Data til venstre, forutsetninger, modellen i midten, resultatene til høyre.", "Hver del: først oversikten, så lappene én for én."] },
 
     // DATA
+    { akt: -1, alle: true, tittel: "Veien fra data til råd", tekst: "Rådet til Maja bygger på billettene fra 2026. Vi følger tråden del for del.",
+      kart: { vei: true },
+      kort: () => {
+        const ol = html("ol", "tk-vei");
+        for (const id of veiTilRad()) ol.appendChild(html("li", "", node(id).label));
+        return kort(kortTittel("Veien"), ol);
+      },
+      notat: ["Veikartet for resten av turen.", "Lenken nederst til venstre åpner kartet i eget vindu, der man kan trykke på hver lapp."] },
     { akt: 0, tittel: "Data: fem lapper", tekst: "Billettsystemet gir to filer. Power Query renser dem, og Avstemming sjekker at de stemmer med hverandre.",
       kart: { fokus: DATA, hoved: [] },
       kort: () => kort(kortTittel("Lappene"), linjer([
@@ -260,17 +268,20 @@ window.TUR = (() => {
         return kort(rad, liten(`B betaler ${kr(-KS[0][ksKol.B + 4])} ved t0 og er lavest i mars. Uthevet: laveste saldo for hver sal.`));
       },
       notat: ["Billettpengene kommer måneden etter, pakken går ut før. Derfor går saldoen ned først.", "Månedsslutt skjuler forfall inne i måneden."] },
-    { akt: 4, tittel: "Hele veien fra data til råd", tekst: "Rådet kan følges tilbake tråd for tråd til billettene fra 2026.",
-      kart: { vei: true },
-      kort: () => {
-        const ol = html("ol", "tk-vei");
-        for (const id of veiTilRad()) ol.appendChild(html("li", "", node(id).label));
-        return kort(kortTittel("Veien"), ol);
-      },
-      notat: ["Lenken nederst til venstre åpner kartet i eget vindu, der man kan trykke på hver lapp."] },
+    { akt: 3, tittel: "Resultat: alt samles på ett ark", tekst: "Nåverdien og behovet for hver sal hentes inn i Resultater. Der står det Maja trenger for å velge.",
+      kart: { fokus: ["nv", "behov", "resultater"], hoved: ["resultater"] },
+      ut: "resultater",
+      kort: () => kort(kortTittel("Inn i Resultater"), linjer([
+        ["Nåverdi", "per sal, diskontert til t0"],
+        ["Behov", "laveste saldo per sal"],
+        [kr(rammeKr), "rammen Maja har"],
+        ["4 handlinger", "A, B, C eller avstå"],
+      ])),
+      notat: ["Trykk videre: kartet går inn i Resultater og over i resultatsiden."] },
   ];
 
   let steg = 0;
+  let utgang = null;
   function send() {
     if (ramme.contentWindow) ramme.contentWindow.postMessage({ tur: STEG[steg].kart }, "*");
   }
@@ -281,11 +292,14 @@ window.TUR = (() => {
   function vis(i) {
     steg = Math.max(0, Math.min(STEG.length - 1, i));
     const st = STEG[steg];
+    clearTimeout(utgang);
+    utgang = null;
+    lysbilde.classList.remove("ut");
     if (!ramme.src) ramme.src = ramme.dataset.src;
     lysbilde.classList.toggle("dyp", !!st.dyp);
     send();
     akter.forEach((li, j) => {
-      li.classList.toggle("aktiv", j === st.akt || st.akt === 4);
+      li.classList.toggle("aktiv", j === st.akt || !!st.alle);
       li.classList.toggle("ferdig", j < st.akt);
     });
     tittelEl.textContent = st.tittel;
@@ -306,8 +320,18 @@ window.TUR = (() => {
     antall: STEG.length,
     get steg() { return steg; },
     vis,
-    neste() { if (steg < STEG.length - 1) { vis(steg + 1); return true; } return false; },
+    neste() {
+      if (steg < STEG.length - 1) { vis(steg + 1); return true; }
+      if (utgang) return true;
+      if (!STEG[steg].ut || matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
+      // Siste steg: kartet zoomer inn i lappen og går over i neste lysbilde
+      lysbilde.classList.add("ut");
+      ramme.contentWindow.postMessage({ turUt: STEG[steg].ut }, "*");
+      utgang = setTimeout(() => { utgang = null; if (window.TUR.vedUtgang) window.TUR.vedUtgang(); }, 900);
+      return true;
+    },
     forrige() { if (steg > 0) { vis(steg - 1); return true; } return false; },
     vedEndring: null,
+    vedUtgang: null,
   };
 })();
