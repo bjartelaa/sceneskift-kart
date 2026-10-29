@@ -6,7 +6,7 @@ Privat til etter innleveringsfristen 13.11.2026.
 
 ## Åpne
 
-Dobbeltklikk `site/index.html`. Siden trenger ikke nett: fonter, bilder og data ligger i mappa.
+Dobbeltklikk `site/index.html`. Siden trenger ikke nett: fonter og data ligger i mappa.
 
 Direkte lenke til en lapp: `site/index.html#konserter`, `#nv`, `#salg` osv.
 
@@ -20,9 +20,9 @@ python3 scripts/extract_graph.py "<sti til Sceneskift_AK2_modell.xlsx>"
 
 Skriptet åpner arbeidsboka bare for lesing og skriver `site/data/graph.js`. Ingen rådata fra ordrene kommer med.
 
-- `scripts/kart_config.py`: hvilke navngitte celler hver lapp samler, hvor lappen henger og teksten om den. Seks tråder er lagt inn for hånd (CSV-import, Power Query og notatet) og vises stiplet.
+- `scripts/kart_config.py`: hvilke navngitte celler hver lapp samler, hvor lappen henger og teksten om den. Fire tråder er lagt inn for hånd (Power Query og notatet) og vises stiplet.
 - Dempede tråder (til Kontroller, fra hjelpecellene og fra forutsetningene til Usikkerhet og Resultater) synes når en av lappene velges.
 
 ## Bilder
 
-Konsertbilder fra Bjartes arkiv, komprimert til `site/img/`. Originalene ligger i `bilder-original/` og er holdt utenfor git.
+Konsertbilder til presentasjonen, komprimert, ligger i `presentasjon-bilder/`. De brukes ikke i kartet. Originalene ligger i `bilder-original/` og er holdt utenfor git.
