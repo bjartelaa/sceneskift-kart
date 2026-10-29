@@ -223,6 +223,19 @@ body {
 .farger i { width: 8px; height: 18px; background: var(--c); transform: rotate(4deg); }
 .forklaring-tekst { margin: 0 0 6px; color: var(--blekk-svak); }
 
+.til-presentasjon {
+  position: absolute;
+  right: 20px; top: 16px;
+  z-index: 5;
+  padding: 6px 12px 5px;
+  background: var(--papir);
+  box-shadow: 0 0 0 1px var(--strek);
+  font-size: 15px;
+  color: var(--blekk);
+  text-underline-offset: 3px;
+}
+.tur-modus .til-presentasjon { display: none; }
+
 /* Panelet */
 .ark-panel {
   position: relative;

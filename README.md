@@ -9,6 +9,8 @@ Privat til etter innleveringsfristen 13.11.2026.
 - `site/index.html`: presentasjonen. Piltaster eller klikker for å bla, N viser notater for den som snakker. `#4` går rett til side 4, `#2.3` til steg 3 i turen.
 - `site/tavla.html`: tavla alene. Direkte lenke til en lapp: `tavla.html#konserter`, `#nv`, `#salg` osv. Panelet viser «Hva vi har gjort» med tabellene fra arbeidsboka for hver lapp.
 
+Presentasjonen åpner tavla og Konsertplan i samme fane med `?fra=presentasjon`. «Til presentasjonen» (tavla) og «Tilbake til presentasjonen» (Konsertplan) går da tilbake til samme side og steg. Konsertplan må ligge ved siden av dette repoet (`~/Documents/konsertplan`).
+
 Siden trenger ikke nett: fonter, bilder og data ligger i mappa.
 
 Tallene i presentasjonen (avtalekort, figurene, grensene og beslutningsreglene) hentes fra `site/data/graph.js`, altså fra arbeidsboka. Teksten står i `site/index.html`. Rådet (`#5`) er merket «Utkast» til gruppa har formulert rådet selv.

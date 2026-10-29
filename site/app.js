@@ -257,7 +257,7 @@
       naler.forEach(c => c.classList.remove("aktiv"));
     }
     panel.hidden = true;
-    history.replaceState(null, "", location.pathname);
+    history.replaceState(null, "", location.pathname + location.search);
     tilpass();
   }
 
@@ -501,6 +501,12 @@
 
   // Turmodus: presentasjonen styrer hvilke lapper som er i fokus (tavla.html?tur)
   const turModus = new URLSearchParams(location.search).has("tur");
+  // Åpnet fra presentasjonen: tilbake går til samme side og steg som før
+  if (new URLSearchParams(location.search).get("fra") === "presentasjon") {
+    document.getElementById("til-presentasjon").addEventListener("click", e => {
+      if (history.length > 1) { e.preventDefault(); history.back(); }
+    });
+  }
   if (turModus) document.body.classList.add("tur-modus");
   let klar = false, ventende;
   function turFokus(st) {
