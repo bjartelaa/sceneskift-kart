@@ -375,6 +375,28 @@ details[open] .celle-sum span { text-decoration: underline; text-underline-offse
 }
 .tips code { display: block; margin-top: 4px; font-family: inherit; opacity: .8; word-break: break-word; }
 
+/* Hva vi har gjort: tallene fra arbeidsboka i panelet */
+@media (min-width: 761px) { .ark-panel.bred { flex-basis: min(660px, 50vw); } }
+.gjort { margin: 0 0 16px; padding-left: 20px; }
+.gjort li { margin-bottom: 6px; }
+.gjort li::marker { color: var(--blekk-svak); }
+.tk-detalj { overflow-x: auto; }
+.ark-panel .tk-tabell { font-size: 14px; }
+.ark-panel .tk-tabell.tett { font-size: 13px; }
+.ark-panel .tk-tabell tr.hode th { font-size: 15px; }
+.ark-panel .tk-tabell tr.sum td, .ark-panel .tk-tabell tr.sum th { font-size: 15px; }
+.ark-panel .tk-tabell td, .ark-panel .tk-tabell th { white-space: nowrap; }
+.ark-panel .tk-tabell td.begrunnelse { max-width: none; min-width: 220px; white-space: normal; }
+.ark-panel .tk-tittel { font-size: 17px; }
+.ark-panel .tk-linje { grid-template-columns: 130px 1fr; font-size: 14px; }
+.ark-panel .tk-linje b { font-size: 17px; }
+.ark-panel .tk-liten { font-size: 13px; }
+.ark-panel .tk-chips { grid-template-columns: repeat(3, 1fr); }
+.ark-panel .tk-side-om-side { grid-template-columns: 1fr; }
+.ark-panel .tk-saldo { max-width: 440px; }
+.ark-panel .tk-kontroller { columns: 1; }
+.ark-panel .tk-sal img { height: 200px; }
+
 @media (max-width: 760px) {
   body { overflow: auto; }
   .rom { flex-direction: column; height: auto; }

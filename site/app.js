@@ -439,6 +439,22 @@
     return s;
   }
 
+  // Hva vi har gjort i denne lappen, med tallene fra arbeidsboka (fra detaljer.js)
+  function gjortSeksjon(det) {
+    const s = seksjon("Hva vi har gjort");
+    if (det.gjort) {
+      const ul = lagEl("ul", "gjort");
+      for (const t of det.gjort) ul.appendChild(lagEl("li", "", t));
+      s.appendChild(ul);
+    }
+    if (det.kort) {
+      const d = lagEl("div", "tk-detalj");
+      d.appendChild(det.kort());
+      s.appendChild(d);
+    }
+    return s;
+  }
+
   function visPanel(n, vei) {
     const t = TYPER[n.kind];
     innhold.innerHTML = "";
@@ -446,6 +462,9 @@
     typ.append(flik(n.kind), document.createTextNode(t.ord));
     innhold.append(typ, lagEl("h2", "p-tittel", n.label), lagEl("p", "p-desc", n.desc));
     if (n.ark) innhold.appendChild(lagEl("p", "p-meta", `Arket ${n.ark}, ${n.formler} formler`));
+    const det = window.DETALJER && window.DETALJER.LAPP[n.id];
+    panel.classList.toggle("bred", !!(det && det.kort));
+    if (det) innhold.appendChild(gjortSeksjon(det));
 
     if (n.slik) {
       const s = seksjon("Slik regnes det");

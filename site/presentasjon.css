@@ -363,42 +363,6 @@ body {
 .tur-venstre .ingress { font-size: 20px; margin: 0 0 22px; }
 .tur-kort { padding: 20px 24px 18px; background: var(--papir); filter: drop-shadow(0 2px 1px rgba(0,0,0,.15)); transform: rotate(-.5deg); opacity: 0; transition: opacity .5s ease .5s; }
 .tur-kort.synlig { opacity: 1; }
-.tk-tittel { margin: 0 0 8px; font-family: "Marker", cursive; font-size: 21px; }
-.tk-tittel:not(:first-child) { margin-top: 16px; }
-.tk-linjer { display: grid; gap: 2px; }
-.tk-linje { display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: baseline; padding: 5px 0; border-top: 1px solid var(--strek); font-size: 16px; }
-.tk-linje b { font-size: 22px; font-weight: 800; font-stretch: 90%; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.tk-linje span { color: var(--blekk-svak); }
-.tk-linje.minus b { color: var(--minus); }
-.tk-linje.pluss b { color: var(--gronn); }
-.tk-linje.sum b { border-top: 2px solid var(--blekk); }
-.tk-tabell { width: 100%; border-collapse: collapse; font-size: 18px; font-variant-numeric: tabular-nums; }
-.tk-tabell th, .tk-tabell td { padding: 6px 4px; border-top: 1px solid var(--strek); text-align: right; }
-.tk-tabell th:first-child { text-align: left; font-weight: 400; color: var(--blekk-svak); }
-.tk-tabell tr.hode th { border-top: 0; font-family: "Marker", cursive; font-weight: 400; font-size: 19px; color: var(--blekk); }
-.tk-tabell tr.sum td, .tk-tabell tr.sum th { border-top: 2px solid var(--blekk); font-weight: 800; font-size: 22px; color: var(--blekk); }
-.tk-tabell .rod { color: var(--minus); font-weight: 700; }
-.tk-tabell .gronn { color: var(--gronn); }
-.tk-liten { margin: 12px 0 0; font-size: 15px; line-height: 1.4; color: var(--blekk-svak); }
-.tk-tekst { margin: 0; font-size: 18px; line-height: 1.4; }
-.tk-svar { margin: 14px 0 0; font-family: "Marker", cursive; font-size: 30px; }
-.tk-svar b { display: inline-block; padding: 4px 16px 0; background: var(--gaffa); color: #f1f0ea; font-weight: 400; transform: rotate(-2deg); }
-.tk-farger { display: flex; flex-wrap: wrap; gap: 8px 18px; margin: 0; padding: 0; list-style: none; font-size: 17px; }
-.tk-farger li { display: flex; align-items: center; gap: 8px; }
-.tk-farger li::before { content: ""; width: 10px; height: 22px; background: var(--c); transform: rotate(4deg); }
-.tk-vei { margin: 0; padding-left: 26px; font-size: 18px; line-height: 1.55; }
-.tk-saldo { display: block; width: 100%; height: auto; }
-.tk-saldo .aks { font-size: 12px; fill: var(--blekk-svak); }
-.tk-saldo .akse { stroke: var(--blekk); stroke-opacity: .25; }
-.tk-saldo .rutenett { stroke: var(--blekk); stroke-opacity: .07; }
-.tk-saldo .rammestrek { stroke: var(--minus); stroke-width: 2; stroke-dasharray: 6 5; }
-.tk-saldo .ille { fill: var(--ille); }
-.tk-saldo path { fill: none; stroke: var(--blekk); stroke-width: 2.2; stroke-linejoin: round; }
-.tk-saldo .linje-a { stroke-dasharray: 2 5; stroke-linecap: round; }
-.tk-saldo .linje-c { stroke-dasharray: 9 5; }
-.tk-saldo .linje-b { stroke: var(--minus); stroke-width: 3.2; }
-.tk-saldo .merke { font-family: "Marker", cursive; font-size: 15px; fill: var(--blekk); }
-.tk-saldo .bunn { fill: var(--minus); }
 .tur-kartramme { position: absolute; left: 580px; top: 40px; width: 990px; height: 790px; transition: left .7s cubic-bezier(.65,0,.35,1), width .7s cubic-bezier(.65,0,.35,1), opacity .4s ease; background: var(--tavle); box-shadow: inset 0 0 0 2px var(--strek); }
 .tur-kartramme iframe { width: 100%; height: 100%; border: 0; display: block; }
 .hele-kartet { position: absolute; left: 24px; bottom: 22px; z-index: 6; font-size: 15px; color: var(--blekk); }
@@ -417,28 +381,6 @@ body {
 .tur.dyp .tur-venstre .tittel { font-size: 40px; }
 .tur.dyp .tur-venstre .ingress { max-width: 820px; margin-bottom: 16px; }
 .tur.dyp .tur-kort { padding: 16px 22px 14px; transform: rotate(-.2deg); }
-.tk-tabell.tett { font-size: 15px; }
-.tk-tabell.tett th, .tk-tabell.tett td { padding: 3px 6px; }
-.tk-tabell tr.merket th, .tk-tabell tr.merket td { background: rgba(242,190,34,.25); }
-.tk-tabell tr.avvik th, .tk-tabell tr.avvik td { background: rgba(179,38,62,.08); }
-.tk-tabell tr.avbrutt td, .tk-tabell tr.avbrutt th { color: var(--minus); text-decoration: line-through; }
-.tk-tabell tr.graa td, .tk-tabell tr.graa th, .tk-tabell td.graa { color: var(--blekk-svak); opacity: .7; }
-.tk-tabell td.begrunnelse { text-align: left; font-size: 12.5px; line-height: 1.3; color: var(--blekk-svak); max-width: 420px; }
-.tk-tabell td.svak { color: var(--blekk-svak); font-size: 13px; }
-.tk-tabell td.bunn { font-weight: 800; box-shadow: inset 0 -2px 0 currentColor; }
-.tk-tabell td:has(.bt-stolpe) { text-align: left; }
-.tk-chips { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 4px; }
-.chip { padding: 4px 8px 3px; background: rgba(179,38,62,.07); border-left: 4px solid var(--minus); font-size: 12.5px; line-height: 1.25; }
-.chip b { display: block; font-size: 14px; font-variant-numeric: tabular-nums; }
-.chip span { color: var(--blekk-svak); }
-.chip.dup { background: rgba(238,122,44,.1); border-left-color: #ee7a2c; }
-.bt-stolpe { display: flex; height: 18px; margin: 4px 0; overflow: hidden; }
-.tk-tabell .bt-stolpe { height: 12px; margin: 0; }
-.bt-stolpe span { display: block; height: 100%; }
-.bt-forklaring { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 4px 0 0; padding: 0; list-style: none; font-size: 14px; color: var(--blekk-svak); }
-.bt-forklaring li { display: flex; align-items: center; gap: 6px; }
-.bt-forklaring li::before { content: ""; width: 12px; height: 12px; background: var(--c); }
-.tk-side-om-side { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
 /* Overgangen fra turen til resultatsiden */
 .tur.ut .tur-venstre { opacity: 0; transform: translateX(-24px); }
 .tur.ut .tur-kartramme { opacity: 0; transition-delay: 0s, 0s, .5s; }
