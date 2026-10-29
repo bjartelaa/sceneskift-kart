@@ -438,21 +438,5 @@ body {
 .bt-forklaring { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 4px 0 0; padding: 0; list-style: none; font-size: 14px; color: var(--blekk-svak); }
 .bt-forklaring li { display: flex; align-items: center; gap: 6px; }
 .bt-forklaring li::before { content: ""; width: 12px; height: 12px; background: var(--c); }
-.tk-saler { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.tk-sal img { display: block; width: 100%; height: 120px; object-fit: cover; }
-.tk-sal h3 { margin: 8px 0 4px; font-family: "Marker", cursive; font-weight: 400; font-size: 21px; }
-.tk-sal ul { margin: 0; padding: 0; list-style: none; font-size: 15px; line-height: 1.35; }
-.tk-sal li.stor { font-size: 22px; font-weight: 800; font-stretch: 90%; }
 .tk-side-om-side { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
-.tk-kontroller { columns: 2; column-gap: 26px; margin: 0; padding: 0; list-style: none; font-size: 13.5px; line-height: 1.3; }
-.tk-kontroller li { display: flex; gap: 8px; padding: 2px 0; break-inside: avoid; }
-.tk-kontroller .nr { flex: none; width: 24px; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
-.tk-kontroller li.ok .nr { color: var(--gronn); }
-.tk-kontroller li.feil { color: var(--minus); }
-.tk-regler { display: grid; gap: 10px; }
-.tk-regel { display: grid; grid-template-columns: 110px 1fr; column-gap: 16px; padding: 10px 0; border-top: 1px solid var(--strek); }
-.tk-regel .valg { grid-row: span 2; align-self: center; justify-self: start; padding: 6px 14px 3px; background: rgba(29,36,51,.08); font-family: "Marker", cursive; font-weight: 400; font-size: 26px; }
-.tk-regel.anbefalt .valg { background: var(--gaffa); color: #f1f0ea; }
-.tk-regel .navn { margin: 0; font-weight: 700; font-size: 17px; }
-.tk-regel p { margin: 0; font-size: 15px; line-height: 1.35; color: var(--blekk-svak); }
 @media (prefers-reduced-motion: reduce) { .tur-venstre, .tur-kartramme { transition: none; } }
