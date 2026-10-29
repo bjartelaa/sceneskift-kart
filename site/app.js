@@ -192,7 +192,7 @@
     return [x1, y1, x2, y2];
   }
   function tilpass(fokusIds) {
-    const smal = innerWidth <= 760;
+    const smal = innerWidth <= 760 && !document.body.classList.contains("tur-modus");
     const w = scene.clientWidth, h = scene.clientHeight;
     const hele = Math.min(w / W, h / H);
     let s, ox, oy;

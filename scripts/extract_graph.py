@@ -133,6 +133,72 @@ def les_konserter(wv):
     return ut
 
 
+def les_tabell(ws, r_hode, kol_start, antall=None, stopp=("Sum", None)):
+    """Leser en tabell under en overskriftsrad. Kolonnenavnene hentes fra overskriften."""
+    navn = []
+    k = kol_start
+    while ws.cell(r_hode, k).value is not None:
+        navn.append(str(ws.cell(r_hode, k).value).replace("-", "").replace("\n", " "))
+        k += 1
+    rader, r = [], r_hode + 1
+    while ws.cell(r, kol_start).value not in stopp and (antall is None or len(rader) < antall):
+        rad = []
+        for j in range(len(navn)):
+            v = ws.cell(r, kol_start + j).value
+            if isinstance(v, float):
+                v = round(v, 6)
+            elif hasattr(v, "isoformat"):
+                v = v.date().isoformat() if hasattr(v, "date") else v.isoformat()
+            rad.append(v)
+        rader.append(rad)
+        r += 1
+    sum_rad = None
+    if ws.cell(r, kol_start).value == "Sum":
+        sum_rad = [ws.cell(r, kol_start + j).value for j in range(len(navn))]
+    return {"kolonner": navn, "rader": rader, "sum": sum_rad}
+
+
+def les_detaljer(wv):
+    """Detaljer til turen: rådata, rensing, avstemming, scenarioer, kontantstrøm, regler og kontroller."""
+    from collections import Counter
+    raa = wv["Rå_ordrer"]
+    rader = [[c for c in r] for r in raa.iter_rows(min_row=2, max_col=11, values_only=True) if r[0]]
+    teller = Counter(r[0] for r in rader)
+    duplikater = sorted(k for k, v in teller.items() if v > 1)
+    tid = lambda v: v.strftime("%d.%m.%Y") if hasattr(v, "strftime") else str(v)[:10]
+    ut = {
+        "raa": {
+            "rader": len(rader),
+            "ordrer": sum(1 for r in rader if r[3] == "Ordre"),
+            "refusjoner": sum(1 for r in rader if r[3] == "Refusjon"),
+            "fullfort": sum(1 for r in rader if r[5] == "Fullført"),
+            "avbrutt": sum(1 for r in rader if r[5] == "Avbrutt"),
+            "kanal": dict(Counter(r[7] for r in rader)),
+            "eksempel": [[r[0], str(r[1])[:16], r[2], r[3], r[5], r[6], r[8], r[10]] for r in rader[:6]],
+        },
+        "avbrutte": [[r[0], r[2], r[6], r[8], r[10], tid(r[1])] for r in rader if r[5] == "Avbrutt"],
+        "duplikater": [[k, next(r[2] for r in rader if r[0] == k), next(r[8] for r in rader if r[0] == k)] for k in duplikater],
+    }
+    av = wv["Avstemming"]
+    ut["avstemming"] = les_tabell(av, finn_rad(av, 1, "Konsert"), 1)
+    ut["billettyper"] = les_tabell(av, finn_rad(av, 1, "Konsert", finn_rad(av, 1, "Konsert") + 1), 1)
+    op = wv["Oppgjør"]
+    ut["oppgjor"] = les_tabell(op, 1, 1)
+    fo = wv["Forutsetninger"]
+    ut["scenarioer"] = les_tabell(fo, finn_rad(fo, 2, "Nr"), 2, antall=5)
+    ks = wv["Kontantstrøm"]
+    r = finn_rad(ks, 1, "t")
+    ut["kontantstrom"] = {"rader": [[ks.cell(rr, k).value for k in range(1, 26)] for rr in range(r + 1, r + 9)],
+                          "kolonner": [ks.cell(r, k).value for k in range(1, 26)]}
+    rs = wv["Resultater"]
+    ut["hovedtall"] = les_tabell(rs, finn_rad(rs, 2, "Handling"), 2, antall=4)
+    rr = finn_rad(rs, 2, "Regel")
+    ut["regler"] = [[rs.cell(x, 2).value, rs.cell(x, 3).value, rs.cell(x, 10).value] for x in range(rr + 1, rr + 5)]
+    kt = wv["Kontroller"]
+    ut["kontroller"] = les_tabell(kt, finn_rad(kt, 2, "Nr"), 2)
+    return ut
+
+
 def main(path):
     wb = openpyxl.load_workbook(path, read_only=False)
     wv = openpyxl.load_workbook(path, read_only=False, data_only=True)
@@ -341,6 +407,7 @@ def main(path):
         "rutenett": les_rutenett(wv["Usikkerhet"]),
         "saldo": les_saldo(wv),
         "konserter": les_konserter(wv),
+        "detaljer": les_detaljer(wv),
         "nodes": nodes,
         "edges": out_edges,
     }

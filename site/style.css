@@ -381,6 +381,12 @@ details[open] .celle-sum span { text-decoration: underline; text-underline-offse
   .scene { flex: none; height: 58vh; overflow: auto; }
   .ark-panel { flex: none; width: 100%; height: auto; min-height: 42vh; padding: 28px 16px 40px; }
 }
+@media (max-width: 760px) {
+  body.tur-modus { overflow: hidden; }
+  .tur-modus .rom { flex-direction: row; height: 100vh; }
+  .tur-modus .scene { flex: 1; height: auto; overflow: hidden; }
+  .tur-modus .ark-panel { display: none; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .tavle, .lapp, .traad, .kolonne, .tittel, .forklaring { transition: none; }
