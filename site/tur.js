@@ -2,6 +2,7 @@
 // Hver del starter med en oversikt over lappene sine, og zoomer så inn på én lapp om gangen.
 // Tavla ligger i en ramme (tavla.html?tur) og får beskjed om hvilke lapper som skal i fokus.
 // På de dype stegene blir kortet til venstre bredt og kartet smalt, så tabellene får plass.
+// Stegene med kort40 har forklaringen på 40 % av bredden og kartet på resten (tilbakemelding nr 27 og 30).
 window.TUR = (() => {
   const { G, D, node, verdi, nb, kr, pst, rammeKr, html, kortTittel, liten, linjer, kort, LAPP } = window.DETALJER;
   const ramme = document.getElementById("tur-kart");
@@ -14,6 +15,8 @@ window.TUR = (() => {
   const akter = [...document.querySelectorAll("#akter li")];
 
   const DATA = ["raa_ordrer", "raa_oppgjor", "ordrer_renset", "oppgjor", "avstemming"];
+  // Mer luft mellom radene og kolonnene i en liste (tilbakemelding nr 29)
+  const luft = l => { l.classList.add("tk-luft"); return l; };
   const FORUTSETNINGER = ["scenario", "grunnlag", "salg", "pakke", "avtale_a", "avtale_b", "avtale_c", "finans"];
 
   // Modellen i fire lapper, vist som en kjede med C som eksempel
@@ -81,21 +84,21 @@ window.TUR = (() => {
         return kort(ol);
       },
       notat: ["Veikartet for resten av turen.", "Lenken nederst til venstre åpner kartet i eget vindu, der man kan trykke på hver lapp."] },
-    { akt: 0, tittel: "Data: fem lapper", tekst: "Billettsystemet gir to filer. Power Query renser dem, og Avstemming sjekker at de stemmer med hverandre.",
+    { akt: 0, kort40: true, tittel: "Data: fem lapper", tekst: "Billettsystemet gir to filer. Power Query renser dem, og Avstemming sjekker at de stemmer med hverandre.",
       kart: { fokus: DATA, hoved: [] },
-      kort: () => kort(kortTittel("Lappene"), linjer([
+      kort: () => kort(kortTittel("Lappene"), luft(linjer([
         [nb(D.raa.rader) + " rader", "Rå_ordrer: ordreeksporten, urørt"],
         [D.oppgjor.rader.length + " rader", "Rå_oppgjør: ett oppgjør per konsert"],
         [nb(D.avstemming.sum[4]) + " rader", "Ordrer_renset: uten avbrutte og doble"],
         [D.oppgjor.rader.length + " rader", "Oppgjør: med riktige datatyper"],
         [`${D.avstemming.rader.filter(r => r[15] === "Stemmer").length} av ${D.avstemming.rader.length}`, "Avstemming: konserter som stemmer"],
-      ])),
+      ]))),
       notat: ["Rådataene ligger urørt. Alt annet bygger på dem.", "Vi går gjennom lappene én for én."] },
-    { akt: 0, dyp: true, tittel: "Rå_ordrer: én rad per transaksjon", tekst: "Ordreeksporten fra Flytbillett, slik den kom. Både kjøp og refusjoner, og noen betalinger som aldri ble fullført.",
+    { akt: 0, dyp: true, kort40: true, tittel: "Rå_ordrer: én rad per transaksjon", tekst: "Ordreeksporten fra Flytbillett, slik den kom. Både kjøp og refusjoner, og noen betalinger som aldri ble fullført.",
       kart: { fokus: ["raa_ordrer"], hoved: ["raa_ordrer"] },
       kort: LAPP.raa_ordrer.kort,
       notat: ["Én rad er én transaksjon, ikke én billett. Antall sier hvor mange billetter.", "Refusjoner har negativt antall og viser til ordren de gjelder."] },
-    { akt: 0, dyp: true, tittel: "Rensingen: 21 rader tas ut", tekst: "Power Query fjerner betalinger som ble avbrutt og rader som er ført to ganger. Refusjonene blir med.",
+    { akt: 0, dyp: true, kort40: true, tittel: "Rensingen: 21 rader tas ut", tekst: "Power Query fjerner betalinger som ble avbrutt og rader som er ført to ganger. Refusjonene blir med.",
       kart: { fokus: ["raa_ordrer", "ordrer_renset"], hoved: ["ordrer_renset"] },
       kort: LAPP.ordrer_renset.kort,
       notat: ["Avbrutte betalinger ga ingen penger, så de skal ikke telles.", "Duplikatene er identiske rader med samme transaksjonsnummer. Med dem ville konsert 8 hatt 14 billetter for mye."] },
@@ -105,7 +108,7 @@ window.TUR = (() => {
       notat: ["Elleve av tolv stemmer krone for krone.", "Avstemmingen viser at summene stemmer, ikke at hver enkelt ordre er riktig."] },
 
     // FORUTSETNINGER
-    { akt: 1, tittel: "Forutsetninger: åtte lapper", tekst: "Alt modellen antar står på ett ark. Ingen tall er skrevet inn i formlene.",
+    { akt: 1, kort40: true, tittel: "Forutsetninger: åtte lapper", tekst: "Alt modellen antar står på ett ark. Ingen tall er skrevet inn i formlene.",
       kart: { fokus: FORUTSETNINGER, hoved: [] },
       kort: () => {
         const l = linjer([
@@ -120,7 +123,7 @@ window.TUR = (() => {
         return kort(kortTittel("Lappene"), l);
       },
       notat: ["Ett sted å endre en forutsetning. Alt annet følger."] },
-    { akt: 2, dyp: true, tittel: "Modellen: fra tolv konserter til to tall", tekst: "Konserter regner hver konsert. Kontantstrøm legger betalingene i riktig måned. Til slutt blir det to tall per sal: nåverdi og behov.",
+    { akt: 2, dyp: true, kort40: true, tittel: "Modellen: fra tolv konserter til to tall", tekst: "Konserter regner hver konsert. Kontantstrøm legger betalingene i riktig måned. Til slutt blir det to tall per sal: nåverdi og behov.",
       kart: { fokus: ["konserter", "kontantstrom", "nv", "behov"], hoved: [] },
       kort: modellflyt,
       notat: ["Vis kjeden med C som eksempel: konsertene, så måned for måned, så de to tallene.", "Nåverdi sier hvor mye Maja tjener. Behov sier hvor mye hun ligger ute med på det verste.", "Samme formler for A og B."] },
@@ -158,6 +161,7 @@ window.TUR = (() => {
     if (!ramme.src) ramme.src = ramme.dataset.src;
     lysbilde.classList.toggle("dyp", !!st.dyp);
     lysbilde.classList.toggle("bred", !!st.bred);
+    lysbilde.classList.toggle("kort40", !!st.kort40);
     send();
     akter.forEach((li, j) => {
       li.classList.toggle("aktiv", j === st.akt || !!st.alle);

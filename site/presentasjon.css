@@ -608,3 +608,17 @@ body:not(.vis-forklaring) .tur .tk-liten { display: none !important; }
 .sidenr { position: absolute; right: 18px; bottom: 22px; margin: 0; z-index: 6; font-size: 14px; font-variant-numeric: tabular-nums; color: var(--blekk-svak); opacity: .75; pointer-events: none; }
 .paa-helbilde .sidenr { color: rgba(241, 240, 234, .8); }
 .vis-forklaring .hjelp { right: 70px; }
+
+/* Turen: forklaringen på 40 % av bredden og kartet rett etter (2.3, 2.4, 2.5, 2.7 og 2.8, tilbakemelding nr 27 og 30) */
+.tur.kort40 .tur-venstre { width: 640px; }
+.tur.kort40 .tur-venstre .ingress { max-width: 640px; }
+.tur.kort40 .tur-kartramme { left: 710px; width: 860px; top: 155px; height: 675px; }
+/* Tittelen på én linje over hele bredden, kartet starter på høyde med kortet */
+.tur.kort40 .tur-venstre .tittel { width: max-content; max-width: 1520px; white-space: nowrap; }
+/* Rå_ordrer: tabellen med åtte kolonner får plass i 40 % */
+.tur.kort40 .tk-tabell { font-size: 14.5px; }
+.tur.kort40 .tk-tabell th, .tur.kort40 .tk-tabell td { padding: 5px 3px; white-space: nowrap; }
+.tur.kort40 .tk-tabell tr.hode th { font-size: 15px; }
+/* 2.3: lappen med mer luft, i høyden og mellom tallene og teksten (tilbakemelding nr 29) */
+.tur .tk-luft .tk-linje { grid-template-columns: 170px 1fr; gap: 24px; padding: 12px 0; font-size: 18px; }
+.tur .tk-luft .tk-linje b { font-size: 24px; }
