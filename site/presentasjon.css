@@ -571,3 +571,11 @@ body:not(.vis-forklaring) .tur .tk-liten { display: none !important; }
 
 /* Usikkerheten: valget står rett under pakkeprisen */
 .kontroller .anbefaling { position: static; align-self: flex-start; margin: 14px 0 22px; }
+
+/* Rådet: bildet starter på høyde med tittelen, og sjekklista følger rett under */
+.rad .rad-oppsett { display: block; margin-right: 450px; }
+.rad .rad-hoyre { position: absolute; top: 50px; right: 56px; width: 410px; }
+.rad .polaroid { margin: 0; }
+.rad .polaroid img { height: 230px; }
+.rad .tittel { max-width: 1030px; }
+.rad .utkast { right: 490px; top: 22px; }
