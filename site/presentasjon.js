@@ -434,8 +434,8 @@
     const sv = stegvis(bilder[aktiv]);
     const t = sv ? "." + sv.steg : "";
     history.replaceState(null, "", "#" + aktiv + t);
-    // Sidenummer nede i hjørnet: side, og trykk i stegvise sider (fra 1). Forsiden har ikke nummer
-    sidenr.textContent = aktiv === 0 ? "" : sv ? `${aktiv}.${sv.steg + 1}` : String(aktiv);
+    // Sidenummer nede i hjørnet: det samme som i adressen (trykket teller fra 0). Forsiden har ikke nummer
+    sidenr.textContent = aktiv === 0 ? "" : sv ? `${aktiv}.${sv.steg}` : String(aktiv);
   }
   const sidenr = document.getElementById("sidenr");
   if (window.TUR) window.TUR.vedEndring = () => lagreAdresse();

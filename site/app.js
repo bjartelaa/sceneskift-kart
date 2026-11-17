@@ -519,22 +519,18 @@ tavle.style.transform = `translate(${ox}px, ${oy}px) scale(${s})`;
       glod.classList.remove("vei");
       naler.forEach(c => c.classList.remove("aktiv"));
     }
-    rute(false);
     // Uten fokus i turen: hele modellen, tilpasset lappene (ikke den tomme plassen der tittelen står på tavla)
     if (!st) { tavle.classList.remove("fokus"); fokusIds = alleIds(); tilpass(fokusIds); return; }
-    // Veien fra data til råd: titlene på de fire delene og rådet er uthevet, alle lappene synlige
-    if (st.vei) {
-      tavle.classList.remove("fokus");
-      el.rad.classList.add("valgt");
-      rute(true);
-      fokusIds = alleIds();
-      tilpass(fokusIds);
-      return;
-    }
     tavle.classList.add("fokus");
     let fokus = st.fokus || [];
     const hoved = new Set(st.hoved || []);
     let veiPar = new Set();
+    // Veien fra data til råd: korteste vei langs trådene fram til rådet, som før 17.11 (tilbakemelding nr 34)
+    if (st.vei) {
+      const v = veiFor("rad");
+      fokus = v;
+      veiPar = new Set(v.slice(1).map((x, i) => v[i] + ">" + x));
+    }
     const f = new Set(fokus);
     for (const { e, p, glod, naler } of traadEls) {
       const sterk = veiPar.has(e.fra + ">" + e.til) || (hoved.has(e.til) && f.has(e.fra));
@@ -548,14 +544,10 @@ tavle.style.transform = `translate(${ox}px, ${oy}px) scale(${s})`;
       b.classList.toggle("tur-fokus", f.has(id));
       b.classList.toggle("valgt", hoved.has(id));
     }
-    fokusIds = fokus;
+    fokusIds = st.vei ? null : fokus;
     tilpass(fokusIds);
   }
   const alleIds = () => G.nodes.map(n => n.id);
-  // Veien: titlene på de fire delene og Rådet til Maja er uthevet, uten linje mellom dem (tilbakemelding nr 26)
-  function rute(vis) {
-    tavle.classList.toggle("rute", vis);
-  }
   // Overgang ut av turen: zoom helt inn på én lapp
   function turUt(id) {
     const w = scene.clientWidth, h = scene.clientHeight;

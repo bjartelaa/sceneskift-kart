@@ -438,14 +438,3 @@ details[open] .celle-sum span { text-decoration: underline; text-underline-offse
   .tur-modus .tavle, .tur-modus .lapp, .tur-modus .traad, .tur-modus .nal { transition: none; }
 }
 
-/* Turen: veien fra data til råd, titlene på de fire delene er uthevet (uten linje mellom dem) */
-.tavle.rute .traad { opacity: .18; }
-.tavle.rute .lapp:not(.valgt) { opacity: .6; }
-.tavle.rute .kolonne {
-  z-index: 2;
-  opacity: 1;
-  padding: 6px 16px 3px;
-  background: var(--gaffa);
-  color: #f1f0ea;
-  font-size: 30px;
-}
