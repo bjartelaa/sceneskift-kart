@@ -7,7 +7,7 @@ Presentasjonen på nett: https://bjartelaa.github.io/sceneskift-kart/site/ og ta
 ## Åpne
 
 - `site/index.html`: presentasjonen. Piltaster eller klikker for å bla, N viser notater for den som snakker. `#4` går rett til side 4, `#2.3` til steg 3 i turen, `#slutt` til avslutningen.
-- Fullskjerm: knappen øverst til høyre eller Shift+F. Esc avslutter.
+- Fullskjerm: knappen øverst til høyre eller Shift+F. Esc avslutter. Skal dere inn i Konsertplan og tilbake, bruk heller nettleserens fullskjerm (Cmd+Ctrl+F i Chrome på Mac, med «Vis alltid verktøylinjen i fullskjerm» slått av, eller F11 på PC). Den holder over sidebytter. Fullskjermen fra knappen slutter når siden byttes, og nettleseren lar ikke en ny side starte fullskjerm av seg selv.
 - Sidenummeret står nede til høyre og er det samme som i adressen: «3» er side 3, «2.4» er `#2.4` (turen og Blanding bygges opp trykk for trykk, og trykket teller fra 0). Forsiden har ikke nummer.
 - Forklaringstekst (små setninger som «Hver prikk er en handling», ingressene og bildekilden) er skjult som standard. Knappen øverst til høyre på forsiden eller F slår den av og på. Valget huskes i nettleseren.
 - Lerretet er 1600 × 900 og skaleres til skjermen. På andre skjermformater strekkes bakgrunnene ut over kanten, så det blir ingen striper.
@@ -33,7 +33,7 @@ Skriptet bruker `besteBlanding` i `../konsertplan/src/forslag.js` og skriver `si
 
 ## Turen og panelet
 
-Side 2 er en tur gjennom tavla i ti steg (`site/tur.js`): hele kartet, veien fra data til råd, data, forutsetninger, modell og til slutt Resultater, som glir over i resultatsiden. Veien fra data til råd (`#2.1`) viser samme kart som oversikten, med en linje gjennom titlene på de fire delene og inn i Rådet til Maja. Tavla ligger i en ramme (`tavla.html?tur`) og får beskjed om hvilke lapper som skal i fokus.
+Side 2 er en tur gjennom tavla i ti steg (`site/tur.js`): hele kartet, veien fra data til råd, data, forutsetninger, modell og til slutt Resultater, som glir over i resultatsiden. Veien fra data til råd (`#2.1`) viser samme kart som oversikten, med en linje gjennom Rå_ordrer, Ordrer_renset, Konserter, Kontantstrøm, Resultater og Rådet til Maja. De andre lappene er dempet. Tavla ligger i en ramme (`tavla.html?tur`) og får beskjed om hvilke lapper som skal i fokus.
 
 Tabellene og tallene per lapp ligger i `site/detaljer.js` og `site/detaljer.css`. Både turen og panelet på tavla bruker dem, så tallene er like begge steder. Stegene som ble kuttet fra turen 29.10 finnes i panelet på tavla, og i git (commit bcc16d0).
 

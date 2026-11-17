@@ -616,3 +616,6 @@ body:not(.vis-forklaring) .tur .tk-liten { display: none !important; }
 .tur.kort40 .tur-kartramme { left: 710px; width: 860px; top: 155px; height: 675px; }
 /* Tittelen på én linje over hele bredden, kartet starter på høyde med kortet */
 .tur.kort40 .tur-venstre .tittel { width: max-content; max-width: 1520px; white-space: nowrap; }
+/* Kontantstrøm i turen: mer luft mellom figuren og tabellen og mellom radene (tilbakemelding nr 36) */
+.tur.kort40 .tk-stablet { gap: 26px; }
+.tur.kort40 .tk-stablet .tk-tabell.tett th, .tur.kort40 .tk-stablet .tk-tabell.tett td { padding: 6px 10px; }

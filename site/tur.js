@@ -2,7 +2,7 @@
 // Hver del starter med en oversikt over lappene sine, og zoomer så inn på én lapp om gangen.
 // Tavla ligger i en ramme (tavla.html?tur) og får beskjed om hvilke lapper som skal i fokus.
 // På de dype stegene blir kortet til venstre bredt og kartet smalt, så tabellene får plass.
-// Forutsetninger, Modellen og Kontantstrøm (kort40) har forklaringen på 40 % av bredden og kartet på resten (tilbakemelding nr 27, 32 og 33).
+// Forutsetninger, Modellen, Kontantstrøm og Resultat (kort40) har forklaringen på 40 % av bredden og kartet på resten (tilbakemelding nr 27, 32 og 33).
 window.TUR = (() => {
   const { G, D, node, verdi, nb, kr, pst, rammeKr, html, kortTittel, liten, linjer, kort, LAPP } = window.DETALJER;
   const ramme = document.getElementById("tur-kart");
@@ -130,7 +130,7 @@ window.TUR = (() => {
       kart: { fokus: ["konserter", "avtale_b", "finans", "kontantstrom"], hoved: ["kontantstrom"] },
       kort: () => LAPP.kontantstrom.kort(true),
       notat: ["Billettpengene kommer måneden etter, pakken går ut før. Derfor går saldoen ned først.", "Månedsslutt skjuler forfall inne i måneden."] },
-    { akt: 3, tittel: "Resultat: alt samles på ett ark", tekst: "Nåverdien og behovet for hver sal hentes inn i Resultater. Der står det Maja trenger for å velge.",
+    { akt: 3, kort40: true, tittel: "Resultat: alt samles på ett ark", tekst: "Nåverdien og behovet for hver sal hentes inn i Resultater. Der står det Maja trenger for å velge.",
       kart: { fokus: ["nv", "behov", "resultater"], hoved: ["resultater"] },
       ut: "resultater",
       kort: () => kort(kortTittel("Inn i Resultater"), linjer([

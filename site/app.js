@@ -522,10 +522,10 @@ tavle.style.transform = `translate(${ox}px, ${oy}px) scale(${s})`;
     rute(false);
     // Uten fokus i turen: hele modellen, tilpasset lappene (ikke den tomme plassen der tittelen står på tavla)
     if (!st) { tavle.classList.remove("fokus"); fokusIds = alleIds(); tilpass(fokusIds); return; }
-    // Veien fra data til råd: samme kart som oversikten, og en linje gjennom titlene på de fire delene inn i rådet
+    // Veien fra data til råd: samme kart som oversikten, en linje gjennom lappene på veien, de andre lappene dempet
     if (st.vei) {
       tavle.classList.remove("fokus");
-      el.rad.classList.add("valgt");
+      for (const id of VEI) el[id].classList.add("paa-vei");
       rute(true);
       fokusIds = alleIds();
       tilpass(fokusIds);
@@ -552,17 +552,16 @@ tavle.style.transform = `translate(${ox}px, ${oy}px) scale(${s})`;
     tilpass(fokusIds);
   }
   const alleIds = () => G.nodes.map(n => n.id);
-  // Ruta: gjennom midten av kolonnetitlene (Data, Forutsetninger, Modell, Resultat) og inn i rådet fra høyre
+  // Veien fra data til råd (tilbakemelding nr 38): hvert steg er en tråd i arbeidsboka.
+  // Kontantstrøm går til Resultater, og rådet bygger på Resultater
+  const VEI = ["raa_ordrer", "ordrer_renset", "konserter", "kontantstrom", "resultater", "rad"];
   let ruteEl = null;
   function rute(vis) {
     tavle.classList.toggle("rute", vis);
     if (!vis) return;
     if (!ruteEl) {
-      const titler = [...tavle.querySelectorAll(".kolonne")];
-      const pt = titler.map(t => [t.offsetLeft, t.offsetTop + t.offsetHeight / 2]);
-      const r = nodeById.rad, b = el.rad.offsetWidth / 2;
-      pt.push([r.x + b + 90, (pt[3][1] + r.y) / 2 + 40], [r.x + b + 10, r.y]);
-      // Catmull-Rom gjennom punktene, skrevet som Bezier
+      const pt = VEI.map(id => [nodeById[id].x, nodeById[id].y]);
+      // Catmull-Rom gjennom midten av lappene, skrevet som Bezier
       let d = `M${pt[0][0]},${pt[0][1]}`;
       for (let i = 0; i < pt.length - 1; i++) {
         const p0 = pt[i - 1] || pt[i], p1 = pt[i], p2 = pt[i + 1], p3 = pt[i + 2] || p2;
@@ -572,10 +571,7 @@ tavle.style.transform = `translate(${ox}px, ${oy}px) scale(${s})`;
       ruteEl.classList.add("rute-linje");
       const linje = document.createElementNS(SVG, "path");
       linje.setAttribute("d", d);
-      const pil = document.createElementNS(SVG, "path");
-      const [ex, ey] = pt[pt.length - 1];
-      pil.setAttribute("d", `M${ex + 26},${ey - 16} L${ex},${ey} L${ex + 26},${ey + 16}`);
-      ruteEl.append(linje, pil);
+      ruteEl.append(linje);
     }
     svg.appendChild(ruteEl);
   }
