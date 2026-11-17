@@ -47,7 +47,7 @@ window.TUR = (() => {
       return d;
     };
     // Saldo per måned som små søyler, laveste uthevet
-    const W = 400, H = 96, topp = 6, hoy = Math.max(0, ...saldo), lav = Math.min(0, ...saldo);
+    const W = 640, H = 90, topp = 6, hoy = Math.max(0, ...saldo), lav = Math.min(0, ...saldo);
     const svg = lag("svg", { class: "mf-saldo", viewBox: `0 0 ${W} ${H + 22}` });
     const bredde = W / saldo.length;
     const sy = v => topp + (hoy - v) / (hoy - lav) * (H - topp);
@@ -133,7 +133,7 @@ window.TUR = (() => {
         return kort(kortTittel("Lappene"), l);
       },
       notat: ["Ett sted å endre en forutsetning. Alt annet følger."] },
-    { akt: 2, tittel: "Modellen: fra tolv konserter til to tall", tekst: "Konserter regner hver konsert. Kontantstrøm legger betalingene i riktig måned. Til slutt blir det to tall per sal: nåverdi og behov.",
+    { akt: 2, dyp: true, tittel: "Modellen: fra tolv konserter til to tall", tekst: "Konserter regner hver konsert. Kontantstrøm legger betalingene i riktig måned. Til slutt blir det to tall per sal: nåverdi og behov.",
       kart: { fokus: ["konserter", "kontantstrom", "nv", "behov"], hoved: [] },
       kort: modellflyt,
       notat: ["Vis kjeden med C som eksempel: konsertene, så måned for måned, så de to tallene.", "Nåverdi sier hvor mye Maja tjener. Behov sier hvor mye hun ligger ute med på det verste.", "Samme formler for A og B."] },

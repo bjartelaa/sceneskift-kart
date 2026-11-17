@@ -532,3 +532,12 @@ body:not(.vis-forklaring) .tur .tk-liten { display: none !important; }
 .til-konsertplan:hover, .til-konsertplan:focus-visible { background: #000; }
 .til-konsertplan::after { content: " →"; }
 @media (prefers-reduced-motion: reduce) { .stempel, .diagram .tips { transition: none; } .billetter.blandet .stempel.sal-a { animation: none; } }
+
+/* Modellen: kjeden er stor nok til å leses fra salen */
+.tur.dyp .mf-eksempel { font-size: 18px; }
+.tur.dyp .mf-lapp { font-size: 30px; }
+.tur.dyp .mf-hva { font-size: 19px; }
+.tur.dyp .mf-tall { font-size: 34px; }
+.tur.dyp .mf-saldo text { font-size: 15px; }
+.tur.dyp .mf > .mf-steg + .mf-steg, .tur.dyp .mf > .mf-steg + .mf-to { margin-top: 26px; }
+.tur.dyp .mf-to { gap: 40px; }
