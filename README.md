@@ -2,7 +2,7 @@
 
 Interaktivt kart over arbeidsboka i MET3 Arbeidskrav 2 (Bjarte Laa, Petter Garli, Maxime Boudailliez). Viser hvordan ark, forutsetninger og resultater henger sammen. Trykk på en lapp for å se hva den bygger på og hva den påvirker.
 
-Privat til etter innleveringsfristen 13.11.2026.
+Presentasjonen på nett: https://bjartelaa.github.io/sceneskift-kart/site/ og tavla: https://bjartelaa.github.io/sceneskift-kart/site/tavla.html. Konsertplan: https://bjartelaa.github.io/konsertplan/.
 
 ## Åpne
 
