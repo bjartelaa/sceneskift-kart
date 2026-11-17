@@ -78,3 +78,5 @@
 .tk-billettvei .tk-linje b { font-size: 19px; text-align: right; }
 .tk-billettvei .bt-stolpe { height: 22px; }
 .tk-billettvei .bt-forklaring { font-size: 15px; }
+.tk-navn .tk-linje { grid-template-columns: 215px 1fr; }
+.tk-navn .tk-linje b { font-size: 20px; }

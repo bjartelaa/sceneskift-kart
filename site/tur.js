@@ -120,14 +120,18 @@ window.TUR = (() => {
     // FORUTSETNINGER
     { akt: 1, tittel: "Forutsetninger: åtte lapper", tekst: "Alt modellen antar står på ett ark. Ingen tall er skrevet inn i formlene.",
       kart: { fokus: FORUTSETNINGER, hoved: [] },
-      kort: () => kort(kortTittel("Lappene"), linjer([
-        [`${D.scenarioer.rader.length} scenarioer`, "Scenariovelger: basis er valgt"],
-        ["Ordrer", "Grunnlag 2026: hvilke tall 2027 bygger på"],
-        [kr(verdi("salg", "billettpris")), "Salg og billett: pris, gebyr og utgift per billett"],
-        [kr(verdi("pakke", "pakkepris")), "Pakke fra Rigg & Ro per konsert"],
-        ["A, B og C", "De tre tilbudene om sal"],
-        [`${pst(verdi("finans", "realrente"))} og ${nb(rammeKr / 1000)} k`, "Rente og ramme"],
-      ])),
+      kort: () => {
+        const l = linjer([
+          ["Scenariovelger", `${D.scenarioer.rader.length} scenarioer, basis er valgt`],
+          ["Grunnlag 2026", "hvilke tall 2027 bygger på: ordrene"],
+          ["Salg og billett", `pris ${kr(verdi("salg", "billettpris"))}, gebyr og utgift per billett`],
+          ["Pakke fra Rigg & Ro", `${kr(verdi("pakke", "pakkepris"))} per konsert`],
+          ["A, B og C", "De tre tilbudene om sal"],
+          ["Rente og ramme", `${pst(verdi("finans", "realrente"))} realrente og ${kr(rammeKr)} i ramme`],
+        ]);
+        l.classList.add("tk-navn");
+        return kort(kortTittel("Lappene"), l);
+      },
       notat: ["Ett sted å endre en forutsetning. Alt annet følger."] },
     { akt: 2, tittel: "Modellen: fra tolv konserter til to tall", tekst: "Konserter regner hver konsert. Kontantstrøm legger betalingene i riktig måned. Til slutt blir det to tall per sal: nåverdi og behov.",
       kart: { fokus: ["konserter", "kontantstrom", "nv", "behov"], hoved: [] },
