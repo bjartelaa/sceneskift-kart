@@ -73,3 +73,8 @@
 .tk-regel.anbefalt .valg { background: var(--gaffa); color: #f1f0ea; }
 .tk-regel .navn { margin: 0; font-weight: 700; font-size: 17px; }
 .tk-regel p { margin: 0; font-size: 15px; line-height: 1.35; color: var(--blekk-svak); }
+.tk-billettvei { margin-top: 14px; gap: 28px; }
+.tk-billettvei .tk-linje { grid-template-columns: 82px 1fr; gap: 10px; padding: 3px 0; font-size: 15px; }
+.tk-billettvei .tk-linje b { font-size: 19px; text-align: right; }
+.tk-billettvei .bt-stolpe { height: 22px; }
+.tk-billettvei .bt-forklaring { font-size: 15px; }

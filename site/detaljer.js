@@ -23,6 +23,7 @@ window.DETALJER = (() => {
   const bidrag = (k, a) => k["oppgjor_" + a] - k.pakke1 - k.pakke2 - k["publikum_" + a] - (a === "A" ? k.leie_A : a === "C" ? k.leie_C : 0);
   const kontrollerOk = D.kontroller.rader.filter(r => r[6] === "Ja").length;
   const BT = [["Ordinær", "#1d2433"], ["Tidlig", "#f2be22"], ["Student", "#2e6bd9"], ["Fribillett", "#b9bdc6"]];
+  const KANAL = [["Nett", "#1d2433"], ["Skranke", "#ee7a2c"], ["Arrangør", "#b9bdc6"]];
   const AV = D.avstemming.rader;           // kolonne 6 betalte (ordrer), 9 betalte (gebyr / 10), 12 avvik billetter, 15 status
   const KS = D.kontantstrom.rader;         // kolonne 2 faktor; A 3 til 9, B 10 til 16, C 17 til 23
   const ksKol = { A: 3, B: 10, C: 17 };    // første kolonne for hver avtale: inn, pakke, publikum, leie, netto, saldo, nåverdi
@@ -70,29 +71,36 @@ window.DETALJER = (() => {
     });
     return t;
   }
+  function side(...barn) {
+    const d = html("div", "tk-side-om-side tk-billettvei");
+    d.append(...barn);
+    return d;
+  }
   function kort(...barn) {
     const d = html("div");
     d.append(...barn.filter(Boolean));
     return d;
   }
   // Fargekodet stolpe for billettypene
-  function billettStolpe(tall, bredde) {
+  function billettStolpe(tall, bredde, farger = BT) {
     const d = html("div", "bt-stolpe");
     if (bredde) d.style.width = bredde;
     const sum = tall.reduce((a, b) => a + b, 0);
     tall.forEach((v, i) => {
       const s = html("span");
       s.style.flex = v / sum;
-      s.style.background = BT[i][1];
-      s.title = `${BT[i][0]}: ${v}`;
+      s.style.background = farger[i][1];
+      s.title = `${farger[i][0]}: ${v}`;
       d.appendChild(s);
     });
     return d;
   }
-  function billettForklaring(tall) {
+  // tall gir antall bak navnet, andel gir prosent av summen i stedet
+  function billettForklaring(tall, farger = BT, andel = false) {
     const ul = html("ul", "bt-forklaring");
-    BT.forEach(([t, farge], i) => {
-      const li = html("li", "", tall ? `${t} ${nb(tall[i])}` : t);
+    const sum = tall ? tall.reduce((a, b) => a + b, 0) : 0;
+    farger.forEach(([t, farge], i) => {
+      const li = html("li", "", tall ? `${t} ${andel ? pst(tall[i] / sum, 1) : nb(tall[i])}` : t);
       li.style.setProperty("--c", farge);
       ul.appendChild(li);
     });
@@ -162,13 +170,21 @@ window.DETALJER = (() => {
         const rader = [["Transaksjon", "Tidspunkt", "Konsert", "Type", "Status", "Billettype", "Antall", "Beløp"],
           ...D.raa.eksempel.map(r => ({ cls: r[4] === "Avbrutt" ? "avbrutt" : "", celler: [r[0], r[1], r[2], r[3], r[4], r[5], String(r[6]), nb(r[7])] }))];
         const bt = D.billettyper.sum.slice(1, 5);
+        const V = D.billettvei, kanal = KANAL.map(([k]) => V.kanal[k] || 0);
+        const ut = (led, tekst) => ["- " + nb(Math.abs(led[1])), `${tekst} (${led[0]} rader)`, "minus"];
         return kort(kortTittel("De første radene"), tabell(rader, "tett"),
-          linjer([
-            [nb(D.raa.rader), `rader: ${nb(D.raa.ordrer)} ordrer og ${D.raa.refusjoner} refusjoner`],
-            [nb(D.raa.fullfort), `fullført, ${D.raa.avbrutt} avbrutt`],
-            [nb(D.raa.kanal.Nett || 0), `på nett, ${D.raa.kanal.Skranke || 0} i skranken og ${D.raa.kanal["Arrangør"] || 0} fra arrangøren`],
-          ]),
-          kortTittel("Billetter i 2026 etter type"), billettStolpe(bt), billettForklaring(bt),
+          linjer([[nb(D.raa.rader), `rader, består av ${nb(D.raa.ordrer)} ordrer og ${D.raa.refusjoner} refusjoner`]]),
+          side(kort(kortTittel("Fra rader til betalte billetter"),
+            linjer([
+              [nb(V.ordrer[1]), `billetter i de ${nb(V.ordrer[0])} ordrene`],
+              ut(V.avbrutt, "avbrutte betalinger"),
+              ut(V.duplikater, "ført to ganger"),
+              ut(V.refusjoner, "refundert"),
+              ut(V.fri, "fribilletter fra arrangøren"),
+              ["= " + nb(V.betalte[1]), "betalte billetter, netto: de som ga inntekt", "sum"],
+            ])),
+          kort(kortTittel("Billetter i 2026 etter kanal"), billettStolpe(kanal, null, KANAL), billettForklaring(kanal, KANAL, true),
+            kortTittel("Billetter i 2026 etter type"), billettStolpe(bt), billettForklaring(bt))),
           liten(`${pst(D.billettyper.sum[6])} av de betalte billettene hadde student- eller tidligrabatt. Rabattene forsvinner i 2027.`));
       },
     },

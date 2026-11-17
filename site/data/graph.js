@@ -760,6 +760,37 @@ window.GRAPH = {
     ]
    ]
   },
+  "billettvei": {
+   "ordrer": [
+    1765,
+    3577
+   ],
+   "avbrutt": [
+    16,
+    40
+   ],
+   "duplikater": [
+    5,
+    14
+   ],
+   "refusjoner": [
+    26,
+    -72
+   ],
+   "fri": [
+    38,
+    71
+   ],
+   "betalte": [
+    1732,
+    3380
+   ],
+   "kanal": {
+    "Arrangør": 71,
+    "Nett": 2949,
+    "Skranke": 431
+   }
+  },
   "avbrutte": [
    [
     "FB-26-00005",

@@ -158,6 +158,27 @@ def les_tabell(ws, r_hode, kol_start, antall=None, stopp=("Sum", None)):
     return {"kolonner": navn, "rader": rader, "sum": sum_rad}
 
 
+def billettvei(rader):
+    """Fra rader i ordreeksporten til netto betalte billetter: [rader, billetter] for hvert ledd.
+    Samme rensing som Power Query (avbrutte og dobbeltførte ut), refusjoner trekker fra, fribilletter skilles ut."""
+    sett, ren, dup = set(), [], []
+    for r in rader:
+        (dup if r[0] in sett else ren).append(r)
+        sett.add(r[0])
+    led = lambda rs: [len(rs), sum(r[8] for r in rs)]
+    fullfort = [r for r in ren if r[5] == "Fullført"]
+    betalte = [r for r in fullfort if r[6] != "Fribillett"]
+    return {
+        "ordrer": led([r for r in rader if r[3] == "Ordre"]),
+        "avbrutt": led([r for r in rader if r[5] == "Avbrutt"]),
+        "duplikater": led(dup),
+        "refusjoner": led([r for r in fullfort if r[3] == "Refusjon"]),
+        "fri": led([r for r in fullfort if r[6] == "Fribillett"]),
+        "betalte": led(betalte),
+        "kanal": {k: sum(r[8] for r in fullfort if r[7] == k) for k in sorted({r[7] for r in fullfort})},
+    }
+
+
 def les_detaljer(wv):
     """Detaljer til turen: rådata, rensing, avstemming, scenarioer, kontantstrøm, regler og kontroller."""
     from collections import Counter
@@ -176,6 +197,7 @@ def les_detaljer(wv):
             "kanal": dict(Counter(r[7] for r in rader)),
             "eksempel": [[r[0], str(r[1])[:16], r[2], r[3], r[5], r[6], r[8], r[10]] for r in rader[:6]],
         },
+        "billettvei": billettvei(rader),
         "avbrutte": [[r[0], r[2], r[6], r[8], r[10], tid(r[1])] for r in rader if r[5] == "Avbrutt"],
         "duplikater": [[k, next(r[2] for r in rader if r[0] == k), next(r[8] for r in rader if r[0] == k)] for k in duplikater],
     }
