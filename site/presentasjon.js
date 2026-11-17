@@ -434,7 +434,10 @@
     const sv = stegvis(bilder[aktiv]);
     const t = sv ? "." + sv.steg : "";
     history.replaceState(null, "", "#" + aktiv + t);
+    // Sidenummer nede i hjørnet: side, og trykk i stegvise sider (fra 1). Forsiden har ikke nummer
+    sidenr.textContent = aktiv === 0 ? "" : sv ? `${aktiv}.${sv.steg + 1}` : String(aktiv);
   }
+  const sidenr = document.getElementById("sidenr");
   if (window.TUR) window.TUR.vedEndring = () => lagreAdresse();
   if (window.TUR) window.TUR.vedUtgang = () => {
     const neste = bilder[aktiv + 1];
@@ -451,6 +454,7 @@
     else if (key === "n" || key === "N") document.body.classList.toggle("vis-notater");
     else if (key === "f" || key === "F") visForklaring(!document.body.classList.contains("vis-forklaring"));
     else return false;
+    lagreAdresse();   // Blanding sier ikke fra selv når den bytter steg
     return true;
   }
   addEventListener("keydown", e => {
