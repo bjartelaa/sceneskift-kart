@@ -33,7 +33,7 @@ Skriptet bruker `besteBlanding` i `../konsertplan/src/forslag.js` og skriver `si
 
 ## Turen og panelet
 
-Side 2 er en tur gjennom tavla i ti steg (`site/tur.js`): hele kartet, veien fra data til råd, data, forutsetninger, modell og til slutt Resultater, som glir over i resultatsiden. Veien fra data til råd (`#2.1`) markerer den korteste veien langs trådene fra Rå_ordrer til Rådet til Maja. Tavla ligger i en ramme (`tavla.html?tur`) og får beskjed om hvilke lapper som skal i fokus.
+Side 2 er en tur gjennom tavla i ti steg (`site/tur.js`): hele kartet, veien fra data til råd, data, forutsetninger, modell og til slutt Resultater, som glir over i resultatsiden. Veien fra data til råd (`#2.1`) viser samme kart som oversikten, med en linje gjennom titlene på de fire delene og inn i Rådet til Maja. Tavla ligger i en ramme (`tavla.html?tur`) og får beskjed om hvilke lapper som skal i fokus.
 
 Tabellene og tallene per lapp ligger i `site/detaljer.js` og `site/detaljer.css`. Både turen og panelet på tavla bruker dem, så tallene er like begge steder. Stegene som ble kuttet fra turen 29.10 finnes i panelet på tavla, og i git (commit bcc16d0).
 

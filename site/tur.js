@@ -2,7 +2,7 @@
 // Hver del starter med en oversikt over lappene sine, og zoomer så inn på én lapp om gangen.
 // Tavla ligger i en ramme (tavla.html?tur) og får beskjed om hvilke lapper som skal i fokus.
 // På de dype stegene blir kortet til venstre bredt og kartet smalt, så tabellene får plass.
-// Modellen og Kontantstrøm (kort40) har forklaringen på 40 % av bredden og kartet på resten (tilbakemelding nr 27, 32 og 33).
+// Forutsetninger, Modellen og Kontantstrøm (kort40) har forklaringen på 40 % av bredden og kartet på resten (tilbakemelding nr 27, 32 og 33).
 window.TUR = (() => {
   const { G, D, node, verdi, nb, kr, pst, rammeKr, html, kortTittel, liten, linjer, kort, LAPP } = window.DETALJER;
   const ramme = document.getElementById("tur-kart");
@@ -15,24 +15,6 @@ window.TUR = (() => {
   const akter = [...document.querySelectorAll("#akter li")];
 
   const DATA = ["raa_ordrer", "raa_oppgjor", "ordrer_renset", "oppgjor", "avstemming"];
-  // Veien fra rådataene til rådet: korteste vei langs trådene, via Nåverdi (som før 17.11, tilbakemelding nr 34)
-  function veiTilRad() {
-    const ut = {};
-    for (const e of G.edges) (ut[e.fra] ||= []).push(e);
-    const kortest = (fra, til) => {
-      for (const medStille of [false, true]) {
-        const forrige = { [fra]: null }, ko = [fra];
-        while (ko.length) {
-          const n = ko.shift();
-          if (n === til) { const v = []; for (let x = til; x !== null; x = forrige[x]) v.unshift(x); return v; }
-          for (const e of ut[n] || []) { if ((e.quiet && !medStille) || e.til in forrige) continue; forrige[e.til] = n; ko.push(e.til); }
-        }
-      }
-      return null;
-    };
-    const a = kortest("raa_ordrer", "nv"), b = kortest("nv", "rad");
-    return a && b ? [...a, ...b.slice(1)] : kortest("raa_ordrer", "rad");
-  }
   const FORUTSETNINGER = ["scenario", "grunnlag", "salg", "pakke", "avtale_a", "avtale_b", "avtale_c", "finans"];
 
   // Modellen i fire lapper, vist som en kjede med C som eksempel
@@ -87,12 +69,18 @@ window.TUR = (() => {
       notat: ["Data til venstre, forutsetninger, modellen i midten, resultatene til høyre.", "Hver del: først oversikten, så lappene én for én."] },
 
     // DATA
-    { akt: -1, alle: true, tittel: "Veien fra data til råd", tekst: "Rådet til Maja bygger på billettene fra 2026. Vi følger tråden del for del.",
+    { akt: -1, alle: true, bred: true, tittel: "Veien fra data til råd", tekst: "Rådet til Maja bygger på billettene fra 2026. Vi følger tråden del for del.",
       kart: { vei: true },
+      // Samme kart som oversikten. Bare linjen gjennom titlene kommer til (tilbakemelding nr 26 og 34, avklart med gruppa 17.11)
       kort: () => {
-        const ol = html("ol", "tk-vei");
-        for (const id of veiTilRad()) ol.appendChild(html("li", "", node(id).label));
-        return kort(kortTittel("Veien"), ol);
+        const ol = html("ol", "tk-vei-deler");
+        for (const [del, hva] of [["Data", "billettene fra 2026, renset og avstemt"], ["Forutsetninger", "salg, pris, pakke, salene, rente og ramme"],
+          ["Modell", "konsertene, kontantstrømmen, nåverdi og behov"], ["Resultat", "alt samlet, og rådet til Maja"]]) {
+          const li = html("li");
+          li.append(html("b", "", del), html("span", "", hva));
+          ol.appendChild(li);
+        }
+        return kort(ol);
       },
       notat: ["Veikartet for resten av turen.", "Lenken nederst til venstre åpner kartet i eget vindu, der man kan trykke på hver lapp."] },
     { akt: 0, tittel: "Data: fem lapper", tekst: "Billettsystemet gir to filer. Power Query renser dem, og Avstemming sjekker at de stemmer med hverandre.",
@@ -119,7 +107,7 @@ window.TUR = (() => {
       notat: ["Elleve av tolv stemmer krone for krone.", "Avstemmingen viser at summene stemmer, ikke at hver enkelt ordre er riktig."] },
 
     // FORUTSETNINGER
-    { akt: 1, tittel: "Forutsetninger: åtte lapper", tekst: "Alt modellen antar står på ett ark. Ingen tall er skrevet inn i formlene.",
+    { akt: 1, kort40: true, tittel: "Forutsetninger: åtte lapper", tekst: "Alt modellen antar står på ett ark. Ingen tall er skrevet inn i formlene.",
       kart: { fokus: FORUTSETNINGER, hoved: [] },
       kort: () => {
         const l = linjer([
