@@ -7,9 +7,9 @@ Presentasjonen på nett: https://bjartelaa.github.io/sceneskift-kart/site/ og ta
 ## Åpne
 
 - `site/index.html`: presentasjonen. Piltaster eller klikker for å bla, N viser notater for den som snakker. `#4` går rett til side 4, `#2.3` til steg 3 i turen, `#slutt` til avslutningen.
-- Fullskjerm: knappen øverst til høyre eller Shift+F. Esc avslutter. Skal dere inn i Konsertplan og tilbake, bruk heller nettleserens fullskjerm (Cmd+Ctrl+F i Chrome på Mac, med «Vis alltid verktøylinjen i fullskjerm» slått av, eller F11 på PC). Den holder over sidebytter. Fullskjermen fra knappen slutter når siden byttes, og nettleseren lar ikke en ny side starte fullskjerm av seg selv.
+- Fullskjerm: knappen øverst til høyre eller F, som i Konsertplan. Esc avslutter. Skal dere inn i Konsertplan og tilbake, bruk heller nettleserens fullskjerm (Cmd+Ctrl+F i Chrome på Mac, med «Vis alltid verktøylinjen i fullskjerm» slått av, eller F11 på PC). Den holder over sidebytter. Fullskjermen fra knappen slutter når siden byttes, og nettleseren lar ikke en ny side starte fullskjerm av seg selv.
 - Sidenummeret står nede til høyre og er det samme som i adressen: «3» er side 3, «2.4» er `#2.4` (turen og Blanding bygges opp trykk for trykk, og trykket teller fra 0). Forsiden har ikke nummer.
-- Forklaringstekst (små setninger som «Hver prikk er en handling», ingressene og bildekilden) er skjult som standard. Knappen øverst til høyre på forsiden eller F slår den av og på. Valget huskes i nettleseren.
+- Forklaringstekst (små setninger som «Hver prikk er en handling», ingressene og bildekilden) er skjult som standard. Knappen øverst til høyre på forsiden eller T slår den av og på. Valget huskes i nettleseren.
 - Lerretet er 1600 × 900 og skaleres til skjermen. På andre skjermformater strekkes bakgrunnene ut over kanten, så det blir ingen striper.
 - `site/tavla.html`: tavla alene. Direkte lenke til en lapp: `tavla.html#konserter`, `#nv`, `#salg` osv. Panelet viser «Hva vi har gjort» med tabellene fra arbeidsboka for hver lapp.
 

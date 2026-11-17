@@ -374,7 +374,7 @@
     };
   })();
 
-  // Forklaringstekst: skjult som standard, knappen på forsiden eller F slår den på
+  // Forklaringstekst: skjult som standard, knappen på forsiden eller T slår den på
   const forklarKnapp = document.getElementById("forklar-knapp");
   function visForklaring(paa) {
     document.body.classList.toggle("vis-forklaring", paa);
@@ -387,7 +387,7 @@
   visForklaring(forklaringPaa);
   forklarKnapp.addEventListener("click", () => visForklaring(!document.body.classList.contains("vis-forklaring")));
 
-  // Fullskjerm: knappen øverst til høyre eller Shift+F. Esc avslutter (nettleseren gjør det selv)
+  // Fullskjerm: knappen øverst til høyre eller F (som i Konsertplan), også Shift+F. Esc avslutter (nettleseren gjør det selv)
   const fullKnapp = document.getElementById("fullskjerm-knapp");
   const iFullskjerm = () => document.fullscreenElement || document.webkitFullscreenElement;
   function fullskjerm() {
@@ -452,14 +452,16 @@
     else if (key === "Home") gaaTil(0);
     else if (key === "End") gaaTil(bilder.length - 1);
     else if (key === "n" || key === "N") document.body.classList.toggle("vis-notater");
-    else if (key === "f" || key === "F") visForklaring(!document.body.classList.contains("vis-forklaring"));
+    else if (key === "t" || key === "T") visForklaring(!document.body.classList.contains("vis-forklaring"));
     else return false;
     lagreAdresse();   // Blanding sier ikke fra selv når den bytter steg
     return true;
   }
   addEventListener("keydown", e => {
     if (e.target.closest && e.target.closest("button") && (e.key === " " || e.key === "Enter")) return;
-    if (e.shiftKey && (e.key === "F" || e.key === "f")) { e.preventDefault(); fullskjerm(); return; }
+    // Snarveiene til nettleseren (Cmd+F, Cmd+Ctrl+F, Cmd+T osv.) får være i fred
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === "F" || e.key === "f") { e.preventDefault(); fullskjerm(); return; }
     if (tast(e.key)) e.preventDefault();
   });
   // Tavla i rammen sender piltastene videre hit
