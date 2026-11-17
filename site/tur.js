@@ -145,8 +145,8 @@ window.TUR = (() => {
       kart: { fokus: ["nv", "behov", "resultater"], hoved: ["resultater"] },
       ut: "resultater",
       kort: () => kort(kortTittel("Inn i Resultater"), linjer([
-        ["Nåverdi", "per sal, diskontert til t0"],
-        ["Behov", "laveste saldo per sal"],
+        ["Nåverdi", "per sal, alle betalinger regnet om til kroner før sesongstart"],
+        ["Behov", "det meste Maja ligger ute med underveis (laveste saldo for salen)"],
         [kr(rammeKr), "rammen Maja har"],
         ["4 handlinger", "A, B, C eller avstå"],
       ])),
