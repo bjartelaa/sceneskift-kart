@@ -568,3 +568,6 @@ body:not(.vis-forklaring) .tur .tk-liten { display: none !important; }
 .valg-merk { font-size: 16px; color: rgba(241,240,234,.75); }
 .valg-merk:empty { display: none; }
 @media (prefers-reduced-motion: reduce) { .diagram .hjelpelinje { transition: none; } }
+
+/* Usikkerheten: valget står rett under pakkeprisen */
+.kontroller .anbefaling { position: static; align-self: flex-start; margin: 14px 0 22px; }
