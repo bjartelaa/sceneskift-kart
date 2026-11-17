@@ -80,3 +80,11 @@
 .tk-billettvei .bt-forklaring { font-size: 15px; }
 .tk-navn .tk-linje { grid-template-columns: 215px 1fr; }
 .tk-navn .tk-linje b { font-size: 20px; }
+.tk-stablet { display: grid; gap: 14px; }
+.tk-saldo.bred .aks { font-size: 15px; }
+.tk-saldo.bred .merke { font-size: 22px; }
+.tk-saldo.bred path { stroke-width: 3; }
+.tk-saldo.bred .linje-b { stroke-width: 4.2; }
+.tk-saldo.bred .bunn { r: 7px; }
+.tk-stablet .tk-tabell.tett { font-size: 17px; }
+.tk-stablet .tk-tabell.tett th, .tk-stablet .tk-tabell.tett td { padding: 3px 10px; }

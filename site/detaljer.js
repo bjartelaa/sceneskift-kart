@@ -106,10 +106,11 @@ window.DETALJER = (() => {
     });
     return ul;
   }
-  function saldoFigur() {
+  // bred: større og bredere figur når den står alene over tabellen (turen)
+  function saldoFigur(bred = false) {
     const S = G.saldo;
-    const s = lag("svg", { class: "tk-saldo", viewBox: "0 0 440 250" });
-    const P = { x1: 52, x2: 400, y1: 10, y2: 215 };
+    const s = lag("svg", { class: "tk-saldo" + (bred ? " bred" : ""), viewBox: bred ? "0 0 780 300" : "0 0 440 250" });
+    const P = bred ? { x1: 70, x2: 730, y1: 12, y2: 262 } : { x1: 52, x2: 400, y1: 10, y2: 215 };
     const alle = [...S.A, ...S.B, ...S.C, -rammeKr];
     const ymin = Math.floor(Math.min(...alle) / 100000) * 100000 - 50000, ymax = Math.ceil(Math.max(...alle) / 100000) * 100000;
     const sx = i => P.x1 + (i / (S.maaneder.length - 1)) * (P.x2 - P.x1);
@@ -119,13 +120,13 @@ window.DETALJER = (() => {
       s.appendChild(lag("line", { class: v === 0 ? "akse" : "rutenett", x1: P.x1, x2: P.x2, y1: sy(v), y2: sy(v) }));
       s.appendChild(lag("text", { class: "aks", x: P.x1 - 6, y: sy(v) + 4, "text-anchor": "end" }, nb(v / 1000) + " k"));
     }
-    S.maaneder.forEach((m, i) => s.appendChild(lag("text", { class: "aks", x: sx(i), y: P.y2 + 22, "text-anchor": "middle" }, mndKort(m))));
+    S.maaneder.forEach((m, i) => s.appendChild(lag("text", { class: "aks", x: sx(i), y: P.y2 + (bred ? 28 : 22), "text-anchor": "middle" }, mndKort(m))));
     s.appendChild(lag("line", { class: "rammestrek", x1: P.x1, x2: P.x2, y1: sy(-rammeKr), y2: sy(-rammeKr) }));
     for (const a of ["A", "C", "B"]) s.appendChild(lag("path", { class: "linje-" + a.toLowerCase(), d: S[a].map((v, i) => `${i ? "L" : "M"}${sx(i)},${sy(v)}`).join(" ") }));
     const sist = S.A.length - 1;
     const ender = ["A", "B", "C"].map(a => ({ a, y: sy(S[a][sist]) + 5 })).sort((p, q) => p.y - q.y);
-    for (let k = 1; k < ender.length; k++) ender[k].y = Math.max(ender[k].y, ender[k - 1].y + 16);
-    for (const e of ender) s.appendChild(lag("text", { class: "merke", x: sx(sist) + 8, y: e.y }, e.a));
+    for (let k = 1; k < ender.length; k++) ender[k].y = Math.max(ender[k].y, ender[k - 1].y + (bred ? 22 : 16));
+    for (const e of ender) s.appendChild(lag("text", { class: "merke", x: sx(sist) + 10, y: e.y }, e.a));
     const minB = Math.min(...S.B);
     s.appendChild(lag("circle", { class: "bunn", cx: sx(S.B.indexOf(minB)), cy: sy(minB), r: 5 }));
     return s;
@@ -311,15 +312,17 @@ window.DETALJER = (() => {
       gjort: ["Betalingene fra alle tolv konsertene lagt i riktig måned, fra t0 til juli. Saldoen er summen så langt.",
         "Billettpengene kommer måneden etter, pakken går ut før. Derfor går saldoen ned først.",
         "Månedsslutt skjuler forfall inne i måneden."],
-      kort: () => {
+      // stablet: figuren over tabellen, begge i full bredde (turen). Ellers side om side (panelet på tavla)
+      kort: (stablet = false) => {
         const min = a => Math.min(...KS.map(r => r[ksKol[a] + 5]));
         const tab = tabell([["Måned", "Saldo A", "Saldo B", "Saldo C"],
           ...KS.map(r => [mndKort(r[1]), ...["A", "B", "C"].map(a => {
             const v = r[ksKol[a] + 5];
             return [nb(v), v === min(a) ? (v < -rammeKr ? "rod bunn" : "bunn") : ""];
           })])], "tett");
-        const rad = html("div", "tk-side-om-side");
-        rad.append(tab, saldoFigur());
+        const rad = html("div", stablet ? "tk-stablet" : "tk-side-om-side");
+        if (stablet) rad.append(saldoFigur(true), tab);
+        else rad.append(tab, saldoFigur());
         return kort(rad, liten(`B betaler ${kr(-KS[0][ksKol.B + 4])} ved t0 og er lavest i mars. Uthevet: laveste saldo for hver sal.`));
       },
     },

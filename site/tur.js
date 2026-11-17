@@ -139,7 +139,7 @@ window.TUR = (() => {
       notat: ["Vis kjeden med C som eksempel: konsertene, så måned for måned, så de to tallene.", "Nåverdi sier hvor mye Maja tjener. Behov sier hvor mye hun ligger ute med på det verste.", "Samme formler for A og B."] },
     { akt: 2, dyp: true, tittel: "Kontantstrøm: måned for måned", tekst: "Betalingene fra alle tolv konsertene legges i riktig måned. Saldoen er summen så langt.",
       kart: { fokus: ["konserter", "avtale_b", "finans", "kontantstrom"], hoved: ["kontantstrom"] },
-      kort: LAPP.kontantstrom.kort,
+      kort: () => LAPP.kontantstrom.kort(true),
       notat: ["Billettpengene kommer måneden etter, pakken går ut før. Derfor går saldoen ned først.", "Månedsslutt skjuler forfall inne i måneden."] },
     { akt: 3, tittel: "Resultat: alt samles på ett ark", tekst: "Nåverdien og behovet for hver sal hentes inn i Resultater. Der står det Maja trenger for å velge.",
       kart: { fokus: ["nv", "behov", "resultater"], hoved: ["resultater"] },
