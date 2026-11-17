@@ -437,3 +437,18 @@ details[open] .celle-sum span { text-decoration: underline; text-underline-offse
 @media (prefers-reduced-motion: reduce) {
   .tur-modus .tavle, .tur-modus .lapp, .tur-modus .traad, .tur-modus .nal { transition: none; }
 }
+
+/* Turen: veien fra data til råd går gjennom titlene på de fire delene */
+.rute-linje { display: none; }
+.tavle.rute .rute-linje { display: inline; }
+.rute-linje path { fill: none; stroke: var(--gaffa); stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
+.tavle.rute .traad { opacity: .18; }
+.tavle.rute .lapp:not(.valgt) { opacity: .6; }
+.tavle.rute .kolonne {
+  z-index: 2;
+  opacity: 1;
+  padding: 6px 16px 3px;
+  background: var(--gaffa);
+  color: #f1f0ea;
+  font-size: 30px;
+}

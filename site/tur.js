@@ -13,24 +13,6 @@ window.TUR = (() => {
   const notatEl = document.getElementById("tur-notat");
   const akter = [...document.querySelectorAll("#akter li")];
 
-  function veiTilRad() {
-    const ut = {};
-    for (const e of G.edges) (ut[e.fra] ||= []).push(e);
-    const kortest = (fra, til) => {
-      for (const medStille of [false, true]) {
-        const forrige = { [fra]: null }, ko = [fra];
-        while (ko.length) {
-          const n = ko.shift();
-          if (n === til) { const v = []; for (let x = til; x !== null; x = forrige[x]) v.unshift(x); return v; }
-          for (const e of ut[n] || []) { if ((e.quiet && !medStille) || e.til in forrige) continue; forrige[e.til] = n; ko.push(e.til); }
-        }
-      }
-      return null;
-    };
-    const a = kortest("raa_ordrer", "nv"), b = kortest("nv", "rad");
-    return a && b ? [...a, ...b.slice(1)] : kortest("raa_ordrer", "rad");
-  }
-
   const DATA = ["raa_ordrer", "raa_oppgjor", "ordrer_renset", "oppgjor", "avstemming"];
   const FORUTSETNINGER = ["scenario", "grunnlag", "salg", "pakke", "avtale_a", "avtale_b", "avtale_c", "finans"];
 
@@ -72,7 +54,7 @@ window.TUR = (() => {
 
   const STEG = [
     // Oversikt
-    { akt: -1, tittel: "Slik henger modellen sammen", tekst: "Hver lapp er et ark eller en gruppe navngitte celler. Trådene er formler. Vi tar én del om gangen.",
+    { akt: -1, bred: true, tittel: "Slik henger modellen sammen", tekst: "Hver lapp er et ark eller en gruppe navngitte celler. Trådene er formler. Vi tar én del om gangen.",
       kart: null,
       kort: () => {
         const ul = html("ul", "tk-farger");
@@ -86,12 +68,17 @@ window.TUR = (() => {
       notat: ["Data til venstre, forutsetninger, modellen i midten, resultatene til høyre.", "Hver del: først oversikten, så lappene én for én."] },
 
     // DATA
-    { akt: -1, alle: true, tittel: "Veien fra data til råd", tekst: "Rådet til Maja bygger på billettene fra 2026. Vi følger tråden del for del.",
+    { akt: -1, alle: true, bred: true, tittel: "Veien fra data til råd", tekst: "Rådet til Maja bygger på billettene fra 2026. Vi følger tråden del for del.",
       kart: { vei: true },
       kort: () => {
-        const ol = html("ol", "tk-vei");
-        for (const id of veiTilRad()) ol.appendChild(html("li", "", node(id).label));
-        return kort(kortTittel("Veien"), ol);
+        const ol = html("ol", "tk-vei-deler");
+        for (const [del, hva] of [["Data", "billettene fra 2026, renset og avstemt"], ["Forutsetninger", "salg, pris, pakke, salene, rente og ramme"],
+          ["Modell", "konsertene, kontantstrømmen, nåverdi og behov"], ["Resultat", "alt samlet, og rådet til Maja"]]) {
+          const li = html("li");
+          li.append(html("b", "", del), html("span", "", hva));
+          ol.appendChild(li);
+        }
+        return kort(ol);
       },
       notat: ["Veikartet for resten av turen.", "Lenken nederst til venstre åpner kartet i eget vindu, der man kan trykke på hver lapp."] },
     { akt: 0, tittel: "Data: fem lapper", tekst: "Billettsystemet gir to filer. Power Query renser dem, og Avstemming sjekker at de stemmer med hverandre.",
@@ -170,6 +157,7 @@ window.TUR = (() => {
     lysbilde.classList.remove("ut");
     if (!ramme.src) ramme.src = ramme.dataset.src;
     lysbilde.classList.toggle("dyp", !!st.dyp);
+    lysbilde.classList.toggle("bred", !!st.bred);
     send();
     akter.forEach((li, j) => {
       li.classList.toggle("aktiv", j === st.akt || !!st.alle);
