@@ -522,7 +522,7 @@ tavle.style.transform = `translate(${ox}px, ${oy}px) scale(${s})`;
     rute(false);
     // Uten fokus i turen: hele modellen, tilpasset lappene (ikke den tomme plassen der tittelen står på tavla)
     if (!st) { tavle.classList.remove("fokus"); fokusIds = alleIds(); tilpass(fokusIds); return; }
-    // Veien fra data til råd: én linje gjennom titlene på de fire delene og fram til rådet, alle lappene synlige
+    // Veien fra data til råd: titlene på de fire delene og rådet er uthevet, alle lappene synlige
     if (st.vei) {
       tavle.classList.remove("fokus");
       el.rad.classList.add("valgt");
@@ -552,32 +552,9 @@ tavle.style.transform = `translate(${ox}px, ${oy}px) scale(${s})`;
     tilpass(fokusIds);
   }
   const alleIds = () => G.nodes.map(n => n.id);
-  // Ruta: gjennom midten av kolonnetitlene (Data, Forutsetninger, Modell, Resultat) og inn i rådet fra høyre
-  let ruteEl = null;
+  // Veien: titlene på de fire delene og Rådet til Maja er uthevet, uten linje mellom dem (tilbakemelding nr 26)
   function rute(vis) {
     tavle.classList.toggle("rute", vis);
-    if (!vis) return;
-    if (!ruteEl) {
-      const titler = [...tavle.querySelectorAll(".kolonne")];
-      const pt = titler.map(t => [t.offsetLeft, t.offsetTop + t.offsetHeight / 2]);
-      const r = nodeById.rad, b = el.rad.offsetWidth / 2;
-      pt.push([r.x + b + 90, (pt[3][1] + r.y) / 2 + 40], [r.x + b + 10, r.y]);
-      // Catmull-Rom gjennom punktene, skrevet som Bezier
-      let d = `M${pt[0][0]},${pt[0][1]}`;
-      for (let i = 0; i < pt.length - 1; i++) {
-        const p0 = pt[i - 1] || pt[i], p1 = pt[i], p2 = pt[i + 1], p3 = pt[i + 2] || p2;
-        d += ` C${p1[0] + (p2[0] - p0[0]) / 6},${p1[1] + (p2[1] - p0[1]) / 6} ${p2[0] - (p3[0] - p1[0]) / 6},${p2[1] - (p3[1] - p1[1]) / 6} ${p2[0]},${p2[1]}`;
-      }
-      ruteEl = document.createElementNS(SVG, "g");
-      ruteEl.classList.add("rute-linje");
-      const linje = document.createElementNS(SVG, "path");
-      linje.setAttribute("d", d);
-      const pil = document.createElementNS(SVG, "path");
-      const [ex, ey] = pt[pt.length - 1];
-      pil.setAttribute("d", `M${ex + 26},${ey - 16} L${ex},${ey} L${ex + 26},${ey + 16}`);
-      ruteEl.append(linje, pil);
-    }
-    svg.appendChild(ruteEl);
   }
   // Overgang ut av turen: zoom helt inn på én lapp
   function turUt(id) {

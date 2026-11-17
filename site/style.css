@@ -438,10 +438,7 @@ details[open] .celle-sum span { text-decoration: underline; text-underline-offse
   .tur-modus .tavle, .tur-modus .lapp, .tur-modus .traad, .tur-modus .nal { transition: none; }
 }
 
-/* Turen: veien fra data til råd går gjennom titlene på de fire delene */
-.rute-linje { display: none; }
-.tavle.rute .rute-linje { display: inline; }
-.rute-linje path { fill: none; stroke: var(--gaffa); stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; opacity: .85; }
+/* Turen: veien fra data til råd, titlene på de fire delene er uthevet (uten linje mellom dem) */
 .tavle.rute .traad { opacity: .18; }
 .tavle.rute .lapp:not(.valgt) { opacity: .6; }
 .tavle.rute .kolonne {
