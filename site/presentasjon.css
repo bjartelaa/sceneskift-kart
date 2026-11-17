@@ -555,3 +555,16 @@ body:not(.vis-forklaring) .tur .tk-liten { display: none !important; }
 .tk-vei-deler li + li { padding-left: 4px; }
 .tk-vei-deler li:not(:last-child)::after { content: "→"; position: absolute; right: 6px; top: 0; font-size: 22px; color: var(--blekk); }
 .tk-vei-deler b { display: block; margin-bottom: 2px; font-family: "Marker", cursive; font-weight: 400; font-size: 22px; color: var(--blekk); }
+
+/* Resultatene: mindre tittel høyere opp, større figur, valget under scenarioene */
+.resultatene .tittel { font-size: 46px; max-width: none; margin-bottom: 18px; }
+.resultatene .to-spalter { grid-template-columns: 360px 1fr; gap: 40px; }
+.resultatene #spredning { width: 1080px; margin-top: -20px; }
+.diagram .hjelpelinje { stroke: var(--blekk); stroke-opacity: .35; stroke-width: 1.5; stroke-dasharray: 4 6; transition: all .6s cubic-bezier(.3,.1,.2,1); }
+.valg-lapp { display: inline-block; margin-top: 34px; padding: 14px 26px 12px; background: var(--gaffa); color: #f1f0ea; transform: rotate(-1deg); }
+.valg-lapp p { margin: 0; }
+.valg-hva { font-family: "Marker", cursive; font-size: 30px; line-height: 1.15; }
+.valg-nv { margin-top: 6px !important; font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.valg-merk { font-size: 16px; color: rgba(241,240,234,.75); }
+.valg-merk:empty { display: none; }
+@media (prefers-reduced-motion: reduce) { .diagram .hjelpelinje { transition: none; } }

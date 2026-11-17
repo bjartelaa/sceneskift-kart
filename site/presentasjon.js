@@ -94,6 +94,12 @@
     svg.appendChild(lag("text", { class: "etikett", x: sx(ramme) + 12, y: P.y1 + 24, style: "fill: var(--minus)" }, `Rammen, ${kr(ramme)}`));
     svg.appendChild(lag("text", { class: "tittel-akse", x: (P.x1 + P.x2) / 2, y: P.y2 + 68, "text-anchor": "middle" }, "Finansieringsbehov, kr"));
     svg.appendChild(lag("text", { class: "tittel-akse", x: P.x1, y: P.y1 - 30, "text-anchor": "middle" }, "Nåverdi, kr"));
+    // Stiplede hjelpelinjer fra hver prikk til aksene, så man ser hvor nåverdien og behovet treffer
+    const hjelp = handlinger.map(() => {
+      const v = lag("line", { class: "hjelpelinje" }), hz = lag("line", { class: "hjelpelinje" });
+      svg.append(v, hz);
+      return { v, hz };
+    });
     const punkter = handlinger.map(h => {
       const g = lag("g", { class: "punkt", tabindex: 0, role: "button", "aria-label": navn[h.id] });
       g.append(lag("circle", { class: "treff", r: 28 }), lag("circle", { r: 11, cx: 0, cy: 0 }), lag("text", { class: "merke", x: 18, y: -12 }, h.id === "avstå" ? "Avstå" : h.id));
@@ -133,15 +139,29 @@
     }
     svg.addEventListener("click", () => { festet = null; visTips(null); });
     const oppsummering = document.getElementById("oppsummering");
+    // Valget for scenarioet, samme regel som anbefalingen på Usikkerheten: høyest nåverdi blant avtalene som holder rammen og gir pluss
+    const valgEl = document.getElementById("resultat-valg");
+    function visValg(tittel, alle) {
+      const innenfor = alle.filter(h => h.id !== "avstå" && h.behov <= ramme && h.nv > 0);
+      const v = innenfor.length ? innenfor.reduce((a, b) => (b.nv > a.nv ? b : a)) : alle.find(h => h.id === "avstå");
+      valgEl.querySelector(".valg-hva").textContent = v.id === "avstå" ? "Avstå" : "Velg " + navn[v.id];
+      valgEl.querySelector(".valg-nv").textContent = "Nåverdi " + kr(v.nv);
+      valgEl.querySelector(".valg-merk").textContent = tittel === "Høy etterspørsel" ? "Oppside, inngår ikke i rådet" : "";
+    }
     const knapper = knapperad(document.getElementById("scenariovelger"), scenarioer, vis);
     function vis(i) {
       trykk(knapper, i);
       scenarioNr = i;
       if (tipsFor) visTips(tipsFor);
-      for (const { h, g } of punkter) {
-        g.style.transform = `translate(${sx(h.behov[i])}px, ${sy(h.nv[i])}px)`;
+      punkter.forEach(({ h, g }, j) => {
+        const x = sx(h.behov[i]), y = sy(h.nv[i]);
+        g.style.transform = `translate(${x}px, ${y}px)`;
         g.classList.toggle("over", h.behov[i] > ramme);
-      }
+        const { v, hz } = hjelp[j];
+        for (const [l, a] of [[v, { x1: x, x2: x, y1: y, y2: P.y2 }], [hz, { x1: P.x1, x2: x, y1: y, y2: y }]])
+          for (const [k, val] of Object.entries(a)) l.setAttribute(k, val);
+      });
+      visValg(scenarioer[i], handlinger.map(h => ({ id: h.id, nv: h.nv[i], behov: h.behov[i] })));
       oppsummering.textContent = oppsummer(scenarioer[i], handlinger.filter(h => h.id !== "avstå").map(h => ({ id: h.id, nv: h.nv[i], behov: h.behov[i] })));
     }
     vis(0);
