@@ -311,7 +311,8 @@ window.DETALJER = (() => {
     kontantstrom: {
       gjort: ["Betalingene fra alle tolv konsertene lagt i riktig måned, fra t0 til juli. Saldoen er summen så langt.",
         "Billettpengene kommer måneden etter, pakken går ut før. Derfor går saldoen ned først.",
-        "Månedsslutt skjuler forfall inne i måneden."],
+        "Månedsslutt skjuler forfall inne i måneden.",
+        "Lån ut over rammen (rad 33 til 48): det saldoen ligger under rammen, som kassekreditt, med rente per måned og nåverdi etter rente. For B: 66 100 kr, 1 559 kr i rente, 199 846 kr etter rente."],
       // stablet: figuren over tabellen, begge i full bredde (turen). Ellers side om side (panelet på tavla)
       kort: (stablet = false) => {
         const min = a => Math.min(...KS.map(r => r[ksKol[a] + 5]));

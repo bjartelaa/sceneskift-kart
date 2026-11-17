@@ -1,6 +1,6 @@
 window.GRAPH = {
  "kilde": "Sceneskift_AK2_modell.xlsx",
- "lest": "2026-10-29",
+ "lest": "2026-11-17",
  "scenario": "Basis",
  "rutenett": {
   "salg": [
@@ -1641,14 +1641,14 @@ window.GRAPH = {
      "Samlet",
      0.8,
      66000,
-     "Begge stressfaktorene samtidig."
+     "Lav etterspørsel og høyere pakkepris samtidig (oppgavens samlede scenario). Høy etterspørsel er ikke med."
     ],
     [
      5,
      "Høy etterspørsel",
      1.2,
      60000,
-     "Oppside: 20 % flere betalte billetter enn i 2026, for eksempel flere gjengangere og at Sceneskift er bedre kjent. Taket i salen gjelder fortsatt. Gruppas antakelse. Til informasjon, inngår ikke i beslutningsreglene."
+     "Oppside: 20 % flere betalte billetter enn i 2026. Gruppas antakelse, inngår ikke i beslutningsreglene."
     ]
    ],
    "sum": null
@@ -1910,7 +1910,8 @@ window.GRAPH = {
     "Finansieringsbehov",
     "Holder rammen?",
     "Mangler",
-    "Laveste saldo i"
+    "Laveste saldo i",
+    "Lokalekostnad sesong, kr"
    ],
    "rader": [
     [
@@ -1922,7 +1923,8 @@ window.GRAPH = {
      231900,
      "Ja",
      0,
-     "Februar"
+     "Februar",
+     108000
     ],
     [
      "B",
@@ -1933,7 +1935,8 @@ window.GRAPH = {
      316100,
      "Nei",
      66100,
-     "Mars"
+     "Mars",
+     175000
     ],
     [
      "C",
@@ -1944,7 +1947,8 @@ window.GRAPH = {
      216696,
      "Ja",
      0,
-     "Februar"
+     "Februar",
+     205020
     ],
     [
      "Avstå",
@@ -1955,7 +1959,8 @@ window.GRAPH = {
      0,
      "Ja",
      0,
-     "Ingen"
+     "Ingen",
+     0
     ]
    ],
    "sum": null
@@ -1968,7 +1973,7 @@ window.GRAPH = {
    ],
    [
     "2. Strengest",
-    "Høyest nåverdi i basis blant handlingene som holder rammen i alle de fire stresscenarioene (1 til 4).",
+    "Høyest nåverdi i basis blant handlingene som holder rammen i alle de fire scenarioene (1 til 4).",
     "Avstå"
    ],
    [
@@ -2067,7 +2072,7 @@ window.GRAPH = {
     [
      8,
      "Uavhengig netto B",
-     "Summert per konsert i stedet for per måned. Skal gi samme netto",
+     "Som over",
      210500,
      210500,
      0,
@@ -2077,7 +2082,7 @@ window.GRAPH = {
     [
      9,
      "Uavhengig netto C",
-     "Summert per konsert i stedet for per måned. Skal gi samme netto",
+     "Som over",
      180480,
      180480,
      0,
@@ -2127,7 +2132,7 @@ window.GRAPH = {
     [
      14,
      "Grensetilfelle: ingen salg, netto B",
-     "Bare faste utgifter: pakke og leie (minimum for C)",
+     "Som over",
      -895000,
      -895000,
      0,
@@ -2137,7 +2142,7 @@ window.GRAPH = {
     [
      15,
      "Grensetilfelle: ingen salg, netto C",
-     "Bare faste utgifter: pakke og leie (minimum for C)",
+     "Som over",
      -810000,
      -810000,
      0,
@@ -2267,7 +2272,7 @@ window.GRAPH = {
     [
      28,
      "Python-fasit basis: nåverdi B",
-     "Uavhengig Python-modell (skript/fasit.py). Gjelder bare basis med uendrede forutsetninger",
+     "Som over",
      201394,
      201393.683653,
      -0.316347,
@@ -2287,7 +2292,7 @@ window.GRAPH = {
     [
      30,
      "Python-fasit basis: nåverdi C",
-     "Uavhengig Python-modell (skript/fasit.py). Gjelder bare basis med uendrede forutsetninger",
+     "Som over",
      173787,
      173786.742693,
      -0.257307,
@@ -2311,6 +2316,16 @@ window.GRAPH = {
      0.8544,
      0.854434,
      3.4e-05,
+     "Ja",
+     null
+    ],
+    [
+     33,
+     "Python-fasit basis: rente B ut over rammen",
+     "Kassekreditt 12 % p.a. på det saldoen ligger under rammen: (38 300 + 51 500 + 66 100) × 0,01 (skript/fasit.py)",
+     1559,
+     1559,
+     0,
      "Ja",
      null
     ]
@@ -2390,7 +2405,7 @@ window.GRAPH = {
    "quiet": false,
    "ark": "Avstemming",
    "formler": 385,
-   "omfang": "47 rader × 23 kolonner",
+   "omfang": "54 rader × 23 kolonner",
    "slik": [
     "Teller betalte billetter og beløp per konsert i Ordrer_renset.",
     "Henter de samme tallene fra Oppgjør.",
@@ -2422,7 +2437,7 @@ window.GRAPH = {
      "adresse": "Forutsetninger!D9",
      "etikett": "Aktivt scenario nr",
      "verdi": 1,
-     "enhet": "Beregnet. Viser valget i D5, unntatt mens datatabellene i Usikkerhet regner.",
+     "enhet": "Beregnet",
      "formel": "=IF(ISBLANK(dt_scenario),MATCH(valgt_scenario,scen_navn,0),dt_scenario)"
     },
     {
@@ -3271,8 +3286,8 @@ window.GRAPH = {
    "y": 485,
    "quiet": false,
    "ark": "Kontantstrøm",
-   "formler": 223,
-   "omfang": "31 rader × 25 kolonner",
+   "formler": 305,
+   "omfang": "48 rader × 25 kolonner",
    "slik": [
     "Summerer betalingene fra Konserter per måned med SUMIFS.",
     "Netto = billettoppgjør inn minus pakke, publikumsutgifter og leie.",
@@ -3547,8 +3562,8 @@ window.GRAPH = {
    "y": 485,
    "quiet": false,
    "ark": "Resultater",
-   "formler": 138,
-   "omfang": "49 rader × 24 kolonner",
+   "formler": 178,
+   "omfang": "85 rader × 24 kolonner",
    "celler": [
     {
      "navn": null,
@@ -3614,8 +3629,8 @@ window.GRAPH = {
    "y": 790,
    "quiet": false,
    "ark": "Usikkerhet",
-   "formler": 1052,
-   "omfang": "388 rader × 20 kolonner",
+   "formler": 1075,
+   "omfang": "420 rader × 20 kolonner",
    "slik": [
     "Konsekvenstabell: alle fire scenarioer samtidig.",
     "Etterspørsel mot pakkepris, for hver avtale.",
@@ -3830,8 +3845,8 @@ window.GRAPH = {
    "y": 200,
    "quiet": false,
    "ark": "Kontroller",
-   "formler": 115,
-   "omfang": "44 rader × 9 kolonner",
+   "formler": 118,
+   "omfang": "49 rader × 9 kolonner",
    "slik": [
     "Uavhengig regning av de samme tallene.",
     "Grensetilfeller, for eksempel etterspørsel 0.",
@@ -3882,11 +3897,22 @@ window.GRAPH = {
    "til": "kontroller",
    "antall": 4,
    "eks": {
-    "celle": "Kontroller!F11",
+    "celle": "Kontroller!F16",
     "formel": "=avst_fri"
    },
    "type": "formel",
    "quiet": true
+  },
+  {
+   "fra": "avstemming",
+   "til": "resultater",
+   "antall": 4,
+   "eks": {
+    "celle": "Resultater!F82",
+    "formel": "=Avstemming!G18"
+   },
+   "type": "formel",
+   "quiet": false
   },
   {
    "fra": "avtale_a",
@@ -3915,7 +3941,7 @@ window.GRAPH = {
    "til": "kontroller",
    "antall": 2,
    "eks": {
-    "celle": "Kontroller!E19",
+    "celle": "Kontroller!E24",
     "formel": "=-n_konserter*pakkepris-n_konserter*leie_A"
    },
    "type": "formel",
@@ -3959,7 +3985,7 @@ window.GRAPH = {
    "til": "kontroller",
    "antall": 3,
    "eks": {
-    "celle": "Kontroller!E20",
+    "celle": "Kontroller!E25",
     "formel": "=-n_konserter*pakkepris-B_tilpasning-B_sesongleie"
    },
    "type": "formel",
@@ -3992,7 +4018,7 @@ window.GRAPH = {
    "til": "kontroller",
    "antall": 2,
    "eks": {
-    "celle": "Kontroller!E24",
+    "celle": "Kontroller!E29",
     "formel": "=n_konserter*plasser_C*(billettpris-billettgebyr-publikumsutgift)-n_konserter*pakkepris-n_konserter*MAX(C_min,C_andel*plasser_C*(billettpris-billettgebyr))"
    },
    "type": "formel",
@@ -4023,7 +4049,7 @@ window.GRAPH = {
   {
    "fra": "behov",
    "til": "usikkerhet",
-   "antall": 40,
+   "antall": 41,
    "eks": {
     "celle": "Usikkerhet!C18",
     "formel": "=behov_A"
@@ -4080,7 +4106,7 @@ window.GRAPH = {
    "til": "kontroller",
    "antall": 1,
    "eks": {
-    "celle": "Kontroller!F30",
+    "celle": "Kontroller!F35",
     "formel": "=COUNTA(Usikkerhet!C4:C8)+COUNTA(Usikkerhet!C206:C207)"
    },
    "type": "formel",
@@ -4144,10 +4170,10 @@ window.GRAPH = {
   {
    "fra": "finans",
    "til": "kontantstrom",
-   "antall": 19,
+   "antall": 43,
    "eks": {
     "celle": "Kontantstrøm!C7",
-    "formel": "=IF(konvensjon=1,1/(1+realrente)^($A7/12),1/(1+realrente/12)^$A7)"
+    "formel": "=IF(konvensjon=1,1/(1+realrente)^($A7/mnd_per_aar),1/(1+realrente/mnd_per_aar)^$A7)"
    },
    "type": "formel",
    "quiet": false
@@ -4155,10 +4181,10 @@ window.GRAPH = {
   {
    "fra": "finans",
    "til": "kontroller",
-   "antall": 8,
+   "antall": 9,
    "eks": {
     "celle": "Kontroller!C4",
-    "formel": "=IF(konvensjon=1,(1+realrente)^(1/12)-1,realrente/12)"
+    "formel": "=IF(konvensjon=1,(1+realrente)^(1/mnd_per_aar)-1,realrente/mnd_per_aar)"
    },
    "type": "formel",
    "quiet": true
@@ -4166,7 +4192,7 @@ window.GRAPH = {
   {
    "fra": "finans",
    "til": "resultater",
-   "antall": 21,
+   "antall": 22,
    "eks": {
     "celle": "Resultater!J4",
     "formel": "=ramme"
@@ -4190,7 +4216,7 @@ window.GRAPH = {
    "til": "kontroller",
    "antall": 1,
    "eks": {
-    "celle": "Kontroller!F38",
+    "celle": "Kontroller!F43",
     "formel": "=grense_lokal_C"
    },
    "type": "formel",
@@ -4221,10 +4247,10 @@ window.GRAPH = {
   {
    "fra": "grunnlag",
    "til": "kontroller",
-   "antall": 7,
+   "antall": 8,
    "eks": {
-    "celle": "Kontroller!H32",
-    "formel": "=IF(OR(grunnlag_2026<>\"Ordrer\",konvensjon<>1,lokal_A<>1,lokal_B<>1,lokal_C<>1),\"Ikke aktuell\",IF(ABS(G32)<1,\"Ja\",\"Nei\"))"
+    "celle": "Kontroller!H37",
+    "formel": "=IF(OR(grunnlag_2026<>\"Ordrer\",konvensjon<>1,lokal_A<>1,lokal_B<>1,lokal_C<>1),\"Ikke aktuell\",IF(ABS(G37)<fasit_tol,\"Ja\",\"Nei\"))"
    },
    "type": "formel",
    "quiet": true
@@ -4245,7 +4271,7 @@ window.GRAPH = {
    "til": "kontroller",
    "antall": 12,
    "eks": {
-    "celle": "Kontroller!E13",
+    "celle": "Kontroller!E18",
     "formel": "=SUM(k_oppgjor_A)-SUM(k_publikum_A)-SUM(k_pakke1)-SUM(k_pakke2)-SUM(k_leie_A)"
    },
    "type": "formel",
@@ -4276,10 +4302,10 @@ window.GRAPH = {
   {
    "fra": "kontantstrom",
    "til": "kontroller",
-   "antall": 4,
+   "antall": 5,
    "eks": {
-    "celle": "Kontroller!E16",
-    "formel": "=Kontantstrøm!H7+NPV($C$4,Kontantstrøm!H8:H14)"
+    "celle": "Kontroller!F44",
+    "formel": "=rente_B"
    },
    "type": "formel",
    "quiet": true
@@ -4291,6 +4317,28 @@ window.GRAPH = {
    "eks": {
     "celle": "Kontantstrøm!H17",
     "formel": "=H15"
+   },
+   "type": "formel",
+   "quiet": false
+  },
+  {
+   "fra": "kontantstrom",
+   "til": "resultater",
+   "antall": 19,
+   "eks": {
+    "celle": "Resultater!D54",
+    "formel": "=laan_A"
+   },
+   "type": "formel",
+   "quiet": false
+  },
+  {
+   "fra": "kontantstrom",
+   "til": "usikkerhet",
+   "antall": 7,
+   "eks": {
+    "celle": "Usikkerhet!C395",
+    "formel": "=laan_A"
    },
    "type": "formel",
    "quiet": false
@@ -4319,10 +4367,21 @@ window.GRAPH = {
   },
   {
    "fra": "nv",
+   "til": "kontantstrom",
+   "antall": 3,
+   "eks": {
+    "celle": "Kontantstrøm!D48",
+    "formel": "=nv_A-SUMPRODUCT(D36:D43,$C$7:$C$14)"
+   },
+   "type": "formel",
+   "quiet": false
+  },
+  {
+   "fra": "nv",
    "til": "kontroller",
    "antall": 8,
    "eks": {
-    "celle": "Kontroller!F16",
+    "celle": "Kontroller!F21",
     "formel": "=nv_A"
    },
    "type": "formel",
@@ -4331,7 +4390,7 @@ window.GRAPH = {
   {
    "fra": "nv",
    "til": "resultater",
-   "antall": 9,
+   "antall": 8,
    "eks": {
     "celle": "Resultater!F9",
     "formel": "=nv_A"
@@ -4342,7 +4401,7 @@ window.GRAPH = {
   {
    "fra": "nv",
    "til": "usikkerhet",
-   "antall": 286,
+   "antall": 287,
    "eks": {
     "celle": "Usikkerhet!C14",
     "formel": "=nv_A"
@@ -4377,7 +4436,7 @@ window.GRAPH = {
    "til": "kontroller",
    "antall": 1,
    "eks": {
-    "celle": "Kontroller!E11",
+    "celle": "Kontroller!E16",
     "formel": "=SUM(opg_fri)"
    },
    "type": "formel",
@@ -4410,7 +4469,7 @@ window.GRAPH = {
    "til": "kontroller",
    "antall": 1,
    "eks": {
-    "celle": "Kontroller!F8",
+    "celle": "Kontroller!F13",
     "formel": "=COUNTA(ord_konsert)-1"
    },
    "type": "formel",
@@ -4432,7 +4491,7 @@ window.GRAPH = {
    "til": "kontroller",
    "antall": 6,
    "eks": {
-    "celle": "Kontroller!E21",
+    "celle": "Kontroller!E26",
     "formel": "=-n_konserter*pakkepris-n_konserter*C_min"
    },
    "type": "formel",
@@ -4465,7 +4524,7 @@ window.GRAPH = {
    "til": "kontroller",
    "antall": 1,
    "eks": {
-    "celle": "Kontroller!F7",
+    "celle": "Kontroller!F12",
     "formel": "=COUNTA(raa_konsert)-1"
    },
    "type": "formel",
@@ -4474,10 +4533,10 @@ window.GRAPH = {
   {
    "fra": "salg",
    "til": "avstemming",
-   "antall": 12,
+   "antall": 24,
    "eks": {
-    "celle": "Avstemming!J6",
-    "formel": "=INDEX(opg_gebyr,MATCH(A6,opg_arr,0))/gebyr_2026"
+    "celle": "Avstemming!U6",
+    "formel": "=IF(T6<=DATE(YEAR(S6),MONTH(S6)+oppgjor_mnd_etter,oppgjor_frist_dag),\"Ja\",\"Nei\")"
    },
    "type": "formel",
    "quiet": false
@@ -4507,9 +4566,9 @@ window.GRAPH = {
   {
    "fra": "salg",
    "til": "kontroller",
-   "antall": 10,
+   "antall": 11,
    "eks": {
-    "celle": "Kontroller!E22",
+    "celle": "Kontroller!E27",
     "formel": "=n_konserter*plasser_A*(billettpris-billettgebyr-publikumsutgift)-n_konserter*pakkepris-n_konserter*leie_A"
    },
    "type": "formel",
@@ -4540,9 +4599,9 @@ window.GRAPH = {
   {
    "fra": "scenario",
    "til": "kontroller",
-   "antall": 3,
+   "antall": 4,
    "eks": {
-    "celle": "Kontroller!F28",
+    "celle": "Kontroller!F33",
     "formel": "=ABS(INDEX(Usikkerhet!D14:H14,aktivt_scenario)-nv_A)+ABS(INDEX(Usikkerhet!D15:H15,aktivt_scenario)-nv_B)+ABS(INDEX(Usikkerhet!D16:H16,aktivt_scenario)-nv_C)"
    },
    "type": "formel",
@@ -4562,7 +4621,7 @@ window.GRAPH = {
   {
    "fra": "scenario",
    "til": "resultater",
-   "antall": 11,
+   "antall": 12,
    "eks": {
     "celle": "Resultater!C4",
     "formel": "=INDEX(scen_navn,aktivt_scenario)"
@@ -4584,7 +4643,7 @@ window.GRAPH = {
   {
    "fra": "scenario",
    "til": "usikkerhet",
-   "antall": 5,
+   "antall": 7,
    "eks": {
     "celle": "Usikkerhet!D12",
     "formel": "=INDEX(scen_navn,D13)"
@@ -4617,9 +4676,9 @@ window.GRAPH = {
   {
    "fra": "usikkerhet",
    "til": "kontroller",
-   "antall": 19,
+   "antall": 22,
    "eks": {
-    "celle": "Kontroller!E29",
+    "celle": "Kontroller!E34",
     "formel": "=Usikkerhet!D15"
    },
    "type": "formel",
@@ -4628,7 +4687,7 @@ window.GRAPH = {
   {
    "fra": "usikkerhet",
    "til": "resultater",
-   "antall": 40,
+   "antall": 45,
    "eks": {
     "celle": "Resultater!C19",
     "formel": "=Usikkerhet!D14"
