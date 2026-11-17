@@ -50,6 +50,10 @@ Skriptet åpner arbeidsboka bare for lesing og skriver `site/data/graph.js`. Noe
 - `scripts/kart_config.py`: hvilke navngitte celler hver lapp samler, hvor lappen henger og teksten om den. Fire tråder er lagt inn for hånd (Power Query og notatet) og vises stiplet.
 - Dempede tråder (til Kontroller, fra hjelpecellene og fra forutsetningene til Usikkerhet og Resultater) synes når en av lappene velges.
 
+## Versjonsmerke
+
+Lenkene til CSS og JS i `site/index.html` og `site/tavla.html` har `?v=<dato><bokstav>`. Bytt det ved hver endring i CSS eller JS, så nettleseren ikke blander ny side med gammelt stilark fra hurtiglageret.
+
 ## Bilder
 
 Konsertbilder til presentasjonen, komprimert, ligger i `site/img/`. De brukes ikke på tavla. Originalene ligger i `bilder-original/` og er holdt utenfor git.
