@@ -579,3 +579,27 @@ body:not(.vis-forklaring) .tur .tk-liten { display: none !important; }
 .rad .polaroid img { height: 230px; }
 .rad .tittel { max-width: 1030px; }
 .rad .utkast { right: 490px; top: 22px; }
+
+/* Fullskjerm: liten knapp øverst til høyre på alle sidene, forklaringsknappen står til venstre for den på forsiden */
+.fullskjerm-knapp {
+  position: absolute;
+  right: 18px; top: 16px;
+  z-index: 7;
+  padding: 6px 12px 5px;
+  border: 0;
+  background: rgba(29, 36, 51, .07);
+  color: var(--blekk-svak);
+  font-family: "Archivo", sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+}
+.fullskjerm-knapp:hover, .fullskjerm-knapp:focus-visible { background: rgba(29, 36, 51, .16); color: var(--blekk); }
+.fullskjerm-knapp:focus-visible { outline: 2px solid var(--blekk); outline-offset: 2px; }
+.paa-helbilde .fullskjerm-knapp { background: rgba(244, 242, 234, .18); color: rgba(241, 240, 234, .8); }
+.paa-helbilde .fullskjerm-knapp:hover { background: rgba(244, 242, 234, .35); color: #fff; }
+.paa-forside .forklar-knapp { right: 112px; }
+/* I fullskjerm er knappen nesten usynlig til man holder over den */
+.fullskjerm .fullskjerm-knapp { opacity: 0; transition: opacity .2s; }
+.fullskjerm .fullskjerm-knapp:hover, .fullskjerm .fullskjerm-knapp:focus-visible { opacity: 1; }
+.paa-forside.fullskjerm .forklar-knapp { right: 160px; }
+.utenfor { top: 52px; }

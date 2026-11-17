@@ -387,6 +387,24 @@
   visForklaring(forklaringPaa);
   forklarKnapp.addEventListener("click", () => visForklaring(!document.body.classList.contains("vis-forklaring")));
 
+  // Fullskjerm: knappen øverst til høyre eller Shift+F. Esc avslutter (nettleseren gjør det selv)
+  const fullKnapp = document.getElementById("fullskjerm-knapp");
+  const iFullskjerm = () => document.fullscreenElement || document.webkitFullscreenElement;
+  function fullskjerm() {
+    const d = document.documentElement;
+    if (iFullskjerm()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    else (d.requestFullscreen || d.webkitRequestFullscreen).call(d);
+  }
+  function visFullskjerm() {
+    const paa = !!iFullskjerm();
+    document.body.classList.toggle("fullskjerm", paa);
+    fullKnapp.textContent = paa ? "Avslutt fullskjerm" : "Fullskjerm";
+  }
+  fullKnapp.addEventListener("click", e => { fullskjerm(); e.currentTarget.blur(); });
+  document.addEventListener("fullscreenchange", visFullskjerm);
+  document.addEventListener("webkitfullscreenchange", visFullskjerm);
+  if (!(document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen)) fullKnapp.hidden = true;
+
   // Navigasjon
   let aktiv = 0;
   const stegNav = document.getElementById("steg");
@@ -437,6 +455,7 @@
   }
   addEventListener("keydown", e => {
     if (e.target.closest && e.target.closest("button") && (e.key === " " || e.key === "Enter")) return;
+    if (e.shiftKey && (e.key === "F" || e.key === "f")) { e.preventDefault(); fullskjerm(); return; }
     if (tast(e.key)) e.preventDefault();
   });
   // Tavla i rammen sender piltastene videre hit
